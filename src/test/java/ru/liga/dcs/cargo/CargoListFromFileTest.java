@@ -12,9 +12,7 @@ class CargoListFromFileTest {
     @Test
     void createCargoListWrongFilePath() {
         Assertions.assertThrows(RuntimeException.class, () ->
-        {
-            new CargoListFromFile("C:\\Users\\ArtemSemenov\\Desktop\\work\\prodcat_export\\fake111.txt");
-        });
+                new CargoListFromFile("C:\\Users\\ArtemSemenov\\Desktop\\work\\prodcat_export\\fake111.txt"));
     }
 
     @Test

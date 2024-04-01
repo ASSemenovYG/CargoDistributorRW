@@ -10,25 +10,19 @@ class CargoItemTest {
     @Test
     void createCargoItemWithNullName() {
         Assertions.assertThrows(IllegalArgumentException.class, () ->
-        {
-            new CargoItem(null);
-        });
+                new CargoItem(null));
     }
 
     @Test
     void createCargoItemWithEmptyName() {
         Assertions.assertThrows(IllegalArgumentException.class, () ->
-        {
-            new CargoItem("");
-        });
+                new CargoItem(""));
     }
 
     @Test
     void createCargoItemWithNameLengthGreaterThanSix() {
         Assertions.assertThrows(IllegalArgumentException.class, () ->
-        {
-            new CargoItem("999999999999999");
-        });
+                new CargoItem("999999999999999"));
     }
 
     @Test
