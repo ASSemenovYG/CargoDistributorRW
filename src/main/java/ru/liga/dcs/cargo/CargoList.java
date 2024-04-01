@@ -3,7 +3,9 @@ package ru.liga.dcs.cargo;
 import java.util.List;
 
 public interface CargoList {
-    List<String> getCargo();
+    List<CargoItem> getCargo();
 
-    boolean isEmpty();
+    List<String> getCargoItemNames();
+
+    boolean isEmptyOrNull();
 }

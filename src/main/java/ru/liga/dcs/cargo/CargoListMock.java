@@ -3,17 +3,26 @@ package ru.liga.dcs.cargo;
 import java.util.List;
 
 public class CargoListMock implements CargoList {
-    private final List<String> cargo;
+    private final List<CargoItem> cargo;
 
-    public CargoListMock(List<String> cargo) {
+    public CargoListMock(List<CargoItem> cargo) {
         this.cargo = cargo;
     }
 
-    public List<String> getCargo() {
+    public List<CargoItem> getCargo() {
         return cargo;
     }
 
-    public boolean isEmpty() {
+    public boolean isEmptyOrNull() {
+        if (cargo == null) {
+            return true;
+        }
         return cargo.isEmpty();
+    }
+
+    public List<String> getCargoItemNames() {
+        return this.cargo.stream()
+                .map(CargoItem::getName)
+                .toList();
     }
 }

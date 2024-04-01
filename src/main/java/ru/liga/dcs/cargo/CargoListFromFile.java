@@ -12,22 +12,22 @@ import java.util.regex.Pattern;
  * Класс списка грузов, вычитываемых из файла
  */
 public class CargoListFromFile implements CargoList {
-    private final List<String> cargo;
+    private final List<CargoItem> cargo;
 
     public CargoListFromFile(String filePath) {
         this.cargo = getCargoFromFile(filePath);
     }
 
-    private List<String> getCargoFromFile(String filePath) {
+    private List<CargoItem> getCargoFromFile(String filePath) {
         if (filePath == null || filePath.isEmpty()) {
             throw new IllegalArgumentException("File path cannot be null or empty!");
         }
 
-        List<String> result = new ArrayList<>();
+        List<CargoItem> result = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = br.readLine()) != null) {
-                List<String> cargoFromLine = parseCargoFileLine(line);
+                List<CargoItem> cargoFromLine = parseCargoFileLine(line);
                 if (cargoFromLine != null && !cargoFromLine.isEmpty()) {
                     result.addAll(cargoFromLine);
                 }
@@ -38,7 +38,7 @@ public class CargoListFromFile implements CargoList {
         return result;
     }
 
-    private List<String> parseCargoFileLine(String line) {
+    private List<CargoItem> parseCargoFileLine(String line) {
         if (line == null || line.isEmpty()) {
             return null;
         }
@@ -46,14 +46,24 @@ public class CargoListFromFile implements CargoList {
                 .matcher(line)
                 .results()
                 .map(MatchResult::group)
+                .map(CargoItem::new)
                 .toList();
     }
 
-    public List<String> getCargo() {
+    public List<CargoItem> getCargo() {
         return cargo;
     }
 
-    public boolean isEmpty() {
+    public boolean isEmptyOrNull() {
+        if (cargo == null) {
+            return true;
+        }
         return cargo.isEmpty();
+    }
+
+    public List<String> getCargoItemNames() {
+        return this.cargo.stream()
+                .map(CargoItem::getName)
+                .toList();
     }
 }

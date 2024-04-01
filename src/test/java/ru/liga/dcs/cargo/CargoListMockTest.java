@@ -6,7 +6,8 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CargoListMockTest {
     private CargoList testNullList;
@@ -24,16 +25,13 @@ class CargoListMockTest {
     }
 
     @Test
-    void isEmpty_NullPointerException() {
-        assertThrows(NullPointerException.class, () ->
-        {
-            testNullList.isEmpty();
-        });
+    void isEmpty_nullCargoValid() {
+        assertTrue(testNullList.isEmptyOrNull());
     }
 
     @Test
-    void isEmpty_EmptyList() {
-        assertTrue(testEmptyList.isEmpty());
+    void isEmpty_emptyListValid() {
+        assertTrue(testEmptyList.isEmptyOrNull());
         assertThat(testEmptyList.getCargo())
                 .hasSize(0);
     }
