@@ -57,14 +57,14 @@ public class CargoVan {
     /**
      * Класс погрузочной линии (паллета) в кузове грузовой машины
      */
-    static class CargoVanLine {
+    public static class CargoVanLine {
         private List<CargoVanCell> line;
 
-        CargoVanLine() {
+        public CargoVanLine() {
             this.line = new ArrayList<>(VAN_WIDTH);
         }
 
-        CargoVanLine(List<CargoVanCell> cells) {
+        public CargoVanLine(List<CargoVanCell> cells) {
             if (cells == null || cells.isEmpty()) {
                 new CargoVanLine();
                 return;
@@ -73,6 +73,11 @@ public class CargoVan {
                 throw new IllegalArgumentException("Cargo van width cannot be greater than " + VAN_WIDTH + "; Provided size of line: " + cells.size());
             }
             this.line = new ArrayList<>(cells);
+        }
+
+        public CargoVanLine(CargoItem cargoItem) {
+            this.line = new ArrayList<>(VAN_WIDTH);
+            addCargoItem(cargoItem, 0);
         }
 
         void addCargoItem(CargoItem cargoItem, int index) {
