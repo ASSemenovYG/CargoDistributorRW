@@ -7,8 +7,8 @@ import java.util.List;
  * Класс кузова грузовой машины
  */
 public class CargoVan {
-    private static final int VAN_LENGTH = 6;
-    private static final int VAN_WIDTH = 6;
+    public static final int VAN_LENGTH = 6;
+    public static final int VAN_WIDTH = 6;
     private static final String VAN_BORDER_SYMBOL = "+";
     private static final String EMPTY_CARGO_CELL_SYMBOL = " ";
     private static final String VAN_BACK_WALL = VAN_BORDER_SYMBOL.repeat(VAN_WIDTH + 2);
