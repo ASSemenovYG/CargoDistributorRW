@@ -11,6 +11,7 @@ public class CargoVan {
     public static final int VAN_WIDTH = 6;
     private static final String VAN_BORDER_SYMBOL = "+";
     private static final String EMPTY_CARGO_CELL_SYMBOL = " ";
+    private static final String VAN_EMPTY_LINE = VAN_BORDER_SYMBOL + (EMPTY_CARGO_CELL_SYMBOL.repeat(VAN_WIDTH)) + VAN_BORDER_SYMBOL;
     private static final String VAN_BACK_WALL = VAN_BORDER_SYMBOL.repeat(VAN_WIDTH + 2);
 
     private List<CargoVanLine> lines;
@@ -46,7 +47,7 @@ public class CargoVan {
 
     private void printEmptyLines(int count) {
         for (int i = 0; i < count; i++) {
-            System.out.println(VAN_BORDER_SYMBOL + EMPTY_CARGO_CELL_SYMBOL.repeat(VAN_WIDTH) + VAN_BORDER_SYMBOL);
+            System.out.println(VAN_EMPTY_LINE);
         }
     }
 
