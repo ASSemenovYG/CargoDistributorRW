@@ -90,7 +90,7 @@ public class CargoVan {
         void printLine() {
             StringBuilder sb = new StringBuilder();
             for (CargoVanCell cargoVanCell : line) {
-                sb.append((cargoVanCell.isNullOrEmpty()) ? " " : cargoVanCell.getCellItemTitle());
+                sb.append((cargoVanCell.isNullOrEmpty()) ? EMPTY_CARGO_CELL_SYMBOL : cargoVanCell.getCellItemTitle());
             }
             if (sb.length() < VAN_WIDTH) {
                 sb.append(EMPTY_CARGO_CELL_SYMBOL.repeat(VAN_WIDTH - sb.length()));
