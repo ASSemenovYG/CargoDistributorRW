@@ -1,4 +1,4 @@
-package ru.liga.dcs.cargoList;
+package ru.liga.dcs.cargo;
 
 import java.util.List;
 

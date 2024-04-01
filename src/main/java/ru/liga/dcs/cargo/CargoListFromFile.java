@@ -1,4 +1,4 @@
-package ru.liga.dcs.cargoList;
+package ru.liga.dcs.cargo;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

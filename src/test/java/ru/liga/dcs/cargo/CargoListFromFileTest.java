@@ -1,4 +1,4 @@
-package ru.liga.dcs.cargoList;
+package ru.liga.dcs.cargo;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ class CargoListFromFileTest {
 
     @Test
     void createCargoListFromValidFile() {
-        CargoList cargoList = new CargoListFromFile("src/test/java/ru/liga/dcs/cargoList/testValidCargoFile");
+        CargoList cargoList = new CargoListFromFile("src/test/java/ru/liga/dcs/cargo/testValidCargoFile");
         List<String> cargo = cargoList.getCargo();
         assertThat(cargo)
                 .hasSize(9)

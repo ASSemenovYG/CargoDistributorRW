@@ -1,4 +1,4 @@
-package ru.liga.dcs.cargoList;
+package ru.liga.dcs.cargo;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
