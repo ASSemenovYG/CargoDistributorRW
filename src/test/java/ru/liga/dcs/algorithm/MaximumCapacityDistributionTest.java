@@ -3,6 +3,7 @@ package ru.liga.dcs.algorithm;
 import org.junit.jupiter.api.Test;
 import ru.liga.dcs.cargo.CargoItem;
 import ru.liga.dcs.cargo.CargoList;
+import ru.liga.dcs.cargo.CargoListFromFile;
 import ru.liga.dcs.cargo.CargoListMock;
 
 import java.util.Arrays;
@@ -49,5 +50,13 @@ class MaximumCapacityDistributionTest {
         DistributionAlgorithm maximumCapacityDistribution = new MaximumCapacityDistribution(cargoList);
         maximumCapacityDistribution.printLoadedVans();
         assertThat(maximumCapacityDistribution.getLoadedVans().size()).isEqualTo(2);
+    }
+
+    @Test
+    void printLoadedVans_realFile() {
+        CargoList cargoList = new CargoListFromFile("src/test/java/ru/liga/dcs/cargo/testValidCargoFile");
+        DistributionAlgorithm maximumCapacityDistribution = new MaximumCapacityDistribution(cargoList);
+        maximumCapacityDistribution.printLoadedVans();
+        assertThat(maximumCapacityDistribution.getLoadedVans().size()).isEqualTo(1);
     }
 }

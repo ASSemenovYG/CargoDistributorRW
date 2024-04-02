@@ -80,8 +80,11 @@ public class MaximumCapacityDistribution extends DistributionAlgorithm {
         }
 
         for (CargoItem cargoItem : newSubset) {
-            if (summedCargoItemSubsets.containsKey(cargoItem.getName())
-                    && Objects.equals(summedCargoItemSubsets.get(cargoItem.getName()), cargoItems.get(cargoItem.getName()))) {
+            if (summedCargoItemSubsets.containsKey(cargoItem.getName()) &&
+                    cargoItems.get(cargoItem.getName()) - summedCargoItemSubsets.get(cargoItem.getName()) < newSubset.stream()
+                            .filter(cargoItem1 -> Objects.equals(cargoItem1.getName(), cargoItem.getName()))
+                            .count()
+            ) {
                 return false;
             }
         }
