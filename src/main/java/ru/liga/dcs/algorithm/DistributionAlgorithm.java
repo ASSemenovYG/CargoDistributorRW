@@ -5,7 +5,7 @@ import ru.liga.dcs.cargo.CargoVan;
 
 import java.util.List;
 
-abstract class DistributionAlgorithm {
+public abstract class DistributionAlgorithm {
     private final String name;
     private final List<CargoVan> loadedVans;
 
