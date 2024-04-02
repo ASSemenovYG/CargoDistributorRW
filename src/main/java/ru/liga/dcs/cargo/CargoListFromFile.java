@@ -9,11 +9,16 @@ import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
 /**
- * Класс списка грузов, вычитываемых из файла
+ *
+ * Класс, реализующий интерфейс {@link CargoList},
+ * предоставляющий возможность вычитки списка посылок из файла
  */
 public class CargoListFromFile implements CargoList {
     private final List<CargoItem> cargo;
 
+    /**
+     * @param filePath Путь к файлу, из которого нужно вычитать список посылок
+     */
     public CargoListFromFile(String filePath) {
         this.cargo = getCargoFromFile(filePath);
     }

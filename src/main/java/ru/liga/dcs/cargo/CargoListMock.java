@@ -2,6 +2,10 @@ package ru.liga.dcs.cargo;
 
 import java.util.List;
 
+/**
+ * Класс, реализующий интерфейс {@link CargoList},
+ * позволяющий получать список посылок для распределения на вход, а не из файла
+ */
 public class CargoListMock implements CargoList {
     private final List<CargoItem> cargo;
 

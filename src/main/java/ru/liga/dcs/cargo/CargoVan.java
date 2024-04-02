@@ -18,6 +18,9 @@ public class CargoVan {
      * Класс погрузочной линии (паллета) в кузове грузовой машины
      */
     public static class CargoVanLine {
+        /**
+         * Класс погрузочной единицы (клетки) на паллете в кузове грузовой машины
+         */
         public static class CargoVanCell {
             private static final int MAX_LENGTH_CELL = 1;
             private final String cellItemTitle;
@@ -52,6 +55,12 @@ public class CargoVan {
             addCargoItem(cargoItem, 0);
         }
 
+        /**
+         * Добавляет посылку целиком на паллет (погрузочную линию фургона), начиная с указанного индекса
+         *
+         * @param cargoItem Посылка
+         * @param index     Индекс на погрузочной линии
+         */
         public void addCargoItem(CargoItem cargoItem, int index) {
             for (int i = 0; i < cargoItem.getLength(); i++) {
                 this.line.add(index, new CargoVanCell(cargoItem.getName().substring(i, i + 1)));
@@ -59,6 +68,10 @@ public class CargoVan {
             }
         }
 
+        /**
+         * Выводит паллет (погрузочную линию) в консоль в виде:
+         * +666666+
+         */
         void printLine() {
             StringBuilder sb = new StringBuilder();
             for (CargoVanCell cargoVanCell : line) {
@@ -79,10 +92,26 @@ public class CargoVan {
         this.lines = new ArrayList<>(VAN_LENGTH);
     }
 
+    /**
+     * Добавляет паллет (погрузочную линию) в грузовой фургон
+     *
+     * @param line Паллет (погрузочная линия)
+     */
     public void addLine(CargoVanLine line) {
         this.lines.add(line);
     }
 
+    /**
+     * Выводит кузов грузовика в консоль в формате:
+     *
+     * <br>+8888  +
+     * <br>+8888  +
+     * <br>+118888+
+     * <br>+224444+
+     * <br>+224444+
+     * <br>+333333+
+     * <br>++++++++
+     */
     public void printVanLines() {
         if (lines.size() < VAN_LENGTH) {
             this.printEmptyLines(VAN_LENGTH - lines.size());
