@@ -20,7 +20,7 @@ public class CargoVan {
     public static class CargoVanLine {
         public static class CargoVanCell {
             private static final int MAX_LENGTH_CELL = 1;
-            private String cellItemTitle;
+            private final String cellItemTitle;
 
             public CargoVanCell(String cellItemTitle) {
                 if (cellItemTitle != null && cellItemTitle.length() > MAX_LENGTH_CELL) {
@@ -33,10 +33,6 @@ public class CargoVan {
                 return cellItemTitle;
             }
 
-            public void clearCellItemTitle() {
-                this.cellItemTitle = null;
-            }
-
             public boolean isNullOrEmpty() {
                 if (this.cellItemTitle == null) {
                     return true;
@@ -45,21 +41,10 @@ public class CargoVan {
             }
         }
 
-        private List<CargoVanCell> line;
+        private final List<CargoVanCell> line;
 
         public CargoVanLine() {
             this.line = new ArrayList<>(VAN_WIDTH);
-        }
-
-        public CargoVanLine(List<CargoVanCell> cells) {
-            if (cells == null || cells.isEmpty()) {
-                new CargoVanLine();
-                return;
-            }
-            if (cells.size() > VAN_WIDTH) {
-                throw new IllegalArgumentException("Cargo van width cannot be greater than " + VAN_WIDTH + "; Provided size of line: " + cells.size());
-            }
-            this.line = new ArrayList<>(cells);
         }
 
         public CargoVanLine(CargoItem cargoItem) {
@@ -88,21 +73,10 @@ public class CargoVan {
         }
     }
 
-    private List<CargoVanLine> lines;
+    private final List<CargoVanLine> lines;
 
     public CargoVan() {
         this.lines = new ArrayList<>(VAN_LENGTH);
-    }
-
-    public CargoVan(List<CargoVanLine> lines) {
-        if (lines == null || lines.isEmpty()) {
-            new CargoVan();
-            return;
-        }
-        if (lines.size() > VAN_LENGTH) {
-            throw new IllegalArgumentException("Cargo van length cannot be greater than " + VAN_WIDTH + "; Provided size of van lines: " + lines.size());
-        }
-        this.lines = new ArrayList<>(lines);
     }
 
     public void addLine(CargoVanLine line) {
@@ -123,9 +97,5 @@ public class CargoVan {
         for (int i = 0; i < count; i++) {
             System.out.println(VAN_EMPTY_LINE);
         }
-    }
-
-    public List<CargoVanLine> getLines() {
-        return lines;
     }
 }

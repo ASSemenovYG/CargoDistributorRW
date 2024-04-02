@@ -14,10 +14,6 @@ public abstract class DistributionAlgorithm {
         this.loadedVans = distributeCargo(cargoList);
     }
 
-    public String getName() {
-        return name;
-    }
-
     public List<CargoVan> getLoadedVans() {
         return loadedVans;
     }
