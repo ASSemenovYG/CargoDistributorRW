@@ -9,7 +9,6 @@ import ru.liga.dcs.cargo.CargoListMock;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class MaximumCapacityDistributionTest {
 
@@ -58,5 +57,21 @@ class MaximumCapacityDistributionTest {
         DistributionAlgorithm maximumCapacityDistribution = new MaximumCapacityDistribution(cargoList);
         maximumCapacityDistribution.printLoadedVans();
         assertThat(maximumCapacityDistribution.getLoadedVans().size()).isEqualTo(1);
+    }
+
+    @Test
+    void printLoadedVans_realFile1() {
+        CargoList cargoList = new CargoListFromFile("src/test/java/ru/liga/dcs/cargo/testValidCargoFile1");
+        DistributionAlgorithm maximumCapacityDistribution = new MaximumCapacityDistribution(cargoList);
+        maximumCapacityDistribution.printLoadedVans();
+        assertThat(maximumCapacityDistribution.getLoadedVans().size()).isEqualTo(1);
+    }
+
+    @Test
+    void printLoadedVans_realFile2() {
+        CargoList cargoList = new CargoListFromFile("src/test/java/ru/liga/dcs/cargo/testValidCargoFile2");
+        DistributionAlgorithm maximumCapacityDistribution = new MaximumCapacityDistribution(cargoList);
+        maximumCapacityDistribution.printLoadedVans();
+        assertThat(maximumCapacityDistribution.getLoadedVans().size()).isEqualTo(2);
     }
 }
