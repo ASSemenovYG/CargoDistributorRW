@@ -14,51 +14,37 @@ public class CargoVan {
     private static final String VAN_EMPTY_LINE = VAN_BORDER_SYMBOL + (EMPTY_CARGO_CELL_SYMBOL.repeat(VAN_WIDTH)) + VAN_BORDER_SYMBOL;
     private static final String VAN_BACK_WALL = VAN_BORDER_SYMBOL.repeat(VAN_WIDTH + 2);
 
-    private List<CargoVanLine> lines;
-
-    public CargoVan() {
-        this.lines = new ArrayList<>(VAN_LENGTH);
-    }
-
-    public CargoVan(List<CargoVanLine> lines) {
-        if (lines == null || lines.isEmpty()) {
-            new CargoVan();
-            return;
-        }
-        if (lines.size() > VAN_LENGTH) {
-            throw new IllegalArgumentException("Cargo van length cannot be greater than " + VAN_WIDTH + "; Provided size of van lines: " + lines.size());
-        }
-        this.lines = new ArrayList<>(lines);
-    }
-
-    public void addLine(CargoVanLine line) {
-        this.lines.add(line);
-    }
-
-    public void printVanLines() {
-        if (lines.size() < VAN_LENGTH) {
-            this.printEmptyLines(VAN_LENGTH - lines.size());
-        }
-        for (int i = lines.size() - 1; i >= 0; i--) {
-            lines.get(i).printLine();
-        }
-        System.out.println(VAN_BACK_WALL);
-    }
-
-    private void printEmptyLines(int count) {
-        for (int i = 0; i < count; i++) {
-            System.out.println(VAN_EMPTY_LINE);
-        }
-    }
-
-    public List<CargoVanLine> getLines() {
-        return lines;
-    }
-
     /**
      * Класс погрузочной линии (паллета) в кузове грузовой машины
      */
     public static class CargoVanLine {
+        public static class CargoVanCell {
+            private static final int MAX_LENGTH_CELL = 1;
+            private String cellItemTitle;
+
+            public CargoVanCell(String cellItemTitle) {
+                if (cellItemTitle != null && cellItemTitle.length() > MAX_LENGTH_CELL) {
+                    throw new IllegalArgumentException("Cell item length cannot be greater than: " + MAX_LENGTH_CELL + " ; Provided cell item: " + cellItemTitle);
+                }
+                this.cellItemTitle = cellItemTitle;
+            }
+
+            public String getCellItemTitle() {
+                return cellItemTitle;
+            }
+
+            public void clearCellItemTitle() {
+                this.cellItemTitle = null;
+            }
+
+            public boolean isNullOrEmpty() {
+                if (this.cellItemTitle == null) {
+                    return true;
+                }
+                return cellItemTitle.isEmpty();
+            }
+        }
+
         private List<CargoVanCell> line;
 
         public CargoVanLine() {
@@ -102,5 +88,44 @@ public class CargoVan {
         }
     }
 
+    private List<CargoVanLine> lines;
 
+    public CargoVan() {
+        this.lines = new ArrayList<>(VAN_LENGTH);
+    }
+
+    public CargoVan(List<CargoVanLine> lines) {
+        if (lines == null || lines.isEmpty()) {
+            new CargoVan();
+            return;
+        }
+        if (lines.size() > VAN_LENGTH) {
+            throw new IllegalArgumentException("Cargo van length cannot be greater than " + VAN_WIDTH + "; Provided size of van lines: " + lines.size());
+        }
+        this.lines = new ArrayList<>(lines);
+    }
+
+    public void addLine(CargoVanLine line) {
+        this.lines.add(line);
+    }
+
+    public void printVanLines() {
+        if (lines.size() < VAN_LENGTH) {
+            this.printEmptyLines(VAN_LENGTH - lines.size());
+        }
+        for (int i = lines.size() - 1; i >= 0; i--) {
+            lines.get(i).printLine();
+        }
+        System.out.println(VAN_BACK_WALL);
+    }
+
+    private void printEmptyLines(int count) {
+        for (int i = 0; i < count; i++) {
+            System.out.println(VAN_EMPTY_LINE);
+        }
+    }
+
+    public List<CargoVanLine> getLines() {
+        return lines;
+    }
 }
