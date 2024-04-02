@@ -17,7 +17,7 @@ public class MaximumCapacityDistribution extends DistributionAlgorithm {
     private boolean[][] dp;
 
     public MaximumCapacityDistribution(CargoList cargoList) {
-        super("MaximumCapacityDistribution", cargoList);
+        super(cargoList);
     }
 
     @Override

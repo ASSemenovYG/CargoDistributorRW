@@ -14,8 +14,9 @@ import java.util.List;
 public class OneVanOneItemDistribution extends DistributionAlgorithm {
 
     public OneVanOneItemDistribution(CargoList cargoList) {
-        super("OneVanOneItemDistribution", cargoList);
+        super(cargoList);
     }
+
     @Override
     public List<CargoVan> distributeCargo(CargoList cargoList) {
         List<CargoVan> result = new ArrayList<>();

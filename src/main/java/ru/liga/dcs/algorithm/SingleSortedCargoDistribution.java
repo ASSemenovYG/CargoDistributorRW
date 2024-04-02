@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class SingleSortedCargoDistribution extends DistributionAlgorithm {
     public SingleSortedCargoDistribution(CargoList cargoList) {
-        super("SingleSortedCargoDistribution", cargoList);
+        super(cargoList);
     }
 
     @Override

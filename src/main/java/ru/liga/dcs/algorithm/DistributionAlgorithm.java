@@ -6,11 +6,9 @@ import ru.liga.dcs.cargo.CargoVan;
 import java.util.List;
 
 public abstract class DistributionAlgorithm {
-    private final String name;
     private final List<CargoVan> loadedVans;
 
-    public DistributionAlgorithm(String name, CargoList cargoList) {
-        this.name = name;
+    public DistributionAlgorithm(CargoList cargoList) {
         this.loadedVans = distributeCargo(cargoList);
     }
 
