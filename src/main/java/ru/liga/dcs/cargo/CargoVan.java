@@ -81,7 +81,7 @@ public class CargoVan {
             addCargoItem(cargoItem, 0);
         }
 
-        void addCargoItem(CargoItem cargoItem, int index) {
+        public void addCargoItem(CargoItem cargoItem, int index) {
             for (int i = 0; i < cargoItem.getLength(); i++) {
                 this.line.add(index, new CargoVanCell(cargoItem.getName().substring(i, i + 1)));
                 index++;

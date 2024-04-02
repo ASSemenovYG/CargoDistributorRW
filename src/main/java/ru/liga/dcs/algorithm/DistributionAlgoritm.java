@@ -18,6 +18,10 @@ abstract class DistributionAlgorithm {
         return name;
     }
 
+    public List<CargoVan> getLoadedVans() {
+        return loadedVans;
+    }
+
     public void printLoadedVans() {
         for (CargoVan cargoVan : loadedVans) {
             cargoVan.printVanLines();
