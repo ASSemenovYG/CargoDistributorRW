@@ -53,7 +53,7 @@ class MaximumCapacityDistributionTest {
 
     @Test
     void printLoadedVans_realFile() {
-        CargoList cargoList = new CargoListFromFile("src/test/java/ru/liga/dcs/cargo/testValidCargoFile");
+        CargoList cargoList = new CargoListFromFile("src/test/resources/testValidCargoFile");
         DistributionAlgorithm maximumCapacityDistribution = new MaximumCapacityDistribution(cargoList);
         maximumCapacityDistribution.printLoadedVans();
         assertThat(maximumCapacityDistribution.getLoadedVans().size()).isEqualTo(1);
@@ -61,7 +61,7 @@ class MaximumCapacityDistributionTest {
 
     @Test
     void printLoadedVans_realFile1() {
-        CargoList cargoList = new CargoListFromFile("src/test/java/ru/liga/dcs/cargo/testValidCargoFile1");
+        CargoList cargoList = new CargoListFromFile("src/test/resources/testValidCargoFile1");
         DistributionAlgorithm maximumCapacityDistribution = new MaximumCapacityDistribution(cargoList);
         maximumCapacityDistribution.printLoadedVans();
         assertThat(maximumCapacityDistribution.getLoadedVans().size()).isEqualTo(1);
@@ -69,7 +69,7 @@ class MaximumCapacityDistributionTest {
 
     @Test
     void printLoadedVans_realFile2() {
-        CargoList cargoList = new CargoListFromFile("src/test/java/ru/liga/dcs/cargo/testValidCargoFile2");
+        CargoList cargoList = new CargoListFromFile("src/test/resources/testValidCargoFile2");
         DistributionAlgorithm maximumCapacityDistribution = new MaximumCapacityDistribution(cargoList);
         maximumCapacityDistribution.printLoadedVans();
         assertThat(maximumCapacityDistribution.getLoadedVans().size()).isEqualTo(2);

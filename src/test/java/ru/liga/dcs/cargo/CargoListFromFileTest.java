@@ -17,7 +17,7 @@ class CargoListFromFileTest {
 
     @Test
     void createCargoListFromValidFile() {
-        CargoList cargoList = new CargoListFromFile("src/test/java/ru/liga/dcs/cargo/testValidCargoFile");
+        CargoList cargoList = new CargoListFromFile("src/test/resources/testValidCargoFile");
         cargoList.getCargo();
         assertThat(cargoList.getCargoItemNames())
                 .hasSize(9)
