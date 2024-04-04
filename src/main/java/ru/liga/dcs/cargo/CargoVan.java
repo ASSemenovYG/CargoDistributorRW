@@ -7,6 +7,7 @@ import java.util.List;
  * Класс кузова грузовой машины
  */
 public class CargoVan {
+    //TODO: Переписать с учетом обновленного парсера посылок
     public static final int VAN_LENGTH = 6;
     public static final int VAN_WIDTH = 6;
     private static final String VAN_BORDER_SYMBOL = "+";
@@ -18,6 +19,7 @@ public class CargoVan {
      * Класс погрузочной линии (паллета) в кузове грузовой машины
      */
     public static class CargoVanLine {
+        //TODO: С новым парсером посылок это по идее больше не нужно
         /**
          * Класс погрузочной единицы (клетки) на паллете в кузове грузовой машины
          */
@@ -117,6 +119,7 @@ public class CargoVan {
             this.printEmptyLines(VAN_LENGTH - lines.size());
         }
         for (int i = lines.size() - 1; i >= 0; i--) {
+            //TODO: Это нужно переписать, если класс CargoVanLine больше не нужен
             lines.get(i).printLine();
         }
         System.out.println(VAN_BACK_WALL);

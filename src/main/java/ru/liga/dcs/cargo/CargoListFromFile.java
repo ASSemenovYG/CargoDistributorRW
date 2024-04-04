@@ -24,6 +24,7 @@ public class CargoListFromFile implements CargoList {
     }
 
     private List<CargoItem> getCargoFromFile(String filePath) {
+        //TODO: Переписать парсер посылок + добавить возможность тестировать парсер без файла
         if (filePath == null || filePath.isEmpty()) {
             throw new IllegalArgumentException("File path cannot be null or empty!");
         }

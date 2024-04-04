@@ -5,6 +5,7 @@ package ru.liga.dcs.cargo;
  */
 public class CargoItem {
     private static final int MAX_LENGTH = 6;
+    //TODO: Тут еще нужна будет ширина и/или список координат в кузове
     private final int length;
     private final String name;
 
