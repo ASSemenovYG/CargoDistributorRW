@@ -29,4 +29,11 @@ public class CargoListMock implements CargoList {
                 .map(CargoItem::getName)
                 .toList();
     }
+
+    public void printCargoItems() {
+        for (CargoItem cargoItem : cargo) {
+            System.out.println(cargoItem.getName());
+            System.out.println("\n");
+        }
+    }
 }

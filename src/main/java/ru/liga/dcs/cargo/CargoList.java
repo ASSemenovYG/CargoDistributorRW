@@ -16,6 +16,8 @@ public interface CargoList {
      */
     List<String> getCargoItemNames();
 
+    void printCargoItems();
+
     /**
      * @return True, если список посылок пустой или null
      */

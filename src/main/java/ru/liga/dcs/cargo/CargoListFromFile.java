@@ -4,46 +4,90 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
 /**
- *
  * Класс, реализующий интерфейс {@link CargoList},
  * предоставляющий возможность вычитки списка посылок из файла
  */
 public class CargoListFromFile implements CargoList {
     private final List<CargoItem> cargo;
+    private final String filePath;
+    private final List<LinkedList<String>> linesWithCargoItems;
 
     /**
      * @param filePath Путь к файлу, из которого нужно вычитать список посылок
      */
     public CargoListFromFile(String filePath) {
-        this.cargo = getCargoFromFile(filePath);
+        this.filePath = filePath;
+        this.linesWithCargoItems = null;
+        this.cargo = getCargoFromFile();
+
     }
 
-    private List<CargoItem> getCargoFromFile(String filePath) {
-        //TODO: Переписать парсер посылок + добавить возможность тестировать парсер без файла
-        if (filePath == null || filePath.isEmpty()) {
-            throw new IllegalArgumentException("File path cannot be null or empty!");
-        }
+    /**
+     * @param linesWithCargoItems Лист со списками строк, составляющих посылку
+     */
+    public CargoListFromFile(List<LinkedList<String>> linesWithCargoItems) {
+        this.filePath = null;
+        this.linesWithCargoItems = linesWithCargoItems;
+        this.cargo = getCargoFromFile();
 
+    }
+
+    private List<CargoItem> getCargoFromFile() {
+        //TODO: Переписать парсер посылок + добавить возможность тестировать парсер без файла
+        //      Посылки только прямоугольные, если есть не прямоугольная посылка - Exception
+        //      По одной посылке или части посылки на строке
+        //      Цифра в посылке всегда соответствует площади посылки
+        if (filePath == null) {
+            return processUnparsedCargoItems(linesWithCargoItems);
+        }
+        return processUnparsedCargoItems(parseFileLines(filePath));
+    }
+
+    private List<CargoItem> processUnparsedCargoItems(List<LinkedList<String>> unparsedCargoItems) {
         List<CargoItem> result = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                List<CargoItem> cargoFromLine = parseCargoFileLine(line);
-                if (cargoFromLine != null && !cargoFromLine.isEmpty()) {
-                    result.addAll(cargoFromLine);
-                }
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        for (LinkedList<String> unparsedCargoItem : unparsedCargoItems) {
+            result.add(new CargoItem(unparsedCargoItem));
         }
         return result;
     }
 
+    private List<LinkedList<String>> parseFileLines(String filePath) {
+        if (filePath == null || filePath.isEmpty()) {
+            throw new IllegalArgumentException("File path cannot be null or empty!");
+        }
+        List<LinkedList<String>> fileLines = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            LinkedList<String> unparsedCargoItem = new LinkedList<>();
+            while ((line = br.readLine()) != null) {
+                if (line.isEmpty()) {
+                    if (!unparsedCargoItem.isEmpty()) {
+                        fileLines.add(new LinkedList<>(unparsedCargoItem));
+                        unparsedCargoItem.clear();
+                    }
+                } else {
+                    unparsedCargoItem.add(line);
+                }
+            }
+            if (!unparsedCargoItem.isEmpty()) {
+                fileLines.add(new LinkedList<>(unparsedCargoItem));
+                unparsedCargoItem.clear();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return fileLines;
+    }
+
+    @Deprecated
     private List<CargoItem> parseCargoFileLine(String line) {
         if (line == null || line.isEmpty()) {
             return null;
@@ -71,5 +115,12 @@ public class CargoListFromFile implements CargoList {
         return this.cargo.stream()
                 .map(CargoItem::getName)
                 .toList();
+    }
+
+    public void printCargoItems() {
+        for (CargoItem cargoItem : cargo) {
+            System.out.println(cargoItem.getName());
+            System.out.println("\r");
+        }
     }
 }
