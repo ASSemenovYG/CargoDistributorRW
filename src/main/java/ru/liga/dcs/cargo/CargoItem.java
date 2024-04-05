@@ -22,26 +22,9 @@ public class CargoItem {
      * @param width Ширина посылки
      */
     public CargoItem(int size, int length, int width) {
-        if (size <= 0) {
-            throw new IllegalArgumentException("Размер посылки должен быть больше нуля, переданный размер: " + size);
-        }
-        if (size > MAX_SIZE) {
-            throw new IllegalArgumentException("Размер посылки не может превышать " + MAX_SIZE + "; переданный размер: " + size);
-        }
-        if (length <= 0) {
-            throw new IllegalArgumentException("Длина посылки должна быть больше нуля, переданная длина: " + length);
-        }
-        if (width <= 0) {
-            throw new IllegalArgumentException("Ширина посылки должна быть больше нуля, переданная ширина: " + width);
-        }
-        if (size != length * width) {
-            throw new IllegalArgumentException("Некорректные параметры посылки, размер " + size + " не соответствует длине " + length + " и ширине " + width);
-        }
-        if (length > CargoVan.VAN_LENGTH) {
-            throw new IllegalArgumentException("Длина посылки " + length + " превышает длину грузового фургона " + CargoVan.VAN_LENGTH);
-        }
-        if (width > CargoVan.VAN_WIDTH) {
-            throw new IllegalArgumentException("Ширина посылки " + length + " превышает ширину грузового фургона " + CargoVan.VAN_LENGTH);
+        String validationMessage = validateCargoItemByParams(size, length, width);
+        if (!validationMessage.isEmpty()) {
+            throw new IllegalArgumentException(validationMessage);
         }
         this.length = length;
         this.width = width;
@@ -84,12 +67,40 @@ public class CargoItem {
         return width;
     }
 
+    private String validateCargoItemByParams(int size, int length, int width) {
+        StringBuilder validationMessage = new StringBuilder();
+        if (size <= 0) {
+            validationMessage.append("Размер посылки должен быть больше нуля, переданный размер: ").append(size).append("\n");
+        }
+        if (size > MAX_SIZE) {
+            validationMessage.append("Размер посылки не может превышать ").append(MAX_SIZE).append("; переданный размер: ").append(size).append("\n");
+        }
+        if (length <= 0) {
+            validationMessage.append("Длина посылки должна быть больше нуля, переданная длина: ").append(length).append("\n");
+        }
+        if (width <= 0) {
+            validationMessage.append("Ширина посылки должна быть больше нуля, переданная ширина: ").append(width).append("\n");
+        }
+        if (size != length * width) {
+            validationMessage.append("Некорректные параметры посылки, размер ").append(size).append(" не соответствует длине ").append(length)
+                    .append(" и ширине ").append(width).append("\n");
+        }
+        if (length > CargoVan.VAN_LENGTH) {
+            validationMessage.append("Длина посылки ").append(length).append(" превышает длину грузового фургона ").append(CargoVan.VAN_LENGTH).append("\n");
+        }
+        if (width > CargoVan.VAN_WIDTH) {
+            validationMessage.append("Ширина посылки ").append(length).append(" превышает ширину грузового фургона ").append(CargoVan.VAN_WIDTH).append("\n");
+        }
+        return validationMessage.toString();
+    }
+
     private void validateUnparsedCargoItem(LinkedList<String> unparsedCargoItem) {
         String firstLine = unparsedCargoItem.peekFirst();
         if (firstLine == null || firstLine.isEmpty()) {
             throw new IllegalArgumentException("В посылке не может быть пустых или null строк");
         }
         int cargoItemSize = Integer.parseInt(firstLine.substring(0, 1));
+        int cargoItemLength = unparsedCargoItem.size();
         int cargoItemWidth = firstLine.length();
         StringBuilder validationMessage = new StringBuilder();
 
@@ -99,34 +110,7 @@ public class CargoItem {
                     .append("\n");
         }
 
-        if (validationMessage.isEmpty()) {
-            if (cargoItemWidth > CargoVan.VAN_WIDTH) {
-                validationMessage
-                        .append("Ширина посылки ")
-                        .append(cargoItemWidth)
-                        .append("превышает ширину грузового фургона, равную ")
-                        .append(CargoVan.VAN_WIDTH)
-                        .append("\n");
-            }
-
-            if (unparsedCargoItem.size() > CargoVan.VAN_LENGTH) {
-                validationMessage
-                        .append("Длина посылки ")
-                        .append(cargoItemWidth)
-                        .append("превышает длину грузового фургона, равную ")
-                        .append(CargoVan.VAN_LENGTH)
-                        .append("\n");
-            }
-
-            if (unparsedCargoItem.size() * cargoItemWidth != cargoItemSize) {
-                validationMessage
-                        .append("Площадь посылки, равная ")
-                        .append(unparsedCargoItem.size() * cargoItemWidth)
-                        .append(" не соответствует заявленной площади посылки, равной ")
-                        .append(cargoItemSize)
-                        .append("\n");
-            }
-        }
+        validationMessage.append(validateCargoItemByParams(cargoItemSize, cargoItemLength, cargoItemWidth));
 
         if (!validationMessage.isEmpty()) {
             validationMessage.insert(0, "Во входных данных обнаружена невалидная посылка:\n" + getUnparsedCargoItem(unparsedCargoItem) + "\n");

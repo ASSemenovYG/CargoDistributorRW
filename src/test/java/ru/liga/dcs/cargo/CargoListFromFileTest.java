@@ -129,7 +129,7 @@ class CargoListFromFileTest {
         assertThat(thrown)
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Во входных данных обнаружена невалидная посылка")
-                .hasMessageContaining("Площадь посылки, равная 6 не соответствует заявленной площади посылки, равной 9");
+                .hasMessageContaining("Некорректные параметры посылки, размер 9 не соответствует длине 2 и ширине 3");
     }
 
 }
