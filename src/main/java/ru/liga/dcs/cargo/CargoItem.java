@@ -16,6 +16,11 @@ public class CargoItem {
     private final int width;
     private final String name;
 
+    /**
+     * @param size Размер (площадь) посылки
+     * @param length Длина посылки
+     * @param width Ширина посылки
+     */
     public CargoItem(int size, int length, int width) {
         if (size <= 0) {
             throw new IllegalArgumentException("Размер посылки должен быть больше нуля, переданный размер: " + size);
