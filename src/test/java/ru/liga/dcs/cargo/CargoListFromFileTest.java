@@ -3,9 +3,13 @@ package ru.liga.dcs.cargo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 
 class CargoListFromFileTest {
 
@@ -20,8 +24,112 @@ class CargoListFromFileTest {
         CargoList cargoList = new CargoListFromFile("src/test/resources/testValidCargoFile");
         cargoList.getCargo();
         assertThat(cargoList.getCargoItemNames())
-                .hasSize(9)
-                .containsExactlyInAnyOrderElementsOf(Arrays.asList("333", "999", "999", "999", "666", "666", "55555", "1", "1"));
+                .hasSize(6)
+                .containsExactlyInAnyOrderElementsOf(Arrays.asList("333", "999\n999\n999", "666\n666", "55555", "1", "1"));
+        cargoList.printCargoItems();
+    }
+
+    @Test
+    void createCargoListFromValidFile1() {
+        CargoList cargoList = new CargoListFromFile("src/test/resources/testValidCargoFile1");
+        cargoList.getCargo();
+        assertThat(cargoList.getCargoItemNames())
+                .hasSize(7)
+                .containsExactlyInAnyOrderElementsOf(Arrays.asList("333","333","333", "999\n999\n999", "666\n666", "55555", "55555"));
+        cargoList.printCargoItems();
+    }
+
+    @Test
+    void createCargoListFromValidFile2() {
+        CargoList cargoList = new CargoListFromFile("src/test/resources/testValidCargoFile2");
+        cargoList.getCargo();
+        assertThat(cargoList.getCargoItemNames())
+                .hasSize(10)
+                .containsExactlyInAnyOrderElementsOf(Arrays.asList("1","1","22", "22", "333", "333", "4444", "4444", "8888\n8888", "8888\n8888"));
+        cargoList.printCargoItems();
+    }
+
+    @Test
+    void createCargoListFromValidFile3() {
+        CargoList cargoList = new CargoListFromFile("src/test/resources/testValidCargoFile3");
+        cargoList.getCargo();
+        assertThat(cargoList.getCargoItemNames())
+                .hasSize(16)
+                .containsExactlyInAnyOrderElementsOf(Arrays.asList(
+                        "1",
+                        "1",
+                        "22",
+                        "22",
+                        "2\n2",
+                        "333",
+                        "333",
+                        "3\n3\n3",
+                        "4444",
+                        "4444",
+                        "4\n4\n4\n4",
+                        "44\n44",
+                        "8888\n8888",
+                        "8888\n8888",
+                        "88\n88\n88\n88",
+                        "999\n999\n999"
+                ));
+        cargoList.printCargoItems();
+    }
+
+    @Test
+    void createCargoListFromFileWithInvalidItem() {
+        Throwable thrown = catchThrowable(() -> new CargoListFromFile("src/test/resources/testCargoFileWithInvalidItem"));
+        assertThat(thrown)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Во входных данных обнаружена невалидная посылка")
+                .hasMessageContaining("Посылки могут быть только прямоугольными");
+    }
+
+    @Test
+    void createCargoListWithInvalidWidth() {
+        List<LinkedList<String>> cargo = new ArrayList<>();
+        LinkedList<String> cargoItem = new LinkedList<>(
+                List.of("88888888")
+        );
+        cargo.add(cargoItem);
+
+        Throwable thrown = catchThrowable(() -> new CargoListFromFile(cargo));
+        assertThat(thrown)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Во входных данных обнаружена невалидная посылка")
+                .hasMessageContaining("Ширина посылки")
+                .hasMessageContaining("превышает ширину грузового фургона");
+    }
+
+    @Test
+    void createCargoListWithInvalidLength() {
+        List<LinkedList<String>> cargo = new ArrayList<>();
+        LinkedList<String> cargoItem = new LinkedList<>(
+                List.of("9","9","9","9","9","9","9","9","9")
+        );
+        cargo.add(cargoItem);
+
+        Throwable thrown = catchThrowable(() -> new CargoListFromFile(cargo));
+        assertThat(thrown)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Во входных данных обнаружена невалидная посылка")
+                .hasMessageContaining("Длина посылки")
+                .hasMessageContaining("превышает длину грузового фургона");
+    }
+
+    @Test
+    void createCargoListWithInvalidSize() {
+        List<LinkedList<String>> cargo = new ArrayList<>();
+        LinkedList<String> cargoItem = new LinkedList<>(
+                List.of("999","999")
+        );
+        cargo.add(cargoItem);
+
+        Throwable thrown = catchThrowable(() -> new CargoListFromFile(cargo));
+        assertThat(thrown)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Во входных данных обнаружена невалидная посылка")
+                .hasMessageContaining("Площадь посылки, равная 6 не соответствует заявленной площади посылки, равной 9");
     }
 
 }
