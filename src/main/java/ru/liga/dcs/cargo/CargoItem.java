@@ -7,19 +7,18 @@ import java.util.Objects;
  * Класс элемента груза (посылки)
  */
 public class CargoItem {
-
     @Deprecated
     private static final int MAX_LENGTH = 6;
-    //TODO: Тут еще нужна будет ширина и/или список координат в кузове
     private static final int MAX_SIZE = 9;
     private final int length;
     private final int width;
+    private final int size;
     private final String name;
 
     /**
-     * @param size Размер (площадь) посылки
+     * @param size   Размер (площадь) посылки
      * @param length Длина посылки
-     * @param width Ширина посылки
+     * @param width  Ширина посылки
      */
     public CargoItem(int size, int length, int width) {
         String validationMessage = validateCargoItemByParams(size, length, width);
@@ -28,6 +27,7 @@ public class CargoItem {
         }
         this.length = length;
         this.width = width;
+        this.size = size;
         this.name = getCargoItemNameByParams(size, length, width);
     }
 
@@ -39,6 +39,7 @@ public class CargoItem {
         this.name = getUnparsedCargoItem(unparsedCargoItem);
         this.length = unparsedCargoItem.size();
         this.width = unparsedCargoItem.peekFirst().length();
+        this.size = this.length * this.width;
     }
 
     @Deprecated
@@ -53,6 +54,7 @@ public class CargoItem {
         this.name = name;
         this.length = name.length();
         this.width = 0;
+        this.size = 0;
     }
 
     public String getName() {
@@ -65,6 +67,10 @@ public class CargoItem {
 
     public int getWidth() {
         return width;
+    }
+
+    public int getSize() {
+        return size;
     }
 
     private String validateCargoItemByParams(int size, int length, int width) {

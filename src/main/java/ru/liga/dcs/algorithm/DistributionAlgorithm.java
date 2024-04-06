@@ -30,7 +30,7 @@ public abstract class DistributionAlgorithm {
      */
     public void printLoadedVans() {
         for (CargoVan cargoVan : loadedVans) {
-            cargoVan.printVanLines();
+            cargoVan.printVanCargo();
             System.out.println("\r");
         }
     }

@@ -2,50 +2,94 @@ package ru.liga.dcs.cargo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Класс кузова грузовой машины
  */
 public class CargoVan {
-    //TODO: Переписать с учетом обновленного парсера посылок
     public static final int VAN_LENGTH = 6;
     public static final int VAN_WIDTH = 6;
     private static final String VAN_BORDER_SYMBOL = "+";
     private static final String EMPTY_CARGO_CELL_SYMBOL = " ";
+    @Deprecated
     private static final String VAN_EMPTY_LINE = VAN_BORDER_SYMBOL + (EMPTY_CARGO_CELL_SYMBOL.repeat(VAN_WIDTH)) + VAN_BORDER_SYMBOL;
     private static final String VAN_BACK_WALL = VAN_BORDER_SYMBOL.repeat(VAN_WIDTH + 2);
 
     /**
-     * Класс погрузочной линии (паллета) в кузове грузовой машины
+     * Класс погрузочной единицы (клетки) в кузове грузовой машины
      */
-    public static class CargoVanLine {
-        //TODO: С новым парсером посылок это по идее больше не нужно
-        /**
-         * Класс погрузочной единицы (клетки) на паллете в кузове грузовой машины
-         */
-        public static class CargoVanCell {
-            private static final int MAX_LENGTH_CELL = 1;
-            private final String cellItemTitle;
+    public static class CargoVanCell {
+        @Deprecated
+        private static final int MAX_LENGTH_CELL = 1;
+        private String cellItemTitle;
+        private CargoItem occupiedBy;
 
-            public CargoVanCell(String cellItemTitle) {
-                if (cellItemTitle != null && cellItemTitle.length() > MAX_LENGTH_CELL) {
-                    throw new IllegalArgumentException("Cell item length cannot be greater than: " + MAX_LENGTH_CELL + " ; Provided cell item: " + cellItemTitle);
-                }
-                this.cellItemTitle = cellItemTitle;
-            }
-
-            public String getCellItemTitle() {
-                return cellItemTitle;
-            }
-
-            public boolean isNullOrEmpty() {
-                if (this.cellItemTitle == null) {
-                    return true;
-                }
-                return cellItemTitle.isEmpty();
-            }
+        public CargoVanCell() {
+            this((CargoItem) null);
         }
 
+        public CargoVanCell(CargoItem cargoItem) {
+            this.occupiedBy = cargoItem;
+            this.cellItemTitle = (cargoItem == null) ? "" : String.valueOf(cargoItem.getSize());
+        }
+
+        /**
+         * @deprecated Более не используется в связи с тем, что теперь клетка хранит ссылку на посылку, которая занимает клетку
+         */
+        @Deprecated
+        public CargoVanCell(String cellItemTitle) {
+            if (cellItemTitle != null && cellItemTitle.length() > MAX_LENGTH_CELL) {
+                throw new IllegalArgumentException("Cell item length cannot be greater than: " + MAX_LENGTH_CELL + " ; Provided cell item: " + cellItemTitle);
+            }
+            this.cellItemTitle = cellItemTitle;
+        }
+
+        public CargoItem getOccupiedBy() {
+            return occupiedBy;
+        }
+
+        public boolean isEmpty() {
+            return occupiedBy == null;
+        }
+
+        public void setCargoItem(CargoItem cargoItem) {
+            this.occupiedBy = cargoItem;
+            this.cellItemTitle = String.valueOf(cargoItem.getSize());
+        }
+
+        public String getCellItemTitle() {
+            return cellItemTitle;
+        }
+
+        /**
+         * @deprecated Вместо него использовать метод isEmpty
+         */
+        @Deprecated
+        public boolean isNullOrEmpty() {
+            if (this.cellItemTitle == null) {
+                return true;
+            }
+            return cellItemTitle.isEmpty();
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (getClass() != o.getClass()) {
+                return false;
+            }
+            CargoVanCell other = (CargoVanCell) o;
+            return Objects.equals(this.cellItemTitle, other.getCellItemTitle()) && Objects.equals(getOccupiedBy(), other.getOccupiedBy());
+        }
+    }
+
+    /**
+     * Класс погрузочной линии (паллета) в кузове грузовой машины
+     *
+     * @deprecated Теперь вместо листа погрузочных линий в {@link CargoVan} используется двумерный массив cargo
+     */
+    @Deprecated
+    public static class CargoVanLine {
         private final List<CargoVanCell> line;
 
         public CargoVanLine() {
@@ -88,19 +132,34 @@ public class CargoVan {
         }
     }
 
-    private final List<CargoVanLine> lines;
+    /**
+     * @deprecated Более не используется в связи с отказом от {@link CargoVanLine}
+     */
+    @Deprecated
+    private final List<CargoVanLine> lines = new ArrayList<>(0);
 
+    private final CargoVanCell[][] cargo = new CargoVanCell[VAN_LENGTH][VAN_WIDTH];
+
+
+    /**
+     * Создает грузовой фургон с пустым кузовом
+     */
     public CargoVan() {
-        this.lines = new ArrayList<>(VAN_LENGTH);
+        initializeCargo();
     }
 
     /**
-     * Добавляет паллет (погрузочную линию) в грузовой фургон
+     * Создает грузовой фургон с одной посылкой внутри
      *
-     * @param line Паллет (погрузочная линия)
+     * @param cargoItem Посылка
      */
-    public void addLine(CargoVanLine line) {
-        this.lines.add(line);
+    public CargoVan(CargoItem cargoItem) {
+        this();
+        fillSingleCargoItem(cargoItem);
+    }
+
+    public CargoVanCell[][] getCargo() {
+        return this.cargo;
     }
 
     /**
@@ -114,17 +173,67 @@ public class CargoVan {
      * <br>+333333+
      * <br>++++++++
      */
+    public void printVanCargo() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = VAN_LENGTH - 1; i >= 0; i--) {
+            if (i < VAN_LENGTH - 1) {
+                sb.append("\n");
+            }
+            sb.append(VAN_BORDER_SYMBOL);
+            for (int j = 0; j < VAN_WIDTH; j++) {
+                sb.append((cargo[i][j].isEmpty()) ? EMPTY_CARGO_CELL_SYMBOL : cargo[i][j].getCellItemTitle());
+            }
+            sb.append(VAN_BORDER_SYMBOL);
+        }
+        sb.append("\n").append(VAN_BACK_WALL);
+        System.out.println(sb);
+    }
+
+    private void fillSingleCargoItem(CargoItem cargoItem) {
+        for (int i = 0; i < cargoItem.getLength(); i++) {
+            for (int j = 0; j < cargoItem.getWidth(); j++) {
+                cargo[i][j].setCargoItem(cargoItem);
+            }
+        }
+    }
+
+    private void initializeCargo() {
+        for (int i = 0; i < VAN_LENGTH; i++) {
+            for (int j = 0; j < VAN_WIDTH; j++) {
+                cargo[i][j] = new CargoVanCell();
+            }
+        }
+    }
+
+    /**
+     * Добавляет паллет (погрузочную линию) в грузовой фургон
+     *
+     * @param line Паллет (погрузочная линия)
+     * @deprecated Более не используется в связи с отказом от {@link CargoVanLine}
+     */
+    @Deprecated
+    public void addLine(CargoVanLine line) {
+        this.lines.add(line);
+    }
+
+    /**
+     * @deprecated Заменен на метод printVanCargo в связи с отказом от {@link CargoVanLine}
+     */
+    @Deprecated
     public void printVanLines() {
         if (lines.size() < VAN_LENGTH) {
             this.printEmptyLines(VAN_LENGTH - lines.size());
         }
         for (int i = lines.size() - 1; i >= 0; i--) {
-            //TODO: Это нужно переписать, если класс CargoVanLine больше не нужен
             lines.get(i).printLine();
         }
         System.out.println(VAN_BACK_WALL);
     }
 
+    /**
+     * @deprecated Более не используется в связи с переходом на printVanCargo и отказе от {@link CargoVanLine}
+     */
+    @Deprecated
     private void printEmptyLines(int count) {
         for (int i = 0; i < count; i++) {
             System.out.println(VAN_EMPTY_LINE);

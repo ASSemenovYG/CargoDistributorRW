@@ -1,52 +1,42 @@
 package ru.liga.dcs.cargo;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
+import org.assertj.core.data.Index;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class CargoVanTest {
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
-    private final PrintStream originalOut = System.out;
-    private final PrintStream originalErr = System.err;
-
-    @BeforeEach
-    public void setUpStreams() {
-        System.setOut(new PrintStream(outContent));
-        System.setErr(new PrintStream(errContent));
-    }
-
-    @AfterEach
-    public void restoreStreams() {
-        System.setOut(originalOut);
-        System.setErr(originalErr);
-    }
-
     @Test
-    @Disabled("Пока отключен, потом нужно переписать с новым конструктором")
-    void printVanLines() {
-        String systemOut =
-                """
-                        +      +\r
-                        +      +\r
-                        +      +\r
-                        +      +\r
-                        +      +\r
-                        +999   +\r
-                        ++++++++\r
-                        """;
-        CargoVan van = new CargoVan();
-        CargoVan.CargoVanLine line = new CargoVan.CargoVanLine();
-        line.addCargoItem(new CargoItem("999"), 0);
-        van.addLine(line);
-        van.printVanLines();
+    void printVanCargo() {
+        CargoItem cargoItem = new CargoItem(9, 3, 3);
+        CargoVan.CargoVanCell testCell = new CargoVan.CargoVanCell(cargoItem);
+        CargoVan.CargoVanCell[] testCellLine = new CargoVan.CargoVanCell[]{
+                testCell,
+                testCell,
+                testCell,
+                new CargoVan.CargoVanCell(),
+                new CargoVan.CargoVanCell(),
+                new CargoVan.CargoVanCell()
+        };
+        CargoVan.CargoVanCell[] testEmptyCellLine = new CargoVan.CargoVanCell[]{
+                new CargoVan.CargoVanCell(),
+                new CargoVan.CargoVanCell(),
+                new CargoVan.CargoVanCell(),
+                new CargoVan.CargoVanCell(),
+                new CargoVan.CargoVanCell(),
+                new CargoVan.CargoVanCell()
+        };
+        CargoVan van = new CargoVan(cargoItem);
+        van.printVanCargo();
 
-        assertEquals(systemOut, outContent.toString());
+        assertThat(van.getCargo())
+                .isNotEmpty()
+                .hasDimensions(6, 6)
+                .contains(testCellLine, Index.atIndex(0))
+                .contains(testCellLine, Index.atIndex(1))
+                .contains(testCellLine, Index.atIndex(2))
+                .contains(testEmptyCellLine, Index.atIndex(3))
+                .contains(testEmptyCellLine, Index.atIndex(4))
+                .contains(testEmptyCellLine, Index.atIndex(5));
     }
 }

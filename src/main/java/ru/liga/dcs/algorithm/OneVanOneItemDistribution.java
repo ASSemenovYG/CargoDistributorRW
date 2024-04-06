@@ -20,11 +20,8 @@ public class OneVanOneItemDistribution extends DistributionAlgorithm {
     @Override
     public List<CargoVan> distributeCargo(CargoList cargoList) {
         List<CargoVan> result = new ArrayList<>();
-        List<CargoItem> cargoItems = cargoList.getCargo();
-        for (CargoItem cargoItem : cargoItems) {
-            CargoVan van = new CargoVan();
-            van.addLine(new CargoVan.CargoVanLine(cargoItem));
-            result.add(van);
+        for (CargoItem cargoItem : cargoList.getCargo()) {
+            result.add(new CargoVan(cargoItem));
         }
         return result;
     }
