@@ -1,8 +1,10 @@
 package ru.liga.dcs.algorithm;
 
+import ru.liga.dcs.cargo.CargoItem;
 import ru.liga.dcs.cargo.CargoList;
 import ru.liga.dcs.cargo.CargoVan;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -23,6 +25,16 @@ public abstract class DistributionAlgorithm {
      */
     public List<CargoVan> getLoadedVans() {
         return loadedVans;
+    }
+
+    /**
+     * @return Лист с посылками из всех загруженных фургонов
+     */
+    public List<CargoItem> getAllCargoItemsFromLoadedVans() {
+        return loadedVans.stream()
+                .map(CargoVan::getLoadedCargoItems)
+                .flatMap(Collection::stream)
+                .toList();
     }
 
     /**

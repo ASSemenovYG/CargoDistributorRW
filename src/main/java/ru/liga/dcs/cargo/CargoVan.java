@@ -140,12 +140,14 @@ public class CargoVan {
 
     private final CargoVanCell[][] cargo = new CargoVanCell[VAN_LENGTH][VAN_WIDTH];
 
+    private final List<CargoItem> loadedCargoItems;
 
     /**
      * Создает грузовой фургон с пустым кузовом
      */
     public CargoVan() {
         initializeCargo();
+        this.loadedCargoItems = new ArrayList<>();
     }
 
     /**
@@ -160,6 +162,30 @@ public class CargoVan {
 
     public CargoVanCell[][] getCargo() {
         return this.cargo;
+    }
+
+    /**
+     * Добавляет посылку в грузовой фургон, начиная с координат X и Y, соответствующих левой нижней клетке посылки
+     *
+     * @param cargoItem Посылка
+     * @param x         Координата по длине
+     * @param y         Координата по ширине
+     * @return true, если возможно добавить посылку с указанными координатами, иначе false
+     */
+    public boolean tryPuttingCargoItemAtCoordinates(CargoItem cargoItem, int x, int y) {
+        if (x + cargoItem.getLength() > CargoVan.VAN_LENGTH) {
+            return false;
+        }
+        if (y + cargoItem.getWidth() > CargoVan.VAN_WIDTH) {
+            return false;
+        }
+        for (int i = x; i < x + cargoItem.getLength(); i++) {
+            for (int j = y; j < y + cargoItem.getWidth(); j++) {
+                cargo[i][j].setCargoItem(cargoItem);
+            }
+        }
+        loadedCargoItems.add(cargoItem);
+        return true;
     }
 
     /**
@@ -189,12 +215,17 @@ public class CargoVan {
         System.out.println(sb);
     }
 
+    public List<CargoItem> getLoadedCargoItems() {
+        return loadedCargoItems;
+    }
+
     private void fillSingleCargoItem(CargoItem cargoItem) {
         for (int i = 0; i < cargoItem.getLength(); i++) {
             for (int j = 0; j < cargoItem.getWidth(); j++) {
                 cargo[i][j].setCargoItem(cargoItem);
             }
         }
+        loadedCargoItems.add(cargoItem);
     }
 
     private void initializeCargo() {
