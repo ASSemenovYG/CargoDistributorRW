@@ -3,6 +3,7 @@ package ru.liga.dcs.algorithm;
 import ru.liga.dcs.cargo.CargoItem;
 import ru.liga.dcs.cargo.CargoList;
 import ru.liga.dcs.cargo.CargoVan;
+import ru.liga.dcs.cargo.CargoVanList;
 
 import java.util.Collection;
 import java.util.List;
@@ -11,27 +12,32 @@ import java.util.List;
  * Абстрактный класс алгоритма распределения посылок по грузовым фургонам
  */
 public abstract class DistributionAlgorithm {
-    private final List<CargoVan> loadedVans;
+    private final CargoVanList loadedVans;
 
     /**
      * @param cargoList Список посылок для распределения
      */
     public DistributionAlgorithm(CargoList cargoList) {
-        this.loadedVans = distributeCargo(cargoList);
+        this.loadedVans = new CargoVanList(distributeCargo(cargoList));
+        fillCoordinatesForLoadedCargoItems();
+    }
+
+    public CargoVanList getLoadedVansAsObject() {
+        return loadedVans;
     }
 
     /**
      * @return Список загруженных машин
      */
     public List<CargoVan> getLoadedVans() {
-        return loadedVans;
+        return loadedVans.getCargoVans();
     }
 
     /**
      * @return Лист с посылками из всех загруженных фургонов
      */
     public List<CargoItem> getAllCargoItemsFromLoadedVans() {
-        return loadedVans.stream()
+        return loadedVans.getCargoVans().stream()
                 .map(CargoVan::getLoadedCargoItems)
                 .flatMap(Collection::stream)
                 .toList();
@@ -41,9 +47,17 @@ public abstract class DistributionAlgorithm {
      * Выводит в консоль все загруженные машины
      */
     public void printLoadedVans() {
-        for (CargoVan cargoVan : loadedVans) {
+        for (CargoVan cargoVan : loadedVans.getCargoVans()) {
             cargoVan.printVanCargo();
             System.out.println("\r");
+        }
+    }
+
+    private void fillCoordinatesForLoadedCargoItems() {
+        for (CargoVan cargoVan : loadedVans.getCargoVans()) {
+            for (CargoItem cargoItem : cargoVan.getLoadedCargoItems()) {
+                cargoItem.fillCoordinatesByCargoVan(cargoVan);
+            }
         }
     }
 

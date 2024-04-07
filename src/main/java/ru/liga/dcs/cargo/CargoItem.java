@@ -1,11 +1,16 @@
 package ru.liga.dcs.cargo;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 /**
  * Класс элемента груза (посылки)
  */
+@JsonAutoDetect
 public class CargoItem {
     @Deprecated
     private static final int MAX_LENGTH = 6;
@@ -14,6 +19,49 @@ public class CargoItem {
     private final int width;
     private final int size;
     private final String name;
+    /**
+     * Список координат клеток в кузове грузовой машины, занимаемых посылкой
+     */
+    private final List<Coordinates> coordinates = new ArrayList<>();
+
+    /**
+     * Координата клетки в кузове грузовой машины
+     */
+    public static class Coordinates {
+        private final int x;
+        private final int y;
+
+        /**
+         * Конструктор для десериализации
+         */
+        public Coordinates() {
+            this.x = 0;
+            this.y = 0;
+        }
+
+        public Coordinates(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
+        }
+    }
+
+    /**
+     * Конструктор для десериализации
+     */
+    public CargoItem() {
+        this.length = 0;
+        this.width = 0;
+        this.size = 0;
+        this.name = null;
+    }
 
     /**
      * @param size   Размер (площадь) посылки
@@ -71,6 +119,21 @@ public class CargoItem {
 
     public int getSize() {
         return size;
+    }
+
+    public List<Coordinates> getCoordinates() {
+        return coordinates;
+    }
+
+    public void fillCoordinatesByCargoVan(CargoVan cargoVan) {
+        CargoVan.CargoVanCell[][] cargo = cargoVan.getCargo();
+        for (int i = 0; i < CargoVan.VAN_LENGTH; i++) {
+            for (int j = 0; j < CargoVan.VAN_WIDTH; j++) {
+                if (!cargo[i][j].isEmpty() && cargo[i][j].getOccupiedBy() == this) {
+                    coordinates.add(new Coordinates(i, j));
+                }
+            }
+        }
     }
 
     private String validateCargoItemByParams(int size, int length, int width) {

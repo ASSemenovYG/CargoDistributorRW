@@ -1,5 +1,9 @@
 package ru.liga.dcs.cargo;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -7,6 +11,7 @@ import java.util.Objects;
 /**
  * Класс кузова грузовой машины
  */
+@JsonAutoDetect
 public class CargoVan {
     public static final int VAN_LENGTH = 6;
     public static final int VAN_WIDTH = 6;
@@ -138,8 +143,9 @@ public class CargoVan {
     @Deprecated
     private final List<CargoVanLine> lines = new ArrayList<>(0);
 
+    @JsonIgnore
     private final CargoVanCell[][] cargo = new CargoVanCell[VAN_LENGTH][VAN_WIDTH];
-
+    @JsonTypeInfo(use= JsonTypeInfo.Id.NAME, include= JsonTypeInfo.As.WRAPPER_OBJECT)
     private final List<CargoItem> loadedCargoItems;
 
     /**

@@ -1,0 +1,232 @@
+{
+  "cargoVans": [
+    {
+      "CargoVan": {
+        "loadedCargoItems": [
+          {
+            "CargoItem": {
+              "length": 1,
+              "width": 5,
+              "size": 5,
+              "name": "55555",
+              "coordinates": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 0,
+                  "y": 1
+                },
+                {
+                  "x": 0,
+                  "y": 2
+                },
+                {
+                  "x": 0,
+                  "y": 3
+                },
+                {
+                  "x": 0,
+                  "y": 4
+                }
+              ]
+            }
+          },
+          {
+            "CargoItem": {
+              "length": 1,
+              "width": 4,
+              "size": 4,
+              "name": "4444",
+              "coordinates": [
+                {
+                  "x": 1,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 1
+                },
+                {
+                  "x": 1,
+                  "y": 2
+                },
+                {
+                  "x": 1,
+                  "y": 3
+                }
+              ]
+            }
+          },
+          {
+            "CargoItem": {
+              "length": 2,
+              "width": 3,
+              "size": 6,
+              "name": "666\n666",
+              "coordinates": [
+                {
+                  "x": 2,
+                  "y": 0
+                },
+                {
+                  "x": 2,
+                  "y": 1
+                },
+                {
+                  "x": 2,
+                  "y": 2
+                },
+                {
+                  "x": 3,
+                  "y": 0
+                },
+                {
+                  "x": 3,
+                  "y": 1
+                },
+                {
+                  "x": 3,
+                  "y": 2
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "CargoVan": {
+        "loadedCargoItems": [
+          {
+            "CargoItem": {
+              "length": 3,
+              "width": 3,
+              "size": 9,
+              "name": "999\n999\n999",
+              "coordinates": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 0,
+                  "y": 1
+                },
+                {
+                  "x": 0,
+                  "y": 2
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 1
+                },
+                {
+                  "x": 1,
+                  "y": 2
+                },
+                {
+                  "x": 2,
+                  "y": 0
+                },
+                {
+                  "x": 2,
+                  "y": 1
+                },
+                {
+                  "x": 2,
+                  "y": 2
+                }
+              ]
+            }
+          },
+          {
+            "CargoItem": {
+              "length": 2,
+              "width": 2,
+              "size": 4,
+              "name": "44\n44",
+              "coordinates": [
+                {
+                  "x": 3,
+                  "y": 0
+                },
+                {
+                  "x": 3,
+                  "y": 1
+                },
+                {
+                  "x": 4,
+                  "y": 0
+                },
+                {
+                  "x": 4,
+                  "y": 1
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "CargoVan": {
+        "loadedCargoItems": [
+          {
+            "CargoItem": {
+              "length": 3,
+              "width": 2,
+              "size": 6,
+              "name": "66\n66\n66",
+              "coordinates": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 0,
+                  "y": 1
+                },
+                {
+                  "x": 1,
+                  "y": 0
+                },
+                {
+                  "x": 1,
+                  "y": 1
+                },
+                {
+                  "x": 2,
+                  "y": 0
+                },
+                {
+                  "x": 2,
+                  "y": 1
+                }
+              ]
+            }
+          },
+          {
+            "CargoItem": {
+              "length": 1,
+              "width": 1,
+              "size": 1,
+              "name": "1",
+              "coordinates": [
+                {
+                  "x": 3,
+                  "y": 0
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
