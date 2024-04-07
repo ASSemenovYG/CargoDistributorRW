@@ -14,7 +14,7 @@ public class CargoVanToJsonConverter {
     public static final String DIRECTORY_TO_WRITE_JSON_FILE = "src/main/resources/json_vans";
     public static final String TEST_DIRECTORY_TO_WRITE_JSON_FILE = "src/test/resources/json_vans_test";
     public static final String JSON_FILE_EXTENSION = ".json";
-    public final boolean isTest;
+    private final boolean isTest;
 
     public CargoVanToJsonConverter() {
         this(false);

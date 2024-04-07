@@ -35,7 +35,7 @@ class CargoVanToJsonConverterTest {
         File[] fList = folder.listFiles();
         for (File file : fList) {
             String pes = file.getName();
-            if (pes.endsWith(".json")) {
+            if (pes.endsWith(CargoVanToJsonConverter.JSON_FILE_EXTENSION)) {
                 new File(String.valueOf(file)).delete();
             }
         }
