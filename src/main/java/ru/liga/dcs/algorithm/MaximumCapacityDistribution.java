@@ -13,7 +13,10 @@ import java.util.*;
  * Решения задачи, чьё содержимое при суммировании всех решений приведет к тому,
  * что число элементов в сумме решений превысит число элементов в оригинальном списке, исключаются,
  * чтобы посылка, имеющая три экземпляра в исходном списке не оказалась в итоге погруженной в фургон более трех раз.
+ *
+ * @deprecated Не работает с многострочными посылками
  */
+@Deprecated
 public class MaximumCapacityDistribution extends DistributionAlgorithm {
 
     private LinkedList<CargoItem> cargoItems;

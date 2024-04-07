@@ -1,7 +1,6 @@
 package ru.liga.dcs;
 
 import ru.liga.dcs.algorithm.DistributionAlgorithm;
-import ru.liga.dcs.algorithm.MaximumCapacityDistribution;
 import ru.liga.dcs.algorithm.OneVanOneItemDistribution;
 import ru.liga.dcs.algorithm.SingleSortedCargoDistribution;
 import ru.liga.dcs.cargo.CargoList;
@@ -32,12 +31,12 @@ public class Main {
         System.out.print("\nПожалуйста, введите желаемый алгоритм распределения: \n");
         System.out.print("1 : Одна посылка - один фургон \n");
         System.out.print("2 : Распределение по одной посылке на паллете друг на друга после сортировки \n");
-        System.out.print("3 : Максимальная оптимизация кузова фургона (default) \n");
+        //System.out.print("3 : Максимальная оптимизация кузова фургона (default) \n");
         int algorithmCode = console.nextInt();
         DistributionAlgorithm algorithm = switch (algorithmCode) {
             case 1 -> new OneVanOneItemDistribution(cargoList);
-            case 2 -> new SingleSortedCargoDistribution(cargoList);
-            default -> new MaximumCapacityDistribution(cargoList);
+            default -> new SingleSortedCargoDistribution(cargoList);
+            //default -> new MaximumCapacityDistribution(cargoList);
         };
         System.out.print("Результат распределения посылок по грузовым фургонам: \n");
         algorithm.printLoadedVans();
