@@ -39,10 +39,6 @@ public class CargoListFromFile implements CargoList {
     }
 
     private List<CargoItem> getCargoFromFile() {
-        //TODO: Переписать парсер посылок + добавить возможность тестировать парсер без файла
-        //      Посылки только прямоугольные, если есть не прямоугольная посылка - Exception
-        //      По одной посылке или части посылки на строке
-        //      Цифра в посылке всегда соответствует площади посылки
         if (filePath == null) {
             return processUnparsedCargoItems(linesWithCargoItems);
         }
