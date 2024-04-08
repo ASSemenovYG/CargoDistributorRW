@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.List;
 
 /**
  * Класс содержащий методы сериализации/десериализации списка грузовых фургонов и записи/вычитки их из файла
@@ -32,12 +31,12 @@ public class CargoVanToJsonConverter {
         }
     }
 
-    public List<CargoVan> getLoadedVansFromJsonFile(String filePath) {
+    public CargoVanList getLoadedVansFromJsonFile(String filePath) {
         StringReader reader = new StringReader(readJsonFromFile(filePath));
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
-            return mapper.readValue(reader, CargoVanList.class).getCargoVans();
+            return mapper.readValue(reader, CargoVanList.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

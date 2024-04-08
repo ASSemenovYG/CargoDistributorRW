@@ -43,7 +43,7 @@ class CargoVanToJsonConverterTest {
 
     @Test
     void readJsonFromFile() {
-        List<CargoVan> loadedVansFromFile = converter.getLoadedVansFromJsonFile("src/test/resources/testLoadedVans.json");
+        List<CargoVan> loadedVansFromFile = converter.getLoadedVansFromJsonFile("src/test/resources/testLoadedVans.json").getCargoVans();
         assertThat(loadedVansFromFile).hasSize(3);
     }
 
