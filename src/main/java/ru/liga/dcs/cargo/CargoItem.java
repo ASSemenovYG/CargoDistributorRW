@@ -1,6 +1,8 @@
 package ru.liga.dcs.cargo;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
@@ -9,6 +11,7 @@ import java.util.*;
  */
 @JsonAutoDetect
 public class CargoItem {
+    private static final Logger LOGGER = LogManager.getLogger(CargoItem.class);
     @Deprecated
     private static final int MAX_LENGTH = 6;
     private static final int MAX_SIZE = 9;
@@ -88,6 +91,8 @@ public class CargoItem {
     public CargoItem(int size, int length, int width) {
         String validationMessage = validateCargoItemByParams(size, length, width);
         if (!validationMessage.isEmpty()) {
+            LOGGER.error(validationMessage);
+            ;
             throw new IllegalArgumentException(validationMessage);
         }
         this.length = length;
@@ -213,6 +218,7 @@ public class CargoItem {
     private void validateUnparsedCargoItem(LinkedList<String> unparsedCargoItem) {
         String firstLine = unparsedCargoItem.peekFirst();
         if (firstLine == null || firstLine.isEmpty()) {
+            LOGGER.error("В посылке не может быть пустых или null строк");
             throw new IllegalArgumentException("В посылке не может быть пустых или null строк");
         }
         int cargoItemSize = Integer.parseInt(firstLine.substring(0, 1));
@@ -230,6 +236,7 @@ public class CargoItem {
 
         if (!validationMessage.isEmpty()) {
             validationMessage.insert(0, "Во входных данных обнаружена невалидная посылка:\n" + getUnparsedCargoItem(unparsedCargoItem) + "\n");
+            LOGGER.error(validationMessage.toString());
             throw new IllegalArgumentException(validationMessage.toString());
         }
     }

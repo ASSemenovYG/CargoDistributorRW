@@ -3,6 +3,8 @@ package ru.liga.dcs.cargo;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.Objects;
  */
 @JsonAutoDetect
 public class CargoVan {
+    private static final Logger LOGGER = LogManager.getLogger(CargoVan.class);
     public static final int VAN_LENGTH = 6;
     public static final int VAN_WIDTH = 6;
     private static final String VAN_BORDER_SYMBOL = "+";
@@ -228,6 +231,7 @@ public class CargoVan {
             sb.append(VAN_BORDER_SYMBOL);
         }
         sb.append("\n").append(VAN_BACK_WALL);
+        LOGGER.trace("Printing cargo van:\n" + sb);
         System.out.println(sb);
     }
 

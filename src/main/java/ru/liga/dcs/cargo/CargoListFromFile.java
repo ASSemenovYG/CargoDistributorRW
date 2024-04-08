@@ -1,5 +1,8 @@
 package ru.liga.dcs.cargo;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -14,6 +17,7 @@ import java.util.regex.Pattern;
  * предоставляющий возможность вычитки списка посылок из файла
  */
 public class CargoListFromFile implements CargoList {
+    private static final Logger LOGGER = LogManager.getLogger(CargoListFromFile.class);
     private final List<CargoItem> cargo;
     private final String filePath;
     private final List<LinkedList<String>> linesWithCargoItems;
@@ -55,28 +59,37 @@ public class CargoListFromFile implements CargoList {
 
     private List<LinkedList<String>> parseFileLines(String filePath) {
         if (filePath == null || filePath.isEmpty()) {
-            throw new IllegalArgumentException("File path cannot be null or empty!");
+            LOGGER.error("File path cannot be null or empty");
+            throw new IllegalArgumentException("File path cannot be null or empty");
         }
         List<LinkedList<String>> fileLines = new ArrayList<>();
 
+        LOGGER.info("Чтение списка посылок из файла: " + filePath);
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             LinkedList<String> unparsedCargoItem = new LinkedList<>();
             while ((line = br.readLine()) != null) {
+                LOGGER.trace("Reading line: " + line);
                 if (line.isEmpty()) {
                     if (!unparsedCargoItem.isEmpty()) {
+                        LOGGER.debug("Обнаружен конец текущей посылки, добавляю текущую посылку в список посылок");
                         fileLines.add(new LinkedList<>(unparsedCargoItem));
                         unparsedCargoItem.clear();
                     }
                 } else {
+                    LOGGER.debug("Добавляю строку " + line + " к текущей посылке");
                     unparsedCargoItem.add(line);
                 }
             }
+            LOGGER.info("Чтение списка посылок из файла завершено");
             if (!unparsedCargoItem.isEmpty()) {
+                LOGGER.debug("Добавляю крайнюю посылку в список посылок");
                 fileLines.add(new LinkedList<>(unparsedCargoItem));
                 unparsedCargoItem.clear();
             }
         } catch (IOException e) {
+            LOGGER.error("parseFileLines:");
+            LOGGER.error(e.getMessage());
             throw new RuntimeException(e);
         }
 
