@@ -30,6 +30,21 @@ public class CargoVanList {
         return cargoVans;
     }
 
+    public boolean isListSizeLessOrEqualThanMaxSize(int maxSize) {
+        return cargoVans.size() <= maxSize;
+    }
+
+    /**
+     * @return Список названий всех посылок во всех фургонах
+     */
+    public List<String> getAllCargoItemNames() {
+        return cargoVans.stream()
+                .map(CargoVan::getLoadedCargoItems)
+                .flatMap(Collection::stream)
+                .map(CargoItem::getName)
+                .toList();
+    }
+
     /**
      * Выводит в консоль все загруженные машины
      */

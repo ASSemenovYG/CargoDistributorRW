@@ -1,5 +1,7 @@
 package ru.liga.dcs.algorithm;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ru.liga.dcs.cargo.CargoItem;
 import ru.liga.dcs.cargo.CargoList;
 import ru.liga.dcs.cargo.CargoVan;
@@ -11,6 +13,7 @@ import java.util.List;
  * Абстрактный класс алгоритма распределения посылок по грузовым фургонам
  */
 public abstract class DistributionAlgorithm {
+    private static final Logger LOGGER = LogManager.getLogger(DistributionAlgorithm.class);
     private final CargoVanList loadedVans;
 
     /**
@@ -44,6 +47,13 @@ public abstract class DistributionAlgorithm {
      */
     public void printLoadedVans() {
         loadedVans.printCargoVanList();
+    }
+
+    public void checkIfLoadedVansCountLessThanMaxCount(int maxCount) {
+        if (!loadedVans.isListSizeLessOrEqualThanMaxSize(maxCount)) {
+            LOGGER.error("Посылки из файла не удалось распределить по количеству фургонов, не превышающему " + maxCount);
+            throw new IllegalArgumentException("Посылки из файла не удалось распределить по количеству фургонов, не превышающему " + maxCount);
+        }
     }
 
     private void fillCoordinatesForLoadedCargoItems() {
