@@ -5,7 +5,6 @@ import ru.liga.dcs.cargo.CargoList;
 import ru.liga.dcs.cargo.CargoVan;
 import ru.liga.dcs.cargo.CargoVanList;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -37,20 +36,14 @@ public abstract class DistributionAlgorithm {
      * @return Лист с посылками из всех загруженных фургонов
      */
     public List<CargoItem> getAllCargoItemsFromLoadedVans() {
-        return loadedVans.getCargoVans().stream()
-                .map(CargoVan::getLoadedCargoItems)
-                .flatMap(Collection::stream)
-                .toList();
+        return loadedVans.getAllCargoItemsFromVans();
     }
 
     /**
      * Выводит в консоль все загруженные машины
      */
     public void printLoadedVans() {
-        for (CargoVan cargoVan : loadedVans.getCargoVans()) {
-            cargoVan.printVanCargo();
-            System.out.println("\r");
-        }
+        loadedVans.printCargoVanList();
     }
 
     private void fillCoordinatesForLoadedCargoItems() {

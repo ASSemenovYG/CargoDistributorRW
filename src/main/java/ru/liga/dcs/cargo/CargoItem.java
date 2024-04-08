@@ -2,10 +2,7 @@ package ru.liga.dcs.cargo;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Класс элемента груза (посылки)
@@ -50,6 +47,26 @@ public class CargoItem {
 
         public int getY() {
             return y;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (getClass() != o.getClass()) {
+                return false;
+            }
+            Coordinates other = (Coordinates) o;
+            if (this.x != other.getX()) {
+                return false;
+            }
+            if (this.y != other.getY()) {
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(x, y);
         }
     }
 
@@ -123,6 +140,36 @@ public class CargoItem {
 
     public List<Coordinates> getCoordinates() {
         return coordinates;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (getClass() != o.getClass()) {
+            return false;
+        }
+        CargoItem other = (CargoItem) o;
+        if (!Objects.equals(this.name, other.getName())) {
+            return false;
+        }
+        if (this.width != other.getWidth()) {
+            return false;
+        }
+        if (this.length != other.getLength()) {
+            return false;
+        }
+        if (this.size != other.getSize()) {
+            return false;
+        }
+        List<Coordinates> otherCoordinates = other.getCoordinates();
+        if (this.coordinates.size() != otherCoordinates.size()) {
+            return false;
+        }
+        return new HashSet<>(this.coordinates).containsAll(otherCoordinates);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, width, length, size, coordinates);
     }
 
     public void fillCoordinatesByCargoVan(CargoVan cargoVan) {

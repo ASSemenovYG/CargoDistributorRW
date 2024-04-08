@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -27,5 +28,37 @@ public class CargoVanList {
 
     public List<CargoVan> getCargoVans() {
         return cargoVans;
+    }
+
+    /**
+     * Выводит в консоль все загруженные машины
+     */
+    public void printCargoVanList() {
+        setAllCargoByCoordinates();
+        for (CargoVan cargoVan : cargoVans) {
+            cargoVan.printVanCargo();
+            System.out.println("\r");
+        }
+    }
+
+    /**
+     * @return Лист с посылками из всех фургонов в списке
+     */
+    public List<CargoItem> getAllCargoItemsFromVans() {
+        return cargoVans.stream()
+                .map(CargoVan::getLoadedCargoItems)
+                .flatMap(Collection::stream)
+                .toList();
+    }
+
+    private void setAllCargoByCoordinates() {
+        for (CargoVan cargoVan : cargoVans) {
+            cargoVan.initializeCargo();
+            for (CargoItem cargoItem : cargoVan.getLoadedCargoItems()) {
+                for (CargoItem.Coordinates coordinates : cargoItem.getCoordinates()) {
+                    cargoVan.fillExactCargoVanCellByCoordinate(cargoItem, coordinates);
+                }
+            }
+        }
     }
 }

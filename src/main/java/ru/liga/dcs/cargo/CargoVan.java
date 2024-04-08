@@ -145,7 +145,7 @@ public class CargoVan {
 
     @JsonIgnore
     private final CargoVanCell[][] cargo = new CargoVanCell[VAN_LENGTH][VAN_WIDTH];
-    @JsonTypeInfo(use= JsonTypeInfo.Id.NAME, include= JsonTypeInfo.As.WRAPPER_OBJECT)
+    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.WRAPPER_OBJECT)
     private final List<CargoItem> loadedCargoItems;
 
     /**
@@ -195,6 +195,16 @@ public class CargoVan {
     }
 
     /**
+     * Заполняет одну клетку в массиве cargo на указанных координатах
+     *
+     * @param cargoItem   Посылка
+     * @param coordinates Координата XY
+     */
+    void fillExactCargoVanCellByCoordinate(CargoItem cargoItem, CargoItem.Coordinates coordinates) {
+        cargo[coordinates.getX()][coordinates.getY()].setCargoItem(cargoItem);
+    }
+
+    /**
      * Выводит кузов грузовика в консоль в формате:
      *
      * <br>+8888  +
@@ -234,7 +244,7 @@ public class CargoVan {
         loadedCargoItems.add(cargoItem);
     }
 
-    private void initializeCargo() {
+    void initializeCargo() {
         for (int i = 0; i < VAN_LENGTH; i++) {
             for (int j = 0; j < VAN_WIDTH; j++) {
                 cargo[i][j] = new CargoVanCell();
