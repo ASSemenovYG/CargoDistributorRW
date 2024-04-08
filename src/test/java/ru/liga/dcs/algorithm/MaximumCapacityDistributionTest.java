@@ -12,6 +12,7 @@ import java.util.Arrays;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Disabled("Deprecated")
+@Deprecated
 class MaximumCapacityDistributionTest {
 
     @Test

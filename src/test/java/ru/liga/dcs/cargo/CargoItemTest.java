@@ -92,6 +92,7 @@ class CargoItemTest {
 
     @Test
     @Disabled("Deprecated constructor")
+    @Deprecated
     void createCargoItemWithEmptyName() {
         Assertions.assertThrows(IllegalArgumentException.class, () ->
                 new CargoItem(""));
@@ -99,6 +100,7 @@ class CargoItemTest {
 
     @Test
     @Disabled("Deprecated constructor")
+    @Deprecated
     void createCargoItemWithNameLengthGreaterThanSix() {
         Assertions.assertThrows(IllegalArgumentException.class, () ->
                 new CargoItem("999999999999999"));
@@ -106,6 +108,7 @@ class CargoItemTest {
 
     @Test
     @Disabled("Deprecated constructor")
+    @Deprecated
     void createCargoItemWithNameMaxLength() {
         CargoItem cargoItem = new CargoItem("666666");
         assertThat(cargoItem.getLength()).isEqualTo(6);
@@ -113,6 +116,7 @@ class CargoItemTest {
 
     @Test
     @Disabled("Deprecated constructor")
+    @Deprecated
     void createCargoItemWithNameMinLength() {
         CargoItem cargoItem = new CargoItem("1");
         assertThat(cargoItem.getLength()).isEqualTo(1);

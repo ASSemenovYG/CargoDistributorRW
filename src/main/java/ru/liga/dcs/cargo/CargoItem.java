@@ -92,7 +92,6 @@ public class CargoItem {
         String validationMessage = validateCargoItemByParams(size, length, width);
         if (!validationMessage.isEmpty()) {
             LOGGER.error(validationMessage);
-            ;
             throw new IllegalArgumentException(validationMessage);
         }
         this.length = length;
