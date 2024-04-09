@@ -26,7 +26,7 @@ public class CargoVanToJsonConverter {
         this.isTest = isTest;
     }
 
-    public void writeJsonToFile(String json) {
+    public String writeJsonToFile(String json) {
         String jsonFileName = getNextJsonFileName();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(jsonFileName))) {
             LOGGER.trace("Сохранение json в файл: " + jsonFileName + "\nJSON:\n" + json);
@@ -36,6 +36,7 @@ public class CargoVanToJsonConverter {
             LOGGER.error(e.getMessage());
             throw new RuntimeException(e);
         }
+        return jsonFileName;
     }
 
     public CargoVanList getLoadedVansFromJsonFile(String filePath) {
@@ -51,7 +52,7 @@ public class CargoVanToJsonConverter {
         }
     }
 
-    String convertLoadedVansToJson(CargoVanList loadedVans) {
+    public String convertLoadedVansToJson(CargoVanList loadedVans) {
         LOGGER.info("Конвертация списка грузовиков в json");
         try (StringWriter writer = new StringWriter()) {
             ObjectMapper mapper = new ObjectMapper();

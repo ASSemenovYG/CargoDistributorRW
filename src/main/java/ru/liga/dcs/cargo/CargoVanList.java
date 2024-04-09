@@ -45,6 +45,17 @@ public class CargoVanList {
                 .toList();
     }
 
+    public void printAllCargoItems() {
+        for (CargoItem cargoItem : cargoVans.stream()
+                .map(CargoVan::getLoadedCargoItems)
+                .flatMap(Collection::stream)
+                .toList()
+        ) {
+            System.out.println(cargoItem.getName());
+            System.out.println("\r");
+        }
+    }
+
     /**
      * Выводит в консоль все загруженные машины
      */
