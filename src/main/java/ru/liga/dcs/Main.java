@@ -2,6 +2,7 @@ package ru.liga.dcs;
 
 import ru.liga.dcs.algorithm.DistributionAlgorithm;
 import ru.liga.dcs.algorithm.OneVanOneItemDistribution;
+import ru.liga.dcs.algorithm.SimpleFitDistribution;
 import ru.liga.dcs.algorithm.SingleSortedCargoDistribution;
 import ru.liga.dcs.cargo.CargoList;
 import ru.liga.dcs.cargo.CargoListFromFile;
@@ -38,15 +39,15 @@ public class Main {
         System.out.print("\nПожалуйста, введите число, чтобы выбрать желаемый алгоритм распределения: \n");
         System.out.print("1 : OneVanOneItemDistribution \n");
         System.out.print("2 : SingleSortedCargoDistribution \n");
-        //System.out.print("3 : Максимальная оптимизация кузова фургона (default) \n");
+        System.out.print("3 : SimpleFitDistribution (default) \n");
         int algorithmCode = console.nextInt();
         System.out.print("Пожалуйста, укажите максимальное количество грузовых фургонов для распределения: \n");
         int maxCargoVanCount = console.nextInt();
 
         DistributionAlgorithm algorithm = switch (algorithmCode) {
             case 1 -> new OneVanOneItemDistribution(cargoList);
-            default -> new SingleSortedCargoDistribution(cargoList);
-            //default -> new MaximumCapacityDistribution(cargoList);
+            case 2 -> new SingleSortedCargoDistribution(cargoList);
+            default -> new SimpleFitDistribution(cargoList);
         };
 
         algorithm.checkIfLoadedVansCountLessThanMaxCount(maxCargoVanCount);
