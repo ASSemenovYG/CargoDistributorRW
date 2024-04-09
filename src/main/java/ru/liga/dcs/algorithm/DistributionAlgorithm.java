@@ -71,5 +71,4 @@ public abstract class DistributionAlgorithm {
      * @return Список загруженных фургонов
      */
     public abstract List<CargoVan> distributeCargo(CargoList cargoList);
-    //TODO: Переписать алгоритмы, с учетом обновленного парсера посылок
 }
