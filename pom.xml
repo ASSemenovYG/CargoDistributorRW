@@ -42,11 +42,6 @@
             <artifactId>slf4j-api</artifactId>
             <version>2.0.10</version>
         </dependency>
-<!--        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>2.23.1</version>
-        </dependency>-->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
@@ -56,6 +51,13 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
             <version>2.23.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.caparf</groupId>
+            <artifactId>caparf</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/caparf/caparf.jar</systemPath>
         </dependency>
     </dependencies>
 </project>
