@@ -3,7 +3,7 @@ package ru.liga.CargoDistributor.cargo;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import ru.liga.CargoDistributor.algorithm.DistributionAlgorithm;
-import ru.liga.CargoDistributor.algorithm.SingleSortedCargoDistribution;
+import ru.liga.CargoDistributor.algorithm.SingleSortedCargoDistributionAlgorithm;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ class CargoVanToJsonConverterTest {
 
     @Test
     void writeJsonToFile() {
-        DistributionAlgorithm singleSortedCargoDistribution = new SingleSortedCargoDistribution(cargoList);
+        DistributionAlgorithm singleSortedCargoDistribution = new SingleSortedCargoDistributionAlgorithm(cargoList);
         String resultJson = converter.convertLoadedVansToJson(singleSortedCargoDistribution.getLoadedVansAsObject());
         File jsonVansDirectory = new File(CargoVanToJsonConverter.TEST_DIRECTORY_TO_WRITE_JSON_FILE);
         int numberOfFilesBeforeWriting = Objects.requireNonNull(jsonVansDirectory.list()).length;
@@ -61,7 +61,7 @@ class CargoVanToJsonConverterTest {
 
     @Test
     void convertLoadedVansToJson() {
-        DistributionAlgorithm singleSortedCargoDistribution = new SingleSortedCargoDistribution(cargoList);
+        DistributionAlgorithm singleSortedCargoDistribution = new SingleSortedCargoDistributionAlgorithm(cargoList);
         String resultJson = converter.convertLoadedVansToJson(singleSortedCargoDistribution.getLoadedVansAsObject());
         System.out.println(resultJson);
 

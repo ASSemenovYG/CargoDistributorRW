@@ -127,7 +127,8 @@ public class CargoVan {
     }
 
     /**
-     * Выводит кузов грузовика в консоль в формате:
+     * @return
+     * String с кузовом грузовика в формате:
      *
      * <br>+8888  +
      * <br>+8888  +
@@ -137,7 +138,7 @@ public class CargoVan {
      * <br>+333333+
      * <br>++++++++
      */
-    public void printVanCargo() {
+    public String getVanCargoAsString() {
         StringBuilder sb = new StringBuilder();
         for (int i = VAN_LENGTH - 1; i >= 0; i--) {
             if (i < VAN_LENGTH - 1) {
@@ -150,8 +151,8 @@ public class CargoVan {
             sb.append(VAN_BORDER_SYMBOL);
         }
         sb.append("\n").append(VAN_BACK_WALL);
-        LOGGER.trace("Printing cargo van:\n" + sb);
-        System.out.println(sb);
+        LOGGER.trace("Returning to print cargo van:\n" + sb);
+        return sb.toString();
     }
 
     public List<CargoItem> getLoadedCargoItems() {

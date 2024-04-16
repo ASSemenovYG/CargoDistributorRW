@@ -12,7 +12,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class SimpleFitDistributionTest {
+class SimpleFitDistributionAlgorithmTest {
 
     @Test
     void distributeCargo_TwoVans() {
@@ -28,8 +28,8 @@ class SimpleFitDistributionTest {
 
         CargoList cargoList = new CargoListMock(cargoItemsToLoad);
 
-        DistributionAlgorithm simpleFitDistribution = new SimpleFitDistribution(cargoList);
-        simpleFitDistribution.printLoadedVans();
+        DistributionAlgorithm simpleFitDistribution = new SimpleFitDistributionAlgorithm(cargoList);
+        System.out.println(simpleFitDistribution.printLoadedVans());
 
         assertThat(simpleFitDistribution.getLoadedVans().size())
                 .isEqualTo(2);
@@ -42,8 +42,8 @@ class SimpleFitDistributionTest {
     void distributeCargo_validCargoFile_oneVan() {
         CargoList cargoList = new CargoListFromFile("src/test/resources/test_valid_cargo_file.pkg");
 
-        DistributionAlgorithm simpleFitDistribution = new SimpleFitDistribution(cargoList);
-        simpleFitDistribution.printLoadedVans();
+        DistributionAlgorithm simpleFitDistribution = new SimpleFitDistributionAlgorithm(cargoList);
+        System.out.println(simpleFitDistribution.printLoadedVans());
 
         assertThat(simpleFitDistribution.getLoadedVans().size())
                 .isEqualTo(1);
@@ -56,8 +56,8 @@ class SimpleFitDistributionTest {
     void distributeCargo_validCargoFile1_twoVans() {
         CargoList cargoList = new CargoListFromFile("src/test/resources/test_valid_cargo_file_1.pkg");
 
-        DistributionAlgorithm simpleFitDistribution = new SimpleFitDistribution(cargoList);
-        simpleFitDistribution.printLoadedVans();
+        DistributionAlgorithm simpleFitDistribution = new SimpleFitDistributionAlgorithm(cargoList);
+        System.out.println(simpleFitDistribution.printLoadedVans());
 
         assertThat(simpleFitDistribution.getLoadedVans().size())
                 .isEqualTo(2);
@@ -70,8 +70,8 @@ class SimpleFitDistributionTest {
     void distributeCargo_validCargoFile2_twoVans() {
         CargoList cargoList = new CargoListFromFile("src/test/resources/test_valid_cargo_file_2.pkg");
 
-        DistributionAlgorithm simpleFitDistribution = new SimpleFitDistribution(cargoList);
-        simpleFitDistribution.printLoadedVans();
+        DistributionAlgorithm simpleFitDistribution = new SimpleFitDistributionAlgorithm(cargoList);
+        System.out.println(simpleFitDistribution.printLoadedVans());
 
         assertThat(simpleFitDistribution.getLoadedVans().size())
                 .isEqualTo(2);
@@ -84,8 +84,8 @@ class SimpleFitDistributionTest {
     void distributeCargo_validCargoFile3_threeVans() {
         CargoList cargoList = new CargoListFromFile("src/test/resources/test_valid_cargo_file_3.pkg");
 
-        DistributionAlgorithm simpleFitDistribution = new SimpleFitDistribution(cargoList);
-        simpleFitDistribution.printLoadedVans();
+        DistributionAlgorithm simpleFitDistribution = new SimpleFitDistributionAlgorithm(cargoList);
+        System.out.println(simpleFitDistribution.printLoadedVans());
 
         assertThat(simpleFitDistribution.getLoadedVans().size())
                 .isEqualTo(3);

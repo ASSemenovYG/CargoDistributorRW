@@ -30,10 +30,11 @@ public class CargoListMock implements CargoList {
                 .toList();
     }
 
-    public void printCargoItems() {
+    public String getCargoItemNamesAsString() {
+        StringBuilder sb = new StringBuilder();
         for (CargoItem cargoItem : cargo) {
-            System.out.println(cargoItem.getName());
-            System.out.println("\n");
+            sb.append("\n").append(cargoItem.getName()).append("\n");
         }
+        return sb.toString();
     }
 }

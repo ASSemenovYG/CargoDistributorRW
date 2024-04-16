@@ -2,7 +2,7 @@ package ru.liga.CargoDistributor.cargo;
 
 import org.junit.jupiter.api.Test;
 import ru.liga.CargoDistributor.algorithm.DistributionAlgorithm;
-import ru.liga.CargoDistributor.algorithm.SingleSortedCargoDistribution;
+import ru.liga.CargoDistributor.algorithm.SingleSortedCargoDistributionAlgorithm;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,7 +28,7 @@ class CargoVanListTest {
     @Test
     void printCargoVanList() {
         CargoVanList cargoVanList = converter.getLoadedVansFromJsonFile("src/test/resources/test_loaded_vans.json");
-        cargoVanList.printCargoVanList();
+        System.out.println(cargoVanList.getCargoVanListAsString());
         assertThat(cargoVanList.getCargoVans())
                 .hasSize(3);
     }
@@ -37,7 +37,7 @@ class CargoVanListTest {
     void getAllCargoItemsFromVans() {
         CargoVanList cargoVanList = converter.getLoadedVansFromJsonFile("src/test/resources/test_loaded_vans.json");
 
-        DistributionAlgorithm singleSortedCargoDistribution = new SingleSortedCargoDistribution(cargoList);
+        DistributionAlgorithm singleSortedCargoDistribution = new SingleSortedCargoDistributionAlgorithm(cargoList);
 
         assertThat(cargoVanList.getAllCargoItemsFromVans())
                 .containsExactlyInAnyOrderElementsOf(singleSortedCargoDistribution.getAllCargoItemsFromLoadedVans());

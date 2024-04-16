@@ -22,37 +22,33 @@ class CargoListFromFileTest {
     @Test
     void createCargoListFromValidFile() {
         CargoList cargoList = new CargoListFromFile("src/test/resources/test_valid_cargo_file.pkg");
-        cargoList.getCargo();
         assertThat(cargoList.getCargoItemNames())
                 .hasSize(6)
                 .containsExactlyInAnyOrderElementsOf(Arrays.asList("333", "999\n999\n999", "666\n666", "55555", "1", "1"));
-        cargoList.printCargoItems();
+        System.out.println(cargoList.getCargoItemNamesAsString());
     }
 
     @Test
     void createCargoListFromValidFile1() {
         CargoList cargoList = new CargoListFromFile("src/test/resources/test_valid_cargo_file_1.pkg");
-        cargoList.getCargo();
         assertThat(cargoList.getCargoItemNames())
                 .hasSize(7)
                 .containsExactlyInAnyOrderElementsOf(Arrays.asList("333","333","333", "999\n999\n999", "666\n666", "55555", "55555"));
-        cargoList.printCargoItems();
+        System.out.println(cargoList.getCargoItemNamesAsString());
     }
 
     @Test
     void createCargoListFromValidFile2() {
         CargoList cargoList = new CargoListFromFile("src/test/resources/test_valid_cargo_file_2.pkg");
-        cargoList.getCargo();
         assertThat(cargoList.getCargoItemNames())
                 .hasSize(10)
                 .containsExactlyInAnyOrderElementsOf(Arrays.asList("1","1","22", "22", "333", "333", "4444", "4444", "8888\n8888", "8888\n8888"));
-        cargoList.printCargoItems();
+        System.out.println(cargoList.getCargoItemNamesAsString());
     }
 
     @Test
     void createCargoListFromValidFile3() {
         CargoList cargoList = new CargoListFromFile("src/test/resources/test_valid_cargo_file_3.pkg");
-        cargoList.getCargo();
         assertThat(cargoList.getCargoItemNames())
                 .hasSize(16)
                 .containsExactlyInAnyOrderElementsOf(Arrays.asList(
@@ -73,7 +69,7 @@ class CargoListFromFileTest {
                         "88\n88\n88\n88",
                         "999\n999\n999"
                 ));
-        cargoList.printCargoItems();
+        System.out.println(cargoList.getCargoItemNamesAsString());
     }
 
     @Test

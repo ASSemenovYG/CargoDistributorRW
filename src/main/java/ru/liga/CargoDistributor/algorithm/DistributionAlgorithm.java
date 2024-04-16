@@ -45,8 +45,8 @@ public abstract class DistributionAlgorithm {
     /**
      * Выводит в консоль все загруженные машины
      */
-    public void printLoadedVans() {
-        loadedVans.printCargoVanList();
+    public String printLoadedVans() {
+        return loadedVans.getCargoVanListAsString();
     }
 
     public void checkIfLoadedVansCountLessThanMaxCount(int maxCount) {

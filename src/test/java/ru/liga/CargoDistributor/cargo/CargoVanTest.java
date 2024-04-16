@@ -27,7 +27,7 @@ class CargoVanTest {
                 new CargoVan.CargoVanCell()
         };
         CargoVan van = new CargoVan(cargoItem);
-        van.printVanCargo();
+        System.out.println(van.getVanCargoAsString());
 
         assertThat(van.getCargo())
                 .isNotEmpty()

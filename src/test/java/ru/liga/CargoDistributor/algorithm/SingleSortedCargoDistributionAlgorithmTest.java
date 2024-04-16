@@ -11,7 +11,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class SingleSortedCargoDistributionTest {
+class SingleSortedCargoDistributionAlgorithmTest {
     @Test
     void printLoadedVans() {
         List<CargoItem> cargoItemsToLoad = new ArrayList<>(Arrays.asList(
@@ -25,8 +25,8 @@ class SingleSortedCargoDistributionTest {
         ));
 
         CargoList cargoList = new CargoListMock(cargoItemsToLoad);
-        DistributionAlgorithm singleSortedCargoDistribution = new SingleSortedCargoDistribution(cargoList);
-        singleSortedCargoDistribution.printLoadedVans();
+        DistributionAlgorithm singleSortedCargoDistribution = new SingleSortedCargoDistributionAlgorithm(cargoList);
+        System.out.println(singleSortedCargoDistribution.printLoadedVans());
 
         List<CargoItem> loadedCargoItems = new ArrayList<>(singleSortedCargoDistribution.getAllCargoItemsFromLoadedVans());
 

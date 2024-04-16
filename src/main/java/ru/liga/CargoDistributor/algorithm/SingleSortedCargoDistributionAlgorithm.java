@@ -17,10 +17,10 @@ import java.util.List;
  * <br>и минимальной длине (сначала менее длинные)
  * <br>Посылки ставятся друг на друга, пока есть место в грузовом фургоне, если нет - переход к следующему фургону
  */
-public class SingleSortedCargoDistribution extends DistributionAlgorithm {
-    private static final Logger LOGGER = LogManager.getLogger(SingleSortedCargoDistribution.class);
+public class SingleSortedCargoDistributionAlgorithm extends DistributionAlgorithm {
+    private static final Logger LOGGER = LogManager.getLogger(SingleSortedCargoDistributionAlgorithm.class);
 
-    public SingleSortedCargoDistribution(CargoList cargoList) {
+    public SingleSortedCargoDistributionAlgorithm(CargoList cargoList) {
         super(cargoList);
     }
 

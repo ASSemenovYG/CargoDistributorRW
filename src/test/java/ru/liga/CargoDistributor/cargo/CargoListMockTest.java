@@ -42,6 +42,6 @@ class CargoListMockTest {
         assertFalse(cargoList.isEmptyOrNull());
         assertThat(cargoList.getCargo())
                 .hasSize(1);
-        cargoList.printCargoItems();
+        System.out.println(cargoList.getCargoItemNamesAsString());
     }
 }

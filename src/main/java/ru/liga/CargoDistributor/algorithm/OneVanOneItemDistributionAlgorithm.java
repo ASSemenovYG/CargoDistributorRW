@@ -11,9 +11,9 @@ import java.util.List;
  * Класс алгоритма распределения по принципу
  * 1 машина = 1 посылка
  */
-public class OneVanOneItemDistribution extends DistributionAlgorithm {
+public class OneVanOneItemDistributionAlgorithm extends DistributionAlgorithm {
 
-    public OneVanOneItemDistribution(CargoList cargoList) {
+    public OneVanOneItemDistributionAlgorithm(CargoList cargoList) {
         super(cargoList);
     }
 

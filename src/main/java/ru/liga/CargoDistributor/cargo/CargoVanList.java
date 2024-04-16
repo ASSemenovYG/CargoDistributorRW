@@ -1,6 +1,7 @@
 package ru.liga.CargoDistributor.cargo;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.util.ArrayList;
@@ -35,41 +36,32 @@ public class CargoVanList {
     }
 
     /**
-     * @return Список названий всех посылок во всех фургонах
+     * @return String со всеми посылками из всех загруженных фургонов
      */
-    public List<String> getAllCargoItemNames() {
-        return cargoVans.stream()
-                .map(CargoVan::getLoadedCargoItems)
-                .flatMap(Collection::stream)
-                .map(CargoItem::getName)
-                .toList();
-    }
-
-    public void printAllCargoItems() {
-        for (CargoItem cargoItem : cargoVans.stream()
-                .map(CargoVan::getLoadedCargoItems)
-                .flatMap(Collection::stream)
-                .toList()
-        ) {
-            System.out.println(cargoItem.getName());
-            System.out.println("\r");
+    public String getAllCargoItemNamesAsString() {
+        StringBuilder sb = new StringBuilder();
+        for (String cargoItemName : getAllCargoItemNames()) {
+            sb.append("\n").append(cargoItemName).append("\n");
         }
+        return sb.toString();
     }
 
     /**
-     * Выводит в консоль все загруженные машины
+     * @return String со всеми загруженными машинами для вывода в консоль
      */
-    public void printCargoVanList() {
+    public String getCargoVanListAsString() {
         setAllCargoByCoordinates();
+        StringBuilder sb = new StringBuilder();
         for (CargoVan cargoVan : cargoVans) {
-            cargoVan.printVanCargo();
-            System.out.println("\r");
+            sb.append("\n").append(cargoVan.getVanCargoAsString()).append("\n");
         }
+        return sb.toString();
     }
 
     /**
      * @return Лист с посылками из всех фургонов в списке
      */
+    @JsonIgnore
     public List<CargoItem> getAllCargoItemsFromVans() {
         return cargoVans.stream()
                 .map(CargoVan::getLoadedCargoItems)
@@ -86,5 +78,12 @@ public class CargoVanList {
                 }
             }
         }
+    }
+    private List<String> getAllCargoItemNames() {
+        return cargoVans.stream()
+                .map(CargoVan::getLoadedCargoItems)
+                .flatMap(Collection::stream)
+                .map(CargoItem::getName)
+                .toList();
     }
 }

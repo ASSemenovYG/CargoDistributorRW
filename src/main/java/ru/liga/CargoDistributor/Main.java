@@ -1,9 +1,9 @@
 package ru.liga.CargoDistributor;
 
 import ru.liga.CargoDistributor.algorithm.DistributionAlgorithm;
-import ru.liga.CargoDistributor.algorithm.OneVanOneItemDistribution;
-import ru.liga.CargoDistributor.algorithm.SimpleFitDistribution;
-import ru.liga.CargoDistributor.algorithm.SingleSortedCargoDistribution;
+import ru.liga.CargoDistributor.algorithm.OneVanOneItemDistributionAlgorithm;
+import ru.liga.CargoDistributor.algorithm.SimpleFitDistributionAlgorithm;
+import ru.liga.CargoDistributor.algorithm.SingleSortedCargoDistributionAlgorithm;
 import ru.liga.CargoDistributor.cargo.CargoList;
 import ru.liga.CargoDistributor.cargo.CargoListFromFile;
 import ru.liga.CargoDistributor.cargo.CargoVanList;
@@ -35,7 +35,8 @@ public class Main {
             return;
         }
         System.out.println("В файле найдены следующие посылки:");
-        cargoList.printCargoItems();
+        System.out.println(cargoList.getCargoItemNamesAsString());
+
         System.out.println("Пожалуйста, введите число, чтобы выбрать желаемый алгоритм распределения:");
         System.out.println("1 : OneVanOneItemDistribution");
         System.out.println("2 : SingleSortedCargoDistribution");
@@ -45,14 +46,15 @@ public class Main {
         int maxCargoVanCount = console.nextInt();
 
         DistributionAlgorithm algorithm = switch (algorithmCode) {
-            case 1 -> new OneVanOneItemDistribution(cargoList);
-            case 2 -> new SingleSortedCargoDistribution(cargoList);
-            default -> new SimpleFitDistribution(cargoList);
+            case 1 -> new OneVanOneItemDistributionAlgorithm(cargoList);
+            case 2 -> new SingleSortedCargoDistributionAlgorithm(cargoList);
+            default -> new SimpleFitDistributionAlgorithm(cargoList);
         };
 
         algorithm.checkIfLoadedVansCountLessThanMaxCount(maxCargoVanCount);
         System.out.println("Результат распределения посылок по грузовым фургонам:");
-        algorithm.printLoadedVans();
+        System.out.println(algorithm.printLoadedVans());
+
         CargoVanToJsonConverter converter = new CargoVanToJsonConverter();
         String jsonFileName = converter.writeJsonToFile(converter.convertLoadedVansToJson(algorithm.getLoadedVansAsObject()));
         System.out.println("Результаты распределения выгружены в файл:");
@@ -67,9 +69,9 @@ public class Main {
         CargoVanList cargoVanList = converter.getLoadedVansFromJsonFile(filePath);
         System.out.println("Количество обнаруженных в файле фургонов: " + cargoVanList.getCargoVans().size());
         System.out.println("Распределение посылок:");
-        cargoVanList.printCargoVanList();
+        System.out.println(cargoVanList.getCargoVanListAsString());
         System.out.println("Общий список посылок из файла:");
-        cargoVanList.printAllCargoItems();
+        System.out.println(cargoVanList.getAllCargoItemNamesAsString());
         System.out.println("Общее количество посылок из файла: " + cargoVanList.getAllCargoItemsFromVans().size());
     }
 }

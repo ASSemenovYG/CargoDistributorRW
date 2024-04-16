@@ -27,7 +27,6 @@ public class CargoListFromFile implements CargoList {
         this.filePath = filePath;
         this.linesWithCargoItems = null;
         this.cargo = getCargoFromFile();
-
     }
 
     /**
@@ -37,7 +36,6 @@ public class CargoListFromFile implements CargoList {
         this.filePath = null;
         this.linesWithCargoItems = linesWithCargoItems;
         this.cargo = getCargoFromFile();
-
     }
 
     private List<CargoItem> getCargoFromFile() {
@@ -111,10 +109,11 @@ public class CargoListFromFile implements CargoList {
                 .toList();
     }
 
-    public void printCargoItems() {
+    public String getCargoItemNamesAsString() {
+        StringBuilder sb = new StringBuilder();
         for (CargoItem cargoItem : cargo) {
-            System.out.println(cargoItem.getName());
-            System.out.println("\r");
+            sb.append("\n").append(cargoItem.getName()).append("\n");
         }
+        return sb.toString();
     }
 }

@@ -16,7 +16,10 @@ public interface CargoList {
      */
     List<String> getCargoItemNames();
 
-    void printCargoItems();
+    /**
+     * @return String со всеми посылками
+     */
+    String getCargoItemNamesAsString();
 
     /**
      * @return True, если список посылок пустой или null

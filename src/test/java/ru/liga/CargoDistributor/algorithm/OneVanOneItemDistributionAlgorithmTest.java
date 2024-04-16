@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class OneVanOneItemDistributionTest {
+class OneVanOneItemDistributionAlgorithmTest {
     @Test
     void printLoadedVans() {
         CargoList cargoList = new CargoListMock(Arrays.asList(
@@ -20,8 +20,8 @@ class OneVanOneItemDistributionTest {
                 new CargoItem(4, 1, 4),
                 new CargoItem(4, 2, 2)
         ));
-        DistributionAlgorithm oneVanOneItem = new OneVanOneItemDistribution(cargoList);
-        oneVanOneItem.printLoadedVans();
+        DistributionAlgorithm oneVanOneItem = new OneVanOneItemDistributionAlgorithm(cargoList);
+        System.out.println(oneVanOneItem.printLoadedVans());
 
         assertThat(oneVanOneItem.getLoadedVans())
                 .hasSize(6);

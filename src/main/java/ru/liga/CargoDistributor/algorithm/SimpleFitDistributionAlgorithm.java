@@ -26,13 +26,13 @@ import java.util.List;
  * <br>
  * Из посылок, не вылезающих за верхнюю границу фургона собирается загруженный фургон, загруженные в фургон посылки исключаются из списка нераспределенных
  */
-public class SimpleFitDistribution extends DistributionAlgorithm {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleFitDistribution.class);
+public class SimpleFitDistributionAlgorithm extends DistributionAlgorithm {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleFitDistributionAlgorithm.class);
 
     /**
      * @param cargoList Список посылок для распределения
      */
-    public SimpleFitDistribution(CargoList cargoList) {
+    public SimpleFitDistributionAlgorithm(CargoList cargoList) {
         super(cargoList);
     }
 
