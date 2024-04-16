@@ -3,6 +3,9 @@ package ru.liga.CargoDistributor.cargo;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import ru.liga.CargoDistributor.algorithm.DistributionAlgorithm;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,6 +15,7 @@ import java.util.List;
  * Оберточный класс для сериализации/десериализации списка грузовых фургонов
  */
 @JsonAutoDetect
+@Component
 public class CargoVanList {
     @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.WRAPPER_OBJECT)
     private final List<CargoVan> cargoVans;
@@ -19,6 +23,7 @@ public class CargoVanList {
     /**
      * Конструктор для десериализации
      */
+    @Autowired
     public CargoVanList() {
         this.cargoVans = new ArrayList<>();
     }
@@ -33,6 +38,12 @@ public class CargoVanList {
 
     public boolean isListSizeLessOrEqualThanMaxSize(int maxSize) {
         return cargoVans.size() <= maxSize;
+    }
+
+    public void distributeCargo(DistributionAlgorithm algorithm, CargoList cargoList) {
+        cargoVans.clear();
+        cargoVans.addAll(algorithm.distributeCargo(cargoList));
+        fillCoordinatesForLoadedCargoItems();
     }
 
     /**
@@ -79,6 +90,15 @@ public class CargoVanList {
             }
         }
     }
+
+    private void fillCoordinatesForLoadedCargoItems() {
+        for (CargoVan cargoVan : cargoVans) {
+            for (CargoItem cargoItem : cargoVan.getLoadedCargoItems()) {
+                cargoItem.fillCoordinatesByCargoVan(cargoVan);
+            }
+        }
+    }
+
     private List<String> getAllCargoItemNames() {
         return cargoVans.stream()
                 .map(CargoVan::getLoadedCargoItems)

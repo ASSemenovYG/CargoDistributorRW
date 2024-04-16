@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import ru.liga.CargoDistributor.cargo.CargoItem;
 import ru.liga.CargoDistributor.cargo.CargoList;
 import ru.liga.CargoDistributor.cargo.CargoListMock;
+import ru.liga.CargoDistributor.cargo.CargoVanList;
 
 import java.util.Arrays;
 
@@ -20,10 +21,12 @@ class OneVanOneItemDistributionAlgorithmTest {
                 new CargoItem(4, 1, 4),
                 new CargoItem(4, 2, 2)
         ));
-        DistributionAlgorithm oneVanOneItem = new OneVanOneItemDistributionAlgorithm(cargoList);
-        System.out.println(oneVanOneItem.printLoadedVans());
+        DistributionAlgorithm oneVanOneItem = new OneVanOneItemDistributionAlgorithm();
+        CargoVanList cargoVanList = new CargoVanList();
+        cargoVanList.distributeCargo(oneVanOneItem, cargoList);
+        System.out.println(cargoVanList.getCargoVanListAsString());
 
-        assertThat(oneVanOneItem.getLoadedVans())
+        assertThat(cargoVanList.getCargoVans())
                 .hasSize(6);
     }
 }

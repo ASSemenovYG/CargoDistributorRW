@@ -1,10 +1,7 @@
 package ru.liga.CargoDistributor.algorithm;
 
 import org.junit.jupiter.api.Test;
-import ru.liga.CargoDistributor.cargo.CargoItem;
-import ru.liga.CargoDistributor.cargo.CargoList;
-import ru.liga.CargoDistributor.cargo.CargoListFromFile;
-import ru.liga.CargoDistributor.cargo.CargoListMock;
+import ru.liga.CargoDistributor.cargo.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,13 +25,15 @@ class SimpleFitDistributionAlgorithmTest {
 
         CargoList cargoList = new CargoListMock(cargoItemsToLoad);
 
-        DistributionAlgorithm simpleFitDistribution = new SimpleFitDistributionAlgorithm(cargoList);
-        System.out.println(simpleFitDistribution.printLoadedVans());
+        DistributionAlgorithm simpleFitDistribution = new SimpleFitDistributionAlgorithm();
+        CargoVanList cargoVanList = new CargoVanList();
+        cargoVanList.distributeCargo(simpleFitDistribution, cargoList);
+        System.out.println(cargoVanList.getCargoVanListAsString());
 
-        assertThat(simpleFitDistribution.getLoadedVans().size())
+        assertThat(cargoVanList.getCargoVans().size())
                 .isEqualTo(2);
 
-        assertThat(simpleFitDistribution.getAllCargoItemsFromLoadedVans())
+        assertThat(cargoVanList.getAllCargoItemsFromVans())
                 .containsExactlyInAnyOrderElementsOf(cargoItemsToLoad);
     }
 
@@ -42,13 +41,15 @@ class SimpleFitDistributionAlgorithmTest {
     void distributeCargo_validCargoFile_oneVan() {
         CargoList cargoList = new CargoListFromFile("src/test/resources/test_valid_cargo_file.pkg");
 
-        DistributionAlgorithm simpleFitDistribution = new SimpleFitDistributionAlgorithm(cargoList);
-        System.out.println(simpleFitDistribution.printLoadedVans());
+        DistributionAlgorithm simpleFitDistribution = new SimpleFitDistributionAlgorithm();
+        CargoVanList cargoVanList = new CargoVanList();
+        cargoVanList.distributeCargo(simpleFitDistribution, cargoList);
+        System.out.println(cargoVanList.getCargoVanListAsString());
 
-        assertThat(simpleFitDistribution.getLoadedVans().size())
+        assertThat(cargoVanList.getCargoVans().size())
                 .isEqualTo(1);
 
-        assertThat(simpleFitDistribution.getAllCargoItemsFromLoadedVans())
+        assertThat(cargoVanList.getAllCargoItemsFromVans())
                 .containsExactlyInAnyOrderElementsOf(cargoList.getCargo());
     }
 
@@ -56,13 +57,15 @@ class SimpleFitDistributionAlgorithmTest {
     void distributeCargo_validCargoFile1_twoVans() {
         CargoList cargoList = new CargoListFromFile("src/test/resources/test_valid_cargo_file_1.pkg");
 
-        DistributionAlgorithm simpleFitDistribution = new SimpleFitDistributionAlgorithm(cargoList);
-        System.out.println(simpleFitDistribution.printLoadedVans());
+        DistributionAlgorithm simpleFitDistribution = new SimpleFitDistributionAlgorithm();
+        CargoVanList cargoVanList = new CargoVanList();
+        cargoVanList.distributeCargo(simpleFitDistribution, cargoList);
+        System.out.println(cargoVanList.getCargoVanListAsString());
 
-        assertThat(simpleFitDistribution.getLoadedVans().size())
+        assertThat(cargoVanList.getCargoVans().size())
                 .isEqualTo(2);
 
-        assertThat(simpleFitDistribution.getAllCargoItemsFromLoadedVans())
+        assertThat(cargoVanList.getAllCargoItemsFromVans())
                 .containsExactlyInAnyOrderElementsOf(cargoList.getCargo());
     }
 
@@ -70,13 +73,15 @@ class SimpleFitDistributionAlgorithmTest {
     void distributeCargo_validCargoFile2_twoVans() {
         CargoList cargoList = new CargoListFromFile("src/test/resources/test_valid_cargo_file_2.pkg");
 
-        DistributionAlgorithm simpleFitDistribution = new SimpleFitDistributionAlgorithm(cargoList);
-        System.out.println(simpleFitDistribution.printLoadedVans());
+        DistributionAlgorithm simpleFitDistribution = new SimpleFitDistributionAlgorithm();
+        CargoVanList cargoVanList = new CargoVanList();
+        cargoVanList.distributeCargo(simpleFitDistribution, cargoList);
+        System.out.println(cargoVanList.getCargoVanListAsString());
 
-        assertThat(simpleFitDistribution.getLoadedVans().size())
+        assertThat(cargoVanList.getCargoVans().size())
                 .isEqualTo(2);
 
-        assertThat(simpleFitDistribution.getAllCargoItemsFromLoadedVans())
+        assertThat(cargoVanList.getAllCargoItemsFromVans())
                 .containsExactlyInAnyOrderElementsOf(cargoList.getCargo());
     }
 
@@ -84,13 +89,15 @@ class SimpleFitDistributionAlgorithmTest {
     void distributeCargo_validCargoFile3_threeVans() {
         CargoList cargoList = new CargoListFromFile("src/test/resources/test_valid_cargo_file_3.pkg");
 
-        DistributionAlgorithm simpleFitDistribution = new SimpleFitDistributionAlgorithm(cargoList);
-        System.out.println(simpleFitDistribution.printLoadedVans());
+        DistributionAlgorithm simpleFitDistribution = new SimpleFitDistributionAlgorithm();
+        CargoVanList cargoVanList = new CargoVanList();
+        cargoVanList.distributeCargo(simpleFitDistribution, cargoList);
+        System.out.println(cargoVanList.getCargoVanListAsString());
 
-        assertThat(simpleFitDistribution.getLoadedVans().size())
+        assertThat(cargoVanList.getCargoVans().size())
                 .isEqualTo(3);
 
-        assertThat(simpleFitDistribution.getAllCargoItemsFromLoadedVans())
+        assertThat(cargoVanList.getAllCargoItemsFromVans())
                 .containsExactlyInAnyOrderElementsOf(cargoList.getCargo());
     }
 }

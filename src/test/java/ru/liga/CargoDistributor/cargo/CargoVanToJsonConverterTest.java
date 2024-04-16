@@ -49,8 +49,11 @@ class CargoVanToJsonConverterTest {
 
     @Test
     void writeJsonToFile() {
-        DistributionAlgorithm singleSortedCargoDistribution = new SingleSortedCargoDistributionAlgorithm(cargoList);
-        String resultJson = converter.convertLoadedVansToJson(singleSortedCargoDistribution.getLoadedVansAsObject());
+        DistributionAlgorithm singleSortedCargoDistribution = new SingleSortedCargoDistributionAlgorithm();
+        CargoVanList cargoVanList = new CargoVanList();
+        cargoVanList.distributeCargo(singleSortedCargoDistribution, cargoList);
+
+        String resultJson = converter.convertLoadedVansToJson(cargoVanList);
         File jsonVansDirectory = new File(CargoVanToJsonConverter.TEST_DIRECTORY_TO_WRITE_JSON_FILE);
         int numberOfFilesBeforeWriting = Objects.requireNonNull(jsonVansDirectory.list()).length;
         converter.writeJsonToFile(resultJson);
@@ -61,8 +64,11 @@ class CargoVanToJsonConverterTest {
 
     @Test
     void convertLoadedVansToJson() {
-        DistributionAlgorithm singleSortedCargoDistribution = new SingleSortedCargoDistributionAlgorithm(cargoList);
-        String resultJson = converter.convertLoadedVansToJson(singleSortedCargoDistribution.getLoadedVansAsObject());
+        DistributionAlgorithm singleSortedCargoDistribution = new SingleSortedCargoDistributionAlgorithm();
+        CargoVanList cargoVanList = new CargoVanList();
+        cargoVanList.distributeCargo(singleSortedCargoDistribution, cargoList);
+
+        String resultJson = converter.convertLoadedVansToJson(cargoVanList);
         System.out.println(resultJson);
 
         assertThat(resultJson)

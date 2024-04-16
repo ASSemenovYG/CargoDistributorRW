@@ -8,6 +8,7 @@ import com.googlecode.caparf.framework.spp2d.Input;
 import com.googlecode.caparf.framework.spp2d.Output;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import ru.liga.CargoDistributor.cargo.CargoItem;
 import ru.liga.CargoDistributor.cargo.CargoList;
 import ru.liga.CargoDistributor.cargo.CargoVan;
@@ -26,15 +27,9 @@ import java.util.List;
  * <br>
  * Из посылок, не вылезающих за верхнюю границу фургона собирается загруженный фургон, загруженные в фургон посылки исключаются из списка нераспределенных
  */
+@Service
 public class SimpleFitDistributionAlgorithm extends DistributionAlgorithm {
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleFitDistributionAlgorithm.class);
-
-    /**
-     * @param cargoList Список посылок для распределения
-     */
-    public SimpleFitDistributionAlgorithm(CargoList cargoList) {
-        super(cargoList);
-    }
 
     @Override
     public List<CargoVan> distributeCargo(CargoList cargoList) {

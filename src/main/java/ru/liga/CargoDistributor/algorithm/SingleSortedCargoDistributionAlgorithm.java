@@ -2,6 +2,7 @@ package ru.liga.CargoDistributor.algorithm;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
 import ru.liga.CargoDistributor.cargo.CargoItem;
 import ru.liga.CargoDistributor.cargo.CargoList;
 import ru.liga.CargoDistributor.cargo.CargoVan;
@@ -17,12 +18,9 @@ import java.util.List;
  * <br>и минимальной длине (сначала менее длинные)
  * <br>Посылки ставятся друг на друга, пока есть место в грузовом фургоне, если нет - переход к следующему фургону
  */
+@Service
 public class SingleSortedCargoDistributionAlgorithm extends DistributionAlgorithm {
     private static final Logger LOGGER = LogManager.getLogger(SingleSortedCargoDistributionAlgorithm.class);
-
-    public SingleSortedCargoDistributionAlgorithm(CargoList cargoList) {
-        super(cargoList);
-    }
 
     @Override
     public List<CargoVan> distributeCargo(CargoList cargoList) {

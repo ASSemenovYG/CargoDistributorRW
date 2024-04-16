@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -11,6 +12,7 @@ import java.text.SimpleDateFormat;
 /**
  * Класс содержащий методы сериализации/десериализации списка грузовых фургонов и записи/вычитки их из файла
  */
+@Service
 public class CargoVanToJsonConverter {
     private static final Logger LOGGER = LoggerFactory.getLogger(CargoVanToJsonConverter.class);
     public static final String DIRECTORY_TO_WRITE_JSON_FILE = "src/main/resources/json_vans";

@@ -37,9 +37,11 @@ class CargoVanListTest {
     void getAllCargoItemsFromVans() {
         CargoVanList cargoVanList = converter.getLoadedVansFromJsonFile("src/test/resources/test_loaded_vans.json");
 
-        DistributionAlgorithm singleSortedCargoDistribution = new SingleSortedCargoDistributionAlgorithm(cargoList);
+        DistributionAlgorithm singleSortedCargoDistribution = new SingleSortedCargoDistributionAlgorithm();
+        CargoVanList cargoVanListSorted = new CargoVanList();
+        cargoVanListSorted.distributeCargo(singleSortedCargoDistribution, cargoList);
 
         assertThat(cargoVanList.getAllCargoItemsFromVans())
-                .containsExactlyInAnyOrderElementsOf(singleSortedCargoDistribution.getAllCargoItemsFromLoadedVans());
+                .containsExactlyInAnyOrderElementsOf(cargoVanListSorted.getAllCargoItemsFromVans());
     }
 }
