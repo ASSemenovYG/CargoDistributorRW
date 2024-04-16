@@ -1,7 +1,7 @@
 package ru.liga.CargoDistributor.cargo;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -9,15 +9,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.MatchResult;
-import java.util.regex.Pattern;
 
 /**
  * Класс, реализующий интерфейс {@link CargoList},
  * предоставляющий возможность вычитки списка посылок из файла
  */
 public class CargoListFromFile implements CargoList {
-    private static final Logger LOGGER = LogManager.getLogger(CargoListFromFile.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CargoListFromFile.class);
     private final List<CargoItem> cargo;
     private final String filePath;
     private final List<LinkedList<String>> linesWithCargoItems;
@@ -94,19 +92,6 @@ public class CargoListFromFile implements CargoList {
         }
 
         return fileLines;
-    }
-
-    @Deprecated
-    private List<CargoItem> parseCargoFileLine(String line) {
-        if (line == null || line.isEmpty()) {
-            return null;
-        }
-        return Pattern.compile("\\d+")
-                .matcher(line)
-                .results()
-                .map(MatchResult::group)
-                .map(CargoItem::new)
-                .toList();
     }
 
     public List<CargoItem> getCargo() {

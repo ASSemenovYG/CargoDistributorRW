@@ -1,10 +1,7 @@
 package ru.liga.CargoDistributor.cargo;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 
 class CargoItemTest {
@@ -88,37 +85,5 @@ class CargoItemTest {
 
         cargoItem = new CargoItem(9,3,3);
         System.out.println(cargoItem.getName()+"\n");
-    }
-
-    @Test
-    @Disabled("Deprecated constructor")
-    @Deprecated
-    void createCargoItemWithEmptyName() {
-        Assertions.assertThrows(IllegalArgumentException.class, () ->
-                new CargoItem(""));
-    }
-
-    @Test
-    @Disabled("Deprecated constructor")
-    @Deprecated
-    void createCargoItemWithNameLengthGreaterThanSix() {
-        Assertions.assertThrows(IllegalArgumentException.class, () ->
-                new CargoItem("999999999999999"));
-    }
-
-    @Test
-    @Disabled("Deprecated constructor")
-    @Deprecated
-    void createCargoItemWithNameMaxLength() {
-        CargoItem cargoItem = new CargoItem("666666");
-        assertThat(cargoItem.getLength()).isEqualTo(6);
-    }
-
-    @Test
-    @Disabled("Deprecated constructor")
-    @Deprecated
-    void createCargoItemWithNameMinLength() {
-        CargoItem cargoItem = new CargoItem("1");
-        assertThat(cargoItem.getLength()).isEqualTo(1);
     }
 }

@@ -2,8 +2,8 @@ package ru.liga.CargoDistributor.cargo;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
  * Класс содержащий методы сериализации/десериализации списка грузовых фургонов и записи/вычитки их из файла
  */
 public class CargoVanToJsonConverter {
-    private static final Logger LOGGER = LogManager.getLogger(CargoVanToJsonConverter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CargoVanToJsonConverter.class);
     public static final String DIRECTORY_TO_WRITE_JSON_FILE = "src/main/resources/json_vans";
     public static final String TEST_DIRECTORY_TO_WRITE_JSON_FILE = "src/test/resources/json_vans_test";
     public static final String JSON_FILE_EXTENSION = ".json";

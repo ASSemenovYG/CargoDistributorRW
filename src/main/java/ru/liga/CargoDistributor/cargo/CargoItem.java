@@ -1,8 +1,8 @@
 package ru.liga.CargoDistributor.cargo;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
@@ -11,9 +11,7 @@ import java.util.*;
  */
 @JsonAutoDetect
 public class CargoItem {
-    private static final Logger LOGGER = LogManager.getLogger(CargoItem.class);
-    @Deprecated
-    private static final int MAX_LENGTH = 6;
+    private static final Logger LOGGER = LoggerFactory.getLogger(CargoItem.class);
     private static final int MAX_SIZE = 9;
     private final int length;
     private final int width;
@@ -109,21 +107,6 @@ public class CargoItem {
         this.length = unparsedCargoItem.size();
         this.width = unparsedCargoItem.peekFirst().length();
         this.size = this.length * this.width;
-    }
-
-    @Deprecated
-    public CargoItem(String name) {
-        if (name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("Cargo item name cannot be null or empty!");
-        }
-        if (name.length() > MAX_LENGTH) {
-            throw new IllegalArgumentException("Max length of cargo item cannot be greater than " + MAX_LENGTH + "! Provided length: " +
-                    name.length() + "; Cargo name : " + name);
-        }
-        this.name = name;
-        this.length = name.length();
-        this.width = 0;
-        this.size = 0;
     }
 
     public String getName() {

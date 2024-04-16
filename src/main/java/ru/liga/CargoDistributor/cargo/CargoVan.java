@@ -3,8 +3,8 @@ package ru.liga.CargoDistributor.cargo;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,21 +15,17 @@ import java.util.Objects;
  */
 @JsonAutoDetect
 public class CargoVan {
-    private static final Logger LOGGER = LogManager.getLogger(CargoVan.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CargoVan.class);
     public static final int VAN_LENGTH = 6;
     public static final int VAN_WIDTH = 6;
     private static final String VAN_BORDER_SYMBOL = "+";
     private static final String EMPTY_CARGO_CELL_SYMBOL = " ";
-    @Deprecated
-    private static final String VAN_EMPTY_LINE = VAN_BORDER_SYMBOL + (EMPTY_CARGO_CELL_SYMBOL.repeat(VAN_WIDTH)) + VAN_BORDER_SYMBOL;
     private static final String VAN_BACK_WALL = VAN_BORDER_SYMBOL.repeat(VAN_WIDTH + 2);
 
     /**
      * Класс погрузочной единицы (клетки) в кузове грузовой машины
      */
     public static class CargoVanCell {
-        @Deprecated
-        private static final int MAX_LENGTH_CELL = 1;
         private String cellItemTitle;
         private CargoItem occupiedBy;
 
@@ -40,17 +36,6 @@ public class CargoVan {
         public CargoVanCell(CargoItem cargoItem) {
             this.occupiedBy = cargoItem;
             this.cellItemTitle = (cargoItem == null) ? "" : String.valueOf(cargoItem.getSize());
-        }
-
-        /**
-         * @deprecated Более не используется в связи с тем, что теперь клетка хранит ссылку на посылку, которая занимает клетку
-         */
-        @Deprecated
-        public CargoVanCell(String cellItemTitle) {
-            if (cellItemTitle != null && cellItemTitle.length() > MAX_LENGTH_CELL) {
-                throw new IllegalArgumentException("Cell item length cannot be greater than: " + MAX_LENGTH_CELL + " ; Provided cell item: " + cellItemTitle);
-            }
-            this.cellItemTitle = cellItemTitle;
         }
 
         public CargoItem getOccupiedBy() {
@@ -70,17 +55,6 @@ public class CargoVan {
             return cellItemTitle;
         }
 
-        /**
-         * @deprecated Вместо него использовать метод isEmpty
-         */
-        @Deprecated
-        public boolean isNullOrEmpty() {
-            if (this.cellItemTitle == null) {
-                return true;
-            }
-            return cellItemTitle.isEmpty();
-        }
-
         @Override
         public boolean equals(Object o) {
             if (getClass() != o.getClass()) {
@@ -90,61 +64,6 @@ public class CargoVan {
             return Objects.equals(this.cellItemTitle, other.getCellItemTitle()) && Objects.equals(getOccupiedBy(), other.getOccupiedBy());
         }
     }
-
-    /**
-     * Класс погрузочной линии (паллета) в кузове грузовой машины
-     *
-     * @deprecated Теперь вместо листа погрузочных линий в {@link CargoVan} используется двумерный массив cargo
-     */
-    @Deprecated
-    public static class CargoVanLine {
-        private final List<CargoVanCell> line;
-
-        public CargoVanLine() {
-            this.line = new ArrayList<>(VAN_WIDTH);
-        }
-
-        public CargoVanLine(CargoItem cargoItem) {
-            this.line = new ArrayList<>(VAN_WIDTH);
-            addCargoItem(cargoItem, 0);
-        }
-
-        /**
-         * Добавляет посылку целиком на паллет (погрузочную линию фургона), начиная с указанного индекса
-         *
-         * @param cargoItem Посылка
-         * @param index     Индекс на погрузочной линии
-         */
-        public void addCargoItem(CargoItem cargoItem, int index) {
-            for (int i = 0; i < cargoItem.getLength(); i++) {
-                this.line.add(index, new CargoVanCell(cargoItem.getName().substring(i, i + 1)));
-                index++;
-            }
-        }
-
-        /**
-         * Выводит паллет (погрузочную линию) в консоль в виде:
-         * +666666+
-         */
-        void printLine() {
-            StringBuilder sb = new StringBuilder();
-            for (CargoVanCell cargoVanCell : line) {
-                sb.append((cargoVanCell.isNullOrEmpty()) ? EMPTY_CARGO_CELL_SYMBOL : cargoVanCell.getCellItemTitle());
-            }
-            if (sb.length() < VAN_WIDTH) {
-                sb.append(EMPTY_CARGO_CELL_SYMBOL.repeat(VAN_WIDTH - sb.length()));
-            }
-            sb.insert(0, VAN_BORDER_SYMBOL);
-            sb.insert(sb.length(), VAN_BORDER_SYMBOL);
-            System.out.println(sb);
-        }
-    }
-
-    /**
-     * @deprecated Более не используется в связи с отказом от {@link CargoVanLine}
-     */
-    @Deprecated
-    private final List<CargoVanLine> lines = new ArrayList<>(0);
 
     @JsonIgnore
     private final CargoVanCell[][] cargo = new CargoVanCell[VAN_LENGTH][VAN_WIDTH];
@@ -253,41 +172,6 @@ public class CargoVan {
             for (int j = 0; j < VAN_WIDTH; j++) {
                 cargo[i][j] = new CargoVanCell();
             }
-        }
-    }
-
-    /**
-     * Добавляет паллет (погрузочную линию) в грузовой фургон
-     *
-     * @param line Паллет (погрузочная линия)
-     * @deprecated Более не используется в связи с отказом от {@link CargoVanLine}
-     */
-    @Deprecated
-    public void addLine(CargoVanLine line) {
-        this.lines.add(line);
-    }
-
-    /**
-     * @deprecated Заменен на метод printVanCargo в связи с отказом от {@link CargoVanLine}
-     */
-    @Deprecated
-    public void printVanLines() {
-        if (lines.size() < VAN_LENGTH) {
-            this.printEmptyLines(VAN_LENGTH - lines.size());
-        }
-        for (int i = lines.size() - 1; i >= 0; i--) {
-            lines.get(i).printLine();
-        }
-        System.out.println(VAN_BACK_WALL);
-    }
-
-    /**
-     * @deprecated Более не используется в связи с переходом на printVanCargo и отказе от {@link CargoVanLine}
-     */
-    @Deprecated
-    private void printEmptyLines(int count) {
-        for (int i = 0; i < count; i++) {
-            System.out.println(VAN_EMPTY_LINE);
         }
     }
 }
