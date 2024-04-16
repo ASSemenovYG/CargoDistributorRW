@@ -13,7 +13,7 @@ import ru.liga.CargoDistributor.cargo.CargoVanList;
 import ru.liga.CargoDistributor.cargo.CargoVanToJsonConverter;
 
 @ShellComponent
-public class Controller {
+public class CargoDistributorController {
     @ShellMethod("Distribute cargo from file")
     public void distribute(
             @ShellOption(help = "Путь к файлу с посылками") String filePath,
