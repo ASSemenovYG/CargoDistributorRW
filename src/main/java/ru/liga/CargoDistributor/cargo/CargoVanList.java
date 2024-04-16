@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Оберточный класс для сериализации/десериализации списка грузовых фургонов
+ * Класс списка грузовых фургонов
  */
 @JsonAutoDetect
 @Component
@@ -40,6 +40,12 @@ public class CargoVanList {
         return cargoVans.size() <= maxSize;
     }
 
+    /**
+     * Распределяет посылки из списка по фургонам
+     *
+     * @param algorithm {@link DistributionAlgorithm} алгоритм распределения
+     * @param cargoList {@link CargoList} список посылок
+     */
     public void distributeCargo(DistributionAlgorithm algorithm, CargoList cargoList) {
         cargoVans.clear();
         cargoVans.addAll(algorithm.distributeCargo(cargoList));
