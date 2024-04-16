@@ -65,7 +65,7 @@
             <artifactId>caparf</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/caparf/caparf.jar</systemPath>
+            <systemPath>${project.basedir}/libs/caparf.jar</systemPath>
         </dependency>
         <!--Spring Boot        -->
         <dependency>
