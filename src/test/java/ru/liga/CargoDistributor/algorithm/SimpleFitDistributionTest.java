@@ -40,7 +40,7 @@ class SimpleFitDistributionTest {
 
     @Test
     void distributeCargo_validCargoFile_oneVan() {
-        CargoList cargoList = new CargoListFromFile("src/test/resources/testValidCargoFile");
+        CargoList cargoList = new CargoListFromFile("src/test/resources/test_valid_cargo_file.pkg");
 
         DistributionAlgorithm simpleFitDistribution = new SimpleFitDistribution(cargoList);
         simpleFitDistribution.printLoadedVans();
@@ -54,7 +54,7 @@ class SimpleFitDistributionTest {
 
     @Test
     void distributeCargo_validCargoFile1_twoVans() {
-        CargoList cargoList = new CargoListFromFile("src/test/resources/testValidCargoFile1");
+        CargoList cargoList = new CargoListFromFile("src/test/resources/test_valid_cargo_file_1.pkg");
 
         DistributionAlgorithm simpleFitDistribution = new SimpleFitDistribution(cargoList);
         simpleFitDistribution.printLoadedVans();
@@ -68,7 +68,7 @@ class SimpleFitDistributionTest {
 
     @Test
     void distributeCargo_validCargoFile2_twoVans() {
-        CargoList cargoList = new CargoListFromFile("src/test/resources/testValidCargoFile2");
+        CargoList cargoList = new CargoListFromFile("src/test/resources/test_valid_cargo_file_2.pkg");
 
         DistributionAlgorithm simpleFitDistribution = new SimpleFitDistribution(cargoList);
         simpleFitDistribution.printLoadedVans();
@@ -82,7 +82,7 @@ class SimpleFitDistributionTest {
 
     @Test
     void distributeCargo_validCargoFile3_threeVans() {
-        CargoList cargoList = new CargoListFromFile("src/test/resources/testValidCargoFile3");
+        CargoList cargoList = new CargoListFromFile("src/test/resources/test_valid_cargo_file_3.pkg");
 
         DistributionAlgorithm simpleFitDistribution = new SimpleFitDistribution(cargoList);
         simpleFitDistribution.printLoadedVans();

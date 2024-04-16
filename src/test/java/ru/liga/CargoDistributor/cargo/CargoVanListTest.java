@@ -27,7 +27,7 @@ class CargoVanListTest {
 
     @Test
     void printCargoVanList() {
-        CargoVanList cargoVanList = converter.getLoadedVansFromJsonFile("src/test/resources/testLoadedVans.json");
+        CargoVanList cargoVanList = converter.getLoadedVansFromJsonFile("src/test/resources/test_loaded_vans.json");
         cargoVanList.printCargoVanList();
         assertThat(cargoVanList.getCargoVans())
                 .hasSize(3);
@@ -35,7 +35,7 @@ class CargoVanListTest {
 
     @Test
     void getAllCargoItemsFromVans() {
-        CargoVanList cargoVanList = converter.getLoadedVansFromJsonFile("src/test/resources/testLoadedVans.json");
+        CargoVanList cargoVanList = converter.getLoadedVansFromJsonFile("src/test/resources/test_loaded_vans.json");
 
         DistributionAlgorithm singleSortedCargoDistribution = new SingleSortedCargoDistribution(cargoList);
 

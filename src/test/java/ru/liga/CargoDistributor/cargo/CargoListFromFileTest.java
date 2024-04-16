@@ -21,7 +21,7 @@ class CargoListFromFileTest {
 
     @Test
     void createCargoListFromValidFile() {
-        CargoList cargoList = new CargoListFromFile("src/test/resources/testValidCargoFile");
+        CargoList cargoList = new CargoListFromFile("src/test/resources/test_valid_cargo_file.pkg");
         cargoList.getCargo();
         assertThat(cargoList.getCargoItemNames())
                 .hasSize(6)
@@ -31,7 +31,7 @@ class CargoListFromFileTest {
 
     @Test
     void createCargoListFromValidFile1() {
-        CargoList cargoList = new CargoListFromFile("src/test/resources/testValidCargoFile1");
+        CargoList cargoList = new CargoListFromFile("src/test/resources/test_valid_cargo_file_1.pkg");
         cargoList.getCargo();
         assertThat(cargoList.getCargoItemNames())
                 .hasSize(7)
@@ -41,7 +41,7 @@ class CargoListFromFileTest {
 
     @Test
     void createCargoListFromValidFile2() {
-        CargoList cargoList = new CargoListFromFile("src/test/resources/testValidCargoFile2");
+        CargoList cargoList = new CargoListFromFile("src/test/resources/test_valid_cargo_file_2.pkg");
         cargoList.getCargo();
         assertThat(cargoList.getCargoItemNames())
                 .hasSize(10)
@@ -51,7 +51,7 @@ class CargoListFromFileTest {
 
     @Test
     void createCargoListFromValidFile3() {
-        CargoList cargoList = new CargoListFromFile("src/test/resources/testValidCargoFile3");
+        CargoList cargoList = new CargoListFromFile("src/test/resources/test_valid_cargo_file_3.pkg");
         cargoList.getCargo();
         assertThat(cargoList.getCargoItemNames())
                 .hasSize(16)
@@ -78,7 +78,7 @@ class CargoListFromFileTest {
 
     @Test
     void createCargoListFromFileWithInvalidItem() {
-        Throwable thrown = catchThrowable(() -> new CargoListFromFile("src/test/resources/testCargoFileWithInvalidItem"));
+        Throwable thrown = catchThrowable(() -> new CargoListFromFile("src/test/resources/test_cargo_file_with_invalid_item.pkg"));
         assertThat(thrown)
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Во входных данных обнаружена невалидная посылка")
