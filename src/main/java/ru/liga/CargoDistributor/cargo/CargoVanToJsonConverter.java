@@ -32,8 +32,7 @@ public class CargoVanToJsonConverter {
             LOGGER.trace("Сохранение json в файл: " + jsonFileName + "\nJSON:\n" + json);
             writer.write(json);
         } catch (IOException e) {
-            LOGGER.error("writeJsonToFile:");
-            LOGGER.error(e.getMessage());
+            LOGGER.error("writeJsonToFile: " + e.getMessage());
             throw new RuntimeException(e);
         }
         return jsonFileName;
@@ -46,8 +45,7 @@ public class CargoVanToJsonConverter {
             mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
             return mapper.readValue(reader, CargoVanList.class);
         } catch (IOException e) {
-            LOGGER.error("getLoadedVansFromJsonFile:");
-            LOGGER.error(e.getMessage());
+            LOGGER.error("getLoadedVansFromJsonFile: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -60,8 +58,7 @@ public class CargoVanToJsonConverter {
             LOGGER.trace("Сконвертированный список грузовиков в json:\n" + writer);
             return writer.toString();
         } catch (IOException e) {
-            LOGGER.error("convertLoadedVansToJson:");
-            LOGGER.error(e.getMessage());
+            LOGGER.error("convertLoadedVansToJson: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -76,8 +73,7 @@ public class CargoVanToJsonConverter {
                 resultJson.append(line);
             }
         } catch (IOException e) {
-            LOGGER.error("readJsonFromFile:");
-            LOGGER.error(e.getMessage());
+            LOGGER.error("readJsonFromFile: " + e.getMessage());
             throw new RuntimeException(e);
         }
         LOGGER.trace("Result json:\n" + resultJson);
