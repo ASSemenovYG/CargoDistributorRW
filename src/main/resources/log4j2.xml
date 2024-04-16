@@ -19,10 +19,10 @@
     </Appenders>
 
     <Loggers>
-        <Logger name="ru.liga.dcs.algorithm" level="trace" additivity="false">
+        <Logger name="ru.liga.CargoDistributor.algorithm" level="trace" additivity="false">
             <AppenderRef ref="LogToRollingFile"/>
         </Logger>
-        <Logger name="ru.liga.dcs.cargo" level="trace" additivity="false">
+        <Logger name="ru.liga.CargoDistributor.cargo" level="trace" additivity="false">
             <AppenderRef ref="LogToRollingFile"/>
         </Logger>
 
