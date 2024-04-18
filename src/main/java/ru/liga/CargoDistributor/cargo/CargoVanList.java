@@ -44,9 +44,9 @@ public class CargoVanList {
      * Распределяет посылки из списка по фургонам
      *
      * @param algorithm {@link DistributionAlgorithm} алгоритм распределения
-     * @param cargoList {@link CargoList} список посылок
+     * @param cargoList {@link CargoItemList} список посылок
      */
-    public void distributeCargo(DistributionAlgorithm algorithm, CargoList cargoList) {
+    public void distributeCargo(DistributionAlgorithm algorithm, CargoItemList cargoList) {
         cargoVans.clear();
         cargoVans.addAll(algorithm.distributeCargo(cargoList));
         fillCoordinatesForLoadedCargoItems();

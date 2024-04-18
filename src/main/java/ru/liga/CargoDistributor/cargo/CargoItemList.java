@@ -3,13 +3,12 @@ package ru.liga.CargoDistributor.cargo;
 import java.util.List;
 
 /**
- * Класс, реализующий интерфейс {@link CargoList},
- * позволяющий получать список посылок для распределения на вход, а не из файла
+ * Класс, представляющий собой список посылок для распределения
  */
-public class CargoListMock implements CargoList {
+public class CargoItemList {
     private final List<CargoItem> cargo;
 
-    public CargoListMock(List<CargoItem> cargo) {
+    public CargoItemList(List<CargoItem> cargo) {
         this.cargo = cargo;
     }
 

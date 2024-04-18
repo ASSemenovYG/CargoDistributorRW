@@ -21,13 +21,14 @@ class CargoVanListTest {
             new CargoItem(4, 2, 2)
     ));
 
-    private final CargoList cargoList = new CargoListMock(cargoItemsToLoad);
+    private final CargoItemList cargoList = new CargoItemList(cargoItemsToLoad);
 
-    private final CargoVanToJsonConverter converter = new CargoVanToJsonConverter(true);
+    private final FileService fileService = new FileService(true);
+    private final CargoConverterService cargoConverterService = new CargoConverterService();
 
     @Test
     void printCargoVanList() {
-        CargoVanList cargoVanList = converter.getLoadedVansFromJsonFile("src/test/resources/test_loaded_vans.json");
+        CargoVanList cargoVanList = cargoConverterService.deserializeLoadedVansFromJson(fileService.readFromFile("src/test/resources/test_loaded_vans.json"));
         System.out.println(cargoVanList.getCargoVanListAsString());
         assertThat(cargoVanList.getCargoVans())
                 .hasSize(3);
@@ -35,7 +36,7 @@ class CargoVanListTest {
 
     @Test
     void getAllCargoItemsFromVans() {
-        CargoVanList cargoVanList = converter.getLoadedVansFromJsonFile("src/test/resources/test_loaded_vans.json");
+        CargoVanList cargoVanList = cargoConverterService.deserializeLoadedVansFromJson(fileService.readFromFile("src/test/resources/test_loaded_vans.json"));
 
         DistributionAlgorithm singleSortedCargoDistribution = new SingleSortedCargoDistributionAlgorithm();
         CargoVanList cargoVanListSorted = new CargoVanList();

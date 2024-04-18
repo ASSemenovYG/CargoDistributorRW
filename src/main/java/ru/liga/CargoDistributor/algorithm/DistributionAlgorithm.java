@@ -1,7 +1,7 @@
 package ru.liga.CargoDistributor.algorithm;
 
 import org.springframework.stereotype.Service;
-import ru.liga.CargoDistributor.cargo.CargoList;
+import ru.liga.CargoDistributor.cargo.CargoItemList;
 import ru.liga.CargoDistributor.cargo.CargoVan;
 
 import java.util.List;
@@ -17,5 +17,5 @@ public abstract class DistributionAlgorithm {
      * @param cargoList Список посылок
      * @return Список загруженных фургонов
      */
-    public abstract List<CargoVan> distributeCargo(CargoList cargoList);
+    public abstract List<CargoVan> distributeCargo(CargoItemList cargoList);
 }

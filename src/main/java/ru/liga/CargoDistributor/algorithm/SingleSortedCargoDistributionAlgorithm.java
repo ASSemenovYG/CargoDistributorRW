@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import ru.liga.CargoDistributor.cargo.CargoItem;
-import ru.liga.CargoDistributor.cargo.CargoList;
+import ru.liga.CargoDistributor.cargo.CargoItemList;
 import ru.liga.CargoDistributor.cargo.CargoVan;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class SingleSortedCargoDistributionAlgorithm extends DistributionAlgorith
     private static final Logger LOGGER = LogManager.getLogger(SingleSortedCargoDistributionAlgorithm.class);
 
     @Override
-    public List<CargoVan> distributeCargo(CargoList cargoList) {
+    public List<CargoVan> distributeCargo(CargoItemList cargoList) {
         List<CargoVan> result = new ArrayList<>();
         LinkedList<CargoItem> cargoItems = new LinkedList<>(cargoList.getCargo());
         cargoItems.sort(Comparator.comparing(CargoItem::getWidth).reversed().thenComparing(CargoItem::getLength));

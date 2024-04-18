@@ -10,6 +10,8 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class SimpleFitDistributionAlgorithmTest {
+    private final FileService fileService = new FileService(true);
+    private final CargoConverterService cargoConverterService = new CargoConverterService();
 
     @Test
     void distributeCargo_TwoVans() {
@@ -23,7 +25,7 @@ class SimpleFitDistributionAlgorithmTest {
                 new CargoItem(4, 2, 2)
         ));
 
-        CargoList cargoList = new CargoListMock(cargoItemsToLoad);
+        CargoItemList cargoList = new CargoItemList(cargoItemsToLoad);
 
         DistributionAlgorithm simpleFitDistribution = new SimpleFitDistributionAlgorithm();
         CargoVanList cargoVanList = new CargoVanList();
@@ -39,7 +41,7 @@ class SimpleFitDistributionAlgorithmTest {
 
     @Test
     void distributeCargo_validCargoFile_oneVan() {
-        CargoList cargoList = new CargoListFromFile("src/test/resources/test_valid_cargo_file.pkg");
+        CargoItemList cargoList = new CargoItemList(cargoConverterService.parseCargoItems(fileService.readFromFile("src/test/resources/test_valid_cargo_file.pkg")));
 
         DistributionAlgorithm simpleFitDistribution = new SimpleFitDistributionAlgorithm();
         CargoVanList cargoVanList = new CargoVanList();
@@ -55,7 +57,7 @@ class SimpleFitDistributionAlgorithmTest {
 
     @Test
     void distributeCargo_validCargoFile1_twoVans() {
-        CargoList cargoList = new CargoListFromFile("src/test/resources/test_valid_cargo_file_1.pkg");
+        CargoItemList cargoList = new CargoItemList(cargoConverterService.parseCargoItems(fileService.readFromFile("src/test/resources/test_valid_cargo_file_1.pkg")));
 
         DistributionAlgorithm simpleFitDistribution = new SimpleFitDistributionAlgorithm();
         CargoVanList cargoVanList = new CargoVanList();
@@ -71,7 +73,7 @@ class SimpleFitDistributionAlgorithmTest {
 
     @Test
     void distributeCargo_validCargoFile2_twoVans() {
-        CargoList cargoList = new CargoListFromFile("src/test/resources/test_valid_cargo_file_2.pkg");
+        CargoItemList cargoList = new CargoItemList(cargoConverterService.parseCargoItems(fileService.readFromFile("src/test/resources/test_valid_cargo_file_2.pkg")));
 
         DistributionAlgorithm simpleFitDistribution = new SimpleFitDistributionAlgorithm();
         CargoVanList cargoVanList = new CargoVanList();
@@ -87,7 +89,7 @@ class SimpleFitDistributionAlgorithmTest {
 
     @Test
     void distributeCargo_validCargoFile3_threeVans() {
-        CargoList cargoList = new CargoListFromFile("src/test/resources/test_valid_cargo_file_3.pkg");
+        CargoItemList cargoList = new CargoItemList(cargoConverterService.parseCargoItems(fileService.readFromFile("src/test/resources/test_valid_cargo_file_3.pkg")));
 
         DistributionAlgorithm simpleFitDistribution = new SimpleFitDistributionAlgorithm();
         CargoVanList cargoVanList = new CargoVanList();

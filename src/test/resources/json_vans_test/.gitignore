@@ -1,4 +1,4 @@
-# Do not remove, without this directory CargoVanToJsonConverterTest throws NullPointerException
+# Do not remove, without this directory FileServiceTest throws NullPointerException
 # Ignore everything in this directory
 *
 # Except this file

@@ -103,7 +103,7 @@ public class CargoItem {
      */
     public CargoItem(LinkedList<String> unparsedCargoItem) {
         validateUnparsedCargoItem(unparsedCargoItem);
-        this.name = getUnparsedCargoItem(unparsedCargoItem);
+        this.name = getUnparsedCargoItemName(unparsedCargoItem);
         this.length = unparsedCargoItem.size();
         this.width = unparsedCargoItem.peekFirst().length();
         this.size = this.length * this.width;
@@ -217,13 +217,13 @@ public class CargoItem {
         validationMessage.append(validateCargoItemByParams(cargoItemSize, cargoItemLength, cargoItemWidth));
 
         if (!validationMessage.isEmpty()) {
-            validationMessage.insert(0, "Во входных данных обнаружена невалидная посылка:\n" + getUnparsedCargoItem(unparsedCargoItem) + "\n");
+            validationMessage.insert(0, "Во входных данных обнаружена невалидная посылка:\n" + getUnparsedCargoItemName(unparsedCargoItem) + "\n");
             LOGGER.error(validationMessage.toString());
             throw new IllegalArgumentException(validationMessage.toString());
         }
     }
 
-    private String getUnparsedCargoItem(LinkedList<String> unparsedCargoItem) {
+    private String getUnparsedCargoItemName(LinkedList<String> unparsedCargoItem) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < unparsedCargoItem.size(); i++) {
             result.append(unparsedCargoItem.get(i));

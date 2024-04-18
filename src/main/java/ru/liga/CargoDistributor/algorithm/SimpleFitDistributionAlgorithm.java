@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.liga.CargoDistributor.cargo.CargoItem;
-import ru.liga.CargoDistributor.cargo.CargoList;
+import ru.liga.CargoDistributor.cargo.CargoItemList;
 import ru.liga.CargoDistributor.cargo.CargoVan;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class SimpleFitDistributionAlgorithm extends DistributionAlgorithm {
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleFitDistributionAlgorithm.class);
 
     @Override
-    public List<CargoVan> distributeCargo(CargoList cargoList) {
+    public List<CargoVan> distributeCargo(CargoItemList cargoList) {
         List<CargoVan> result = new ArrayList<>();
         List<CargoItem> processingCargoList = new ArrayList<>(cargoList.getCargo());
 

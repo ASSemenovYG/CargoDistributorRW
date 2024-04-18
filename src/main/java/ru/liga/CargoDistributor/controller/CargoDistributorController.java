@@ -7,20 +7,35 @@ import ru.liga.CargoDistributor.algorithm.DistributionAlgorithm;
 import ru.liga.CargoDistributor.algorithm.OneVanOneItemDistributionAlgorithm;
 import ru.liga.CargoDistributor.algorithm.SimpleFitDistributionAlgorithm;
 import ru.liga.CargoDistributor.algorithm.SingleSortedCargoDistributionAlgorithm;
-import ru.liga.CargoDistributor.cargo.CargoList;
-import ru.liga.CargoDistributor.cargo.CargoListFromFile;
+import ru.liga.CargoDistributor.cargo.CargoConverterService;
+import ru.liga.CargoDistributor.cargo.CargoItemList;
 import ru.liga.CargoDistributor.cargo.CargoVanList;
-import ru.liga.CargoDistributor.cargo.CargoVanToJsonConverter;
+import ru.liga.CargoDistributor.cargo.FileService;
 
 @ShellComponent
 public class CargoDistributorController {
     @ShellMethod("Distribute cargo from file")
     public void distribute(
-            @ShellOption(help = "Путь к файлу с посылками") String filePath,
-            @ShellOption(help = "Код алгоритма:\n1 : OneVanOneItemDistribution\n2 : SingleSortedCargoDistribution\n3 : SimpleFitDistribution") int algorithmCode,
-            @ShellOption(help = "Максимальное количество фургонов, доступное для распределения") int vanLimit
+            @ShellOption(
+                    help = "Путь к файлу с посылками",
+                    value = {"-p"}
+            ) String filePath,
+            @ShellOption(
+                    help = "Код алгоритма:\n1 : OneVanOneItemDistribution\n2 : SingleSortedCargoDistribution\n3 : SimpleFitDistribution",
+                    value = {"-c"}
+            ) int algorithmCode,
+            @ShellOption(
+                    help = "Максимальное количество фургонов, доступное для распределения",
+                    value = {"-l"}
+            ) int vanLimit
     ) {
-        CargoList cargoList = new CargoListFromFile(filePath);
+        FileService fileService = new FileService();
+        CargoConverterService cargoConverterService = new CargoConverterService();
+        CargoItemList cargoList = new CargoItemList(
+                cargoConverterService.parseCargoItems(
+                        fileService.readFromFile(filePath)
+                )
+        );
         if (cargoList.isEmptyOrNull()) {
             System.out.println("В файле не найдено ни одной посылки!");
             return;
@@ -46,16 +61,20 @@ public class CargoDistributorController {
         System.out.println("Результат распределения посылок по грузовым фургонам:");
         System.out.println(cargoVanList.getCargoVanListAsString());
 
-        CargoVanToJsonConverter converter = new CargoVanToJsonConverter();
-        String jsonFileName = converter.writeJsonToFile(converter.convertLoadedVansToJson(cargoVanList));
+        String jsonFileName = fileService.writeStringToFile(cargoConverterService.serializeLoadedVansToJson(cargoVanList));
         System.out.println("Результаты распределения выгружены в файл:");
         System.out.println(jsonFileName);
     }
 
     @ShellMethod("Read loaded cargo vans from file")
-    public void readcargo(@ShellOption(help = "Путь к файлу с фургонами") String filePath) {
-        CargoVanToJsonConverter converter = new CargoVanToJsonConverter();
-        CargoVanList cargoVanList = converter.getLoadedVansFromJsonFile(filePath);
+    public void readcargo(
+            @ShellOption(
+                    help = "Путь к файлу с фургонами",
+                    value = {"-p"}
+            ) String filePath) {
+        FileService fileService = new FileService();
+        CargoConverterService cargoConverterService = new CargoConverterService();
+        CargoVanList cargoVanList = cargoConverterService.deserializeLoadedVansFromJson(fileService.readFromFile(filePath));
         System.out.println("Количество обнаруженных в файле фургонов: " + cargoVanList.getCargoVans().size());
         System.out.println("Распределение посылок:");
         System.out.println(cargoVanList.getCargoVanListAsString());

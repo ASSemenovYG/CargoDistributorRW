@@ -2,8 +2,7 @@ package ru.liga.CargoDistributor.algorithm;
 
 import org.junit.jupiter.api.Test;
 import ru.liga.CargoDistributor.cargo.CargoItem;
-import ru.liga.CargoDistributor.cargo.CargoList;
-import ru.liga.CargoDistributor.cargo.CargoListMock;
+import ru.liga.CargoDistributor.cargo.CargoItemList;
 import ru.liga.CargoDistributor.cargo.CargoVanList;
 
 import java.util.ArrayList;
@@ -25,7 +24,7 @@ class SingleSortedCargoDistributionAlgorithmTest {
                 new CargoItem(4, 2, 2)
         ));
 
-        CargoList cargoList = new CargoListMock(cargoItemsToLoad);
+        CargoItemList cargoList = new CargoItemList(cargoItemsToLoad);
         DistributionAlgorithm singleSortedCargoDistribution = new SingleSortedCargoDistributionAlgorithm();
         CargoVanList cargoVanList = new CargoVanList();
         cargoVanList.distributeCargo(singleSortedCargoDistribution, cargoList);
