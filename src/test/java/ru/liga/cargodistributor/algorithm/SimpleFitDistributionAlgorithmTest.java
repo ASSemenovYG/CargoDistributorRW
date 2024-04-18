@@ -1,7 +1,7 @@
-package ru.liga.CargoDistributor.algorithm;
+package ru.liga.cargodistributor.algorithm;
 
 import org.junit.jupiter.api.Test;
-import ru.liga.CargoDistributor.cargo.*;
+import ru.liga.cargodistributor.cargo.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;

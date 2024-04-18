@@ -1,16 +1,16 @@
-package ru.liga.CargoDistributor.controller;
+package ru.liga.cargodistributor.controller;
 
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
-import ru.liga.CargoDistributor.algorithm.DistributionAlgorithm;
-import ru.liga.CargoDistributor.algorithm.OneVanOneItemDistributionAlgorithm;
-import ru.liga.CargoDistributor.algorithm.SimpleFitDistributionAlgorithm;
-import ru.liga.CargoDistributor.algorithm.SingleSortedCargoDistributionAlgorithm;
-import ru.liga.CargoDistributor.cargo.CargoConverterService;
-import ru.liga.CargoDistributor.cargo.CargoItemList;
-import ru.liga.CargoDistributor.cargo.CargoVanList;
-import ru.liga.CargoDistributor.cargo.FileService;
+import ru.liga.cargodistributor.algorithm.DistributionAlgorithm;
+import ru.liga.cargodistributor.algorithm.OneVanOneItemDistributionAlgorithm;
+import ru.liga.cargodistributor.algorithm.SimpleFitDistributionAlgorithm;
+import ru.liga.cargodistributor.algorithm.SingleSortedCargoDistributionAlgorithm;
+import ru.liga.cargodistributor.cargo.CargoConverterService;
+import ru.liga.cargodistributor.cargo.CargoItemList;
+import ru.liga.cargodistributor.cargo.CargoVanList;
+import ru.liga.cargodistributor.cargo.FileService;
 
 @ShellComponent
 public class CargoDistributorController {

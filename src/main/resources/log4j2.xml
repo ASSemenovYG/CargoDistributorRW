@@ -19,7 +19,7 @@
     </Appenders>
 
     <Loggers>
-        <Logger name="ru.liga.CargoDistributor" level="trace" additivity="false">
+        <Logger name="ru.liga.cargodistributor" level="trace" additivity="false">
             <AppenderRef ref="LogToRollingFile"/>
         </Logger>
 

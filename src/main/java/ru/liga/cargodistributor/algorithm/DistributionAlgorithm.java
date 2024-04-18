@@ -1,8 +1,8 @@
-package ru.liga.CargoDistributor.algorithm;
+package ru.liga.cargodistributor.algorithm;
 
 import org.springframework.stereotype.Service;
-import ru.liga.CargoDistributor.cargo.CargoItemList;
-import ru.liga.CargoDistributor.cargo.CargoVan;
+import ru.liga.cargodistributor.cargo.CargoItemList;
+import ru.liga.cargodistributor.cargo.CargoVan;
 
 import java.util.List;
 

@@ -1,9 +1,9 @@
-package ru.liga.CargoDistributor.algorithm;
+package ru.liga.cargodistributor.algorithm;
 
 import org.junit.jupiter.api.Test;
-import ru.liga.CargoDistributor.cargo.CargoItem;
-import ru.liga.CargoDistributor.cargo.CargoItemList;
-import ru.liga.CargoDistributor.cargo.CargoVanList;
+import ru.liga.cargodistributor.cargo.CargoItem;
+import ru.liga.cargodistributor.cargo.CargoItemList;
+import ru.liga.cargodistributor.cargo.CargoVanList;
 
 import java.util.Arrays;
 

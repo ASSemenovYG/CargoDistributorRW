@@ -1,4 +1,4 @@
-package ru.liga.CargoDistributor.cargo;
+package ru.liga.cargodistributor.cargo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

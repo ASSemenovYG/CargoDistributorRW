@@ -1,11 +1,11 @@
-package ru.liga.CargoDistributor.cargo;
+package ru.liga.cargodistributor.cargo;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.liga.CargoDistributor.algorithm.DistributionAlgorithm;
+import ru.liga.cargodistributor.algorithm.DistributionAlgorithm;
 
 import java.util.ArrayList;
 import java.util.Collection;

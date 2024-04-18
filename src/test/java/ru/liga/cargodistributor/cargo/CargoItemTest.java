@@ -1,4 +1,4 @@
-package ru.liga.CargoDistributor.cargo;
+package ru.liga.cargodistributor.cargo;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

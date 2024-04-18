@@ -1,4 +1,4 @@
-package ru.liga.CargoDistributor;
+package ru.liga.cargodistributor;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
