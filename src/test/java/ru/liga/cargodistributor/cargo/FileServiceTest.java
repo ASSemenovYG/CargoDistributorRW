@@ -44,7 +44,7 @@ class FileServiceTest {
 
     @Test
     void readJsonFromFile() {
-        String json = fileService.readFromFile("src/test/resources/test_hello_world.json");
+        String json = fileService.readFromFileByPath("src/test/resources/test_hello_world.json");
         assertThat(json).isEqualTo("{\"Hello\":\"world\"}");
     }
 

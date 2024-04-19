@@ -32,7 +32,7 @@ public class CargoDistributorController {
         CargoConverterService cargoConverterService = new CargoConverterService();
         CargoItemList cargoList = new CargoItemList(
                 cargoConverterService.parseCargoItems(
-                        fileService.readFromFile(filePath)
+                        fileService.readFromFileByPath(filePath)
                 )
         );
         if (cargoList.isEmptyOrNull()) {
@@ -73,7 +73,7 @@ public class CargoDistributorController {
             ) String filePath) {
         FileService fileService = new FileService();
         CargoConverterService cargoConverterService = new CargoConverterService();
-        CargoVanList cargoVanList = cargoConverterService.deserializeLoadedVansFromJson(fileService.readFromFile(filePath));
+        CargoVanList cargoVanList = cargoConverterService.deserializeLoadedVansFromJson(fileService.readFromFileByPath(filePath));
         System.out.println("Количество обнаруженных в файле фургонов: " + cargoVanList.getCargoVans().size());
         System.out.println("Распределение посылок:");
         System.out.println(cargoVanList.getCargoVanListAsString(cargoConverterService));

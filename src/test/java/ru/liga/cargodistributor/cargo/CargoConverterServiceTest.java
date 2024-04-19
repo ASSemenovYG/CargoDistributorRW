@@ -28,7 +28,7 @@ class CargoConverterServiceTest {
 
     @Test
     void deserializeLoadedVansFromJson() {
-        List<CargoVan> loadedVansFromFile = cargoConverterService.deserializeLoadedVansFromJson(fileService.readFromFile("src/test/resources/test_loaded_vans.json")).getCargoVans();
+        List<CargoVan> loadedVansFromFile = cargoConverterService.deserializeLoadedVansFromJson(fileService.readFromFileByPath("src/test/resources/test_loaded_vans.json")).getCargoVans();
         assertThat(loadedVansFromFile).hasSize(3);
     }
 
@@ -60,7 +60,7 @@ class CargoConverterServiceTest {
                 new CargoItem(1, 1, 1),
                 new CargoItem(3, 1, 3)
         ));
-        List<CargoItem> cargoItems = cargoConverterService.parseCargoItems(fileService.readFromFile("src/test/resources/test_valid_cargo_file.pkg"));
+        List<CargoItem> cargoItems = cargoConverterService.parseCargoItems(fileService.readFromFileByPath("src/test/resources/test_valid_cargo_file.pkg"));
 
         assertThat(cargoItems).containsExactlyInAnyOrderElementsOf(cargoItemsToCompare);
 

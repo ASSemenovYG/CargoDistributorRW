@@ -38,10 +38,29 @@ public class FileService {
         return fileName;
     }
 
-    public String readFromFile(String filePath) {
-        LOGGER.info("Чтение данных из файла {}", filePath);
+    public String readFromFileByPath(String filePath) {
+        LOGGER.info("Чтение данных из файла по пути {}", filePath);
+        try {
+            return getFileContent(new FileReader(filePath));
+        } catch (FileNotFoundException e) {
+            LOGGER.error("readFromFileByPath: {}", e.getMessage());
+            throw new ReadFromFileException(e.getMessage(), e);
+        }
+    }
+
+    public String readFromFile(File file) {
+        LOGGER.info("Чтение данных из файла");
+        try {
+            return getFileContent(new FileReader(file));
+        } catch (FileNotFoundException e) {
+            LOGGER.error("readFromFile: {}", e.getMessage());
+            throw new ReadFromFileException(e.getMessage(), e);
+        }
+    }
+
+    private String getFileContent(FileReader fileReader) {
         StringBuilder result = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader br = new BufferedReader(fileReader)) {
             String line;
             while ((line = br.readLine()) != null) {
                 LOGGER.trace("Reading line: {}", line);
@@ -51,7 +70,7 @@ public class FileService {
                 result.append(line);
             }
         } catch (IOException e) {
-            LOGGER.error("readFromFile: {}", e.getMessage());
+            LOGGER.error("getFileContent: {}", e.getMessage());
             throw new ReadFromFileException(e.getMessage(), e);
         }
         LOGGER.trace("Result :\n{}", result);

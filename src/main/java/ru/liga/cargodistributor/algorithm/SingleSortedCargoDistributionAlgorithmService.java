@@ -1,7 +1,7 @@
 package ru.liga.cargodistributor.algorithm;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.liga.cargodistributor.cargo.CargoItem;
 import ru.liga.cargodistributor.cargo.CargoItemList;
@@ -20,7 +20,7 @@ import java.util.List;
  */
 @Service
 public class SingleSortedCargoDistributionAlgorithmService extends DistributionAlgorithmService {
-    private static final Logger LOGGER = LogManager.getLogger(SingleSortedCargoDistributionAlgorithmService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SingleSortedCargoDistributionAlgorithmService.class);
 
     @Override
     public List<CargoVan> distributeCargo(CargoItemList cargoList) {

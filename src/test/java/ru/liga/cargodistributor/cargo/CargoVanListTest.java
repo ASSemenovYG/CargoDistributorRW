@@ -29,7 +29,7 @@ class CargoVanListTest {
 
     @Test
     void printCargoVanList() {
-        CargoVanList cargoVanList = cargoConverterService.deserializeLoadedVansFromJson(fileService.readFromFile("src/test/resources/test_loaded_vans.json"));
+        CargoVanList cargoVanList = cargoConverterService.deserializeLoadedVansFromJson(fileService.readFromFileByPath("src/test/resources/test_loaded_vans.json"));
         System.out.println(cargoVanList.getCargoVanListAsString(cargoConverterService));
         assertThat(cargoVanList.getCargoVans())
                 .hasSize(3);
@@ -37,7 +37,7 @@ class CargoVanListTest {
 
     @Test
     void getAllCargoItemsFromVans() {
-        CargoVanList cargoVanList = cargoConverterService.deserializeLoadedVansFromJson(fileService.readFromFile("src/test/resources/test_loaded_vans.json"));
+        CargoVanList cargoVanList = cargoConverterService.deserializeLoadedVansFromJson(fileService.readFromFileByPath("src/test/resources/test_loaded_vans.json"));
 
         DistributionAlgorithmService singleSortedCargoDistribution = new SingleSortedCargoDistributionAlgorithmService();
         CargoVanList cargoVanListSorted = new CargoVanList();

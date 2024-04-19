@@ -42,7 +42,7 @@ class SimpleFitDistributionAlgorithmServiceTest {
 
     @Test
     void distributeCargo_validCargoFile_oneVan() {
-        CargoItemList cargoList = new CargoItemList(cargoConverterService.parseCargoItems(fileService.readFromFile("src/test/resources/test_valid_cargo_file.pkg")));
+        CargoItemList cargoList = new CargoItemList(cargoConverterService.parseCargoItems(fileService.readFromFileByPath("src/test/resources/test_valid_cargo_file.pkg")));
 
         DistributionAlgorithmService simpleFitDistribution = new SimpleFitDistributionAlgorithmService();
         CargoVanList cargoVanList = new CargoVanList();
@@ -58,7 +58,7 @@ class SimpleFitDistributionAlgorithmServiceTest {
 
     @Test
     void distributeCargo_validCargoFile1_twoVans() {
-        CargoItemList cargoList = new CargoItemList(cargoConverterService.parseCargoItems(fileService.readFromFile("src/test/resources/test_valid_cargo_file_1.pkg")));
+        CargoItemList cargoList = new CargoItemList(cargoConverterService.parseCargoItems(fileService.readFromFileByPath("src/test/resources/test_valid_cargo_file_1.pkg")));
 
         DistributionAlgorithmService simpleFitDistribution = new SimpleFitDistributionAlgorithmService();
         CargoVanList cargoVanList = new CargoVanList();
@@ -74,7 +74,7 @@ class SimpleFitDistributionAlgorithmServiceTest {
 
     @Test
     void distributeCargo_validCargoFile2_twoVans() {
-        CargoItemList cargoList = new CargoItemList(cargoConverterService.parseCargoItems(fileService.readFromFile("src/test/resources/test_valid_cargo_file_2.pkg")));
+        CargoItemList cargoList = new CargoItemList(cargoConverterService.parseCargoItems(fileService.readFromFileByPath("src/test/resources/test_valid_cargo_file_2.pkg")));
 
         DistributionAlgorithmService simpleFitDistribution = new SimpleFitDistributionAlgorithmService();
         CargoVanList cargoVanList = new CargoVanList();
@@ -90,7 +90,7 @@ class SimpleFitDistributionAlgorithmServiceTest {
 
     @Test
     void distributeCargo_validCargoFile3_threeVans() {
-        CargoItemList cargoList = new CargoItemList(cargoConverterService.parseCargoItems(fileService.readFromFile("src/test/resources/test_valid_cargo_file_3.pkg")));
+        CargoItemList cargoList = new CargoItemList(cargoConverterService.parseCargoItems(fileService.readFromFileByPath("src/test/resources/test_valid_cargo_file_3.pkg")));
 
         DistributionAlgorithmService simpleFitDistribution = new SimpleFitDistributionAlgorithmService();
         CargoVanList cargoVanList = new CargoVanList();
