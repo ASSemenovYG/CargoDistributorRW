@@ -29,10 +29,10 @@ public class FileService {
     public String writeStringToFile(String content) {
         String fileName = getNextJsonFileName();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-            LOGGER.trace("Сохранение в файл: " + fileName + "\ncontent:\n" + content);
+            LOGGER.trace("Сохранение в файл: {}\ncontent:\n{}", fileName, content);
             writer.write(content);
         } catch (IOException e) {
-            LOGGER.error("writeStringToFile: " + e.getMessage());
+            LOGGER.error("writeStringToFile: {}", e.getMessage());
             throw new RuntimeException(e);
         }
         return fileName;
@@ -44,17 +44,17 @@ public class FileService {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = br.readLine()) != null) {
-                LOGGER.trace("Reading line: " + line);
+                LOGGER.trace("Reading line: {}", line);
                 if (!result.isEmpty()) {
                     result.append("\n");
                 }
                 result.append(line);
             }
         } catch (IOException e) {
-            LOGGER.error("readFromFile: " + e.getMessage());
+            LOGGER.error("readFromFile: {}", e.getMessage());
             throw new RuntimeException(e);
         }
-        LOGGER.trace("Result :\n" + result);
+        LOGGER.trace("Result :\n{}", result);
         return result.toString();
     }
 

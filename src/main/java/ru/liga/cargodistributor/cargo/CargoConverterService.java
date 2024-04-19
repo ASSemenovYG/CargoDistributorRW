@@ -24,7 +24,7 @@ public class CargoConverterService {
             mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
             return mapper.readValue(content, CargoVanList.class);
         } catch (IOException e) {
-            LOGGER.error("deserializeLoadedVansFromJson: " + e.getMessage());
+            LOGGER.error("deserializeLoadedVansFromJson: {}", e.getMessage());
             //todo: сделать кастомный exception
             throw new RuntimeException(e);
         }
@@ -35,10 +35,10 @@ public class CargoConverterService {
         try (StringWriter writer = new StringWriter()) {
             ObjectMapper mapper = new ObjectMapper();
             mapper.writeValue(writer, loadedVans);
-            LOGGER.trace("Сконвертированный список грузовиков в json:\n" + writer);
+            LOGGER.trace("Сконвертированный список грузовиков в json:\n{}", writer);
             return writer.toString();
         } catch (IOException e) {
-            LOGGER.error("serializeLoadedVansToJson: " + e.getMessage());
+            LOGGER.error("serializeLoadedVansToJson: {}", e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -50,7 +50,7 @@ public class CargoConverterService {
             String line;
             LinkedList<String> unparsedCargoItem = new LinkedList<>();
             while ((line = br.readLine()) != null) {
-                LOGGER.trace("Reading line: " + line);
+                LOGGER.trace("Reading line: {}", line);
                 if (line.isEmpty()) {
                     if (!unparsedCargoItem.isEmpty()) {
                         LOGGER.debug("Обнаружен конец текущей посылки, добавляю текущую посылку в список посылок");
@@ -58,7 +58,7 @@ public class CargoConverterService {
                         unparsedCargoItem.clear();
                     }
                 } else {
-                    LOGGER.debug("Добавляю строку " + line + " к текущей посылке");
+                    LOGGER.debug("Добавляю строку {} к текущей посылке", line);
                     unparsedCargoItem.add(line);
                 }
             }
@@ -69,7 +69,7 @@ public class CargoConverterService {
                 unparsedCargoItem.clear();
             }
         } catch (IOException e) {
-            LOGGER.error("parseCargoItems: " + e.getMessage());
+            LOGGER.error("parseCargoItems: {}", e.getMessage());
             throw new RuntimeException(e);
         }
 

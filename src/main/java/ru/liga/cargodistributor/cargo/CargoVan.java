@@ -151,7 +151,7 @@ public class CargoVan {
             sb.append(VAN_BORDER_SYMBOL);
         }
         sb.append("\n").append(VAN_BACK_WALL);
-        LOGGER.trace("Returning to print cargo van:\n" + sb);
+        LOGGER.trace("Returning to print cargo van:\n{}", sb);
         return sb.toString();
     }
 

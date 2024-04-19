@@ -40,7 +40,7 @@ public class SimpleFitDistributionAlgorithm extends DistributionAlgorithm {
             LOGGER.debug("Запускаю формирование следующего фургона");
             result.add(getNextFilledVan(processingCargoList));
         }
-        LOGGER.info("Распределение посылок завершено. Итоговое количество фургонов: " + result.size());
+        LOGGER.info("Распределение посылок завершено. Итоговое количество фургонов: {}", result.size());
         return result;
     }
 
@@ -64,12 +64,10 @@ public class SimpleFitDistributionAlgorithm extends DistributionAlgorithm {
         LOGGER.debug("Обработка результатов распределения");
         for (int i = 0; i < cargoItems.size(); i++) {
             LOGGER.debug(
-                    "Пытаюсь установить посылку в фургон на координаты: (" +
-                            resultPlacements.get(i).getY() +
-                            ", " +
-                            resultPlacements.get(i).getX() +
-                            ") посылка\n" +
-                            cargoItems.get(i).getName()
+                    "Пытаюсь установить посылку в фургон на координаты: ({}, {}) посылка\n{}",
+                    resultPlacements.get(i).getY(),
+                    resultPlacements.get(i).getX(),
+                    cargoItems.get(i).getName()
             );
             if (van.tryPuttingCargoItemAtCoordinates(cargoItems.get(i), resultPlacements.get(i).getY(), resultPlacements.get(i).getX())) {
                 LOGGER.debug("Посылка успешно установлена в фургон");
@@ -80,7 +78,7 @@ public class SimpleFitDistributionAlgorithm extends DistributionAlgorithm {
         }
 
         for (CargoItem cargoItem : processedCargoItems) {
-            LOGGER.debug("Удаляю посылку из списка незагруженных посылок\n" + cargoItem.getName());
+            LOGGER.debug("Удаляю посылку из списка незагруженных посылок\n{}", cargoItem.getName());
             cargoItems.remove(cargoItem);
         }
         LOGGER.debug("Формирование фургона завершено");

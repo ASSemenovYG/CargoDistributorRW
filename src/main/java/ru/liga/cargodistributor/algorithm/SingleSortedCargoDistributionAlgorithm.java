@@ -37,14 +37,14 @@ public class SingleSortedCargoDistributionAlgorithm extends DistributionAlgorith
             while (vanIsNotFull) {
                 CargoItem cargoItem = cargoItems.peekFirst();
                 if (cargoItem != null) {
-                    LOGGER.debug("Обработка посылки:\n" + cargoItem.getName());
+                    LOGGER.debug("Обработка посылки:\n{}", cargoItem.getName());
                     currentLengthCoordinate = nextLengthCoordinate;
-                    LOGGER.debug("Попытка установить посылку на строку " + currentLengthCoordinate);
+                    LOGGER.debug("Попытка установить посылку на строку {}", currentLengthCoordinate);
                     vanIsNotFull = van.tryPuttingCargoItemAtCoordinates(cargoItem, currentLengthCoordinate, 0);
                     LOGGER.debug(vanIsNotFull ? "Посылка успешно добавлена в фургон" : "Не удалось загрузить посылку в грузовой фургон");
                     if (vanIsNotFull) {
                         nextLengthCoordinate = currentLengthCoordinate + cargoItem.getLength();
-                        LOGGER.debug("Номер строки для добавления следующей посылки " + nextLengthCoordinate);
+                        LOGGER.debug("Номер строки для добавления следующей посылки {}", nextLengthCoordinate);
                         cargoItems.removeFirst();
                     }
                 } else {
@@ -55,7 +55,7 @@ public class SingleSortedCargoDistributionAlgorithm extends DistributionAlgorith
             LOGGER.debug("Добавляю фургон в список загруженных");
             result.add(van);
         }
-        LOGGER.info("Количество загруженных фургонов: " + result.size());
+        LOGGER.info("Количество загруженных фургонов: {}", result.size());
         return result;
     }
 }
