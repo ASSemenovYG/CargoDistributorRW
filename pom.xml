@@ -62,6 +62,21 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/libs/caparf.jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambots-longpolling</artifactId>
+            <version>7.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambots-client</artifactId>
+            <version>7.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambots-springboot-longpolling-starter</artifactId>
+            <version>7.2.1</version>
+        </dependency>
         <!--Spring Boot        -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
