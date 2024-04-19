@@ -3,14 +3,13 @@ package ru.liga.cargodistributor.controller;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
-import ru.liga.cargodistributor.algorithm.DistributionAlgorithm;
-import ru.liga.cargodistributor.algorithm.OneVanOneItemDistributionAlgorithm;
-import ru.liga.cargodistributor.algorithm.SimpleFitDistributionAlgorithm;
-import ru.liga.cargodistributor.algorithm.SingleSortedCargoDistributionAlgorithm;
+import ru.liga.cargodistributor.algorithm.*;
+import ru.liga.cargodistributor.algorithm.DistributionAlgorithmService;
+import ru.liga.cargodistributor.algorithm.SingleSortedCargoDistributionAlgorithmService;
 import ru.liga.cargodistributor.cargo.CargoConverterService;
 import ru.liga.cargodistributor.cargo.CargoItemList;
 import ru.liga.cargodistributor.cargo.CargoVanList;
-import ru.liga.cargodistributor.cargo.FileService;
+import ru.liga.cargodistributor.util.FileService;
 
 @ShellComponent
 public class CargoDistributorController {
@@ -43,10 +42,10 @@ public class CargoDistributorController {
         System.out.println("В файле найдены следующие посылки:");
         System.out.println(cargoList.getCargoItemNamesAsString());
 
-        DistributionAlgorithm algorithm = switch (algorithmCode) {
-            case 1 -> new OneVanOneItemDistributionAlgorithm();
-            case 2 -> new SingleSortedCargoDistributionAlgorithm();
-            case 3 -> new SimpleFitDistributionAlgorithm();
+        DistributionAlgorithmService algorithm = switch (algorithmCode) {
+            case 1 -> new OneVanOneItemDistributionAlgorithmService();
+            case 2 -> new SingleSortedCargoDistributionAlgorithmService();
+            case 3 -> new SimpleFitDistributionAlgorithmService();
             default -> throw new IllegalArgumentException("Введен неверный код алгоритма");
         };
 
@@ -59,7 +58,7 @@ public class CargoDistributorController {
         }
 
         System.out.println("Результат распределения посылок по грузовым фургонам:");
-        System.out.println(cargoVanList.getCargoVanListAsString());
+        System.out.println(cargoVanList.getCargoVanListAsString(cargoConverterService));
 
         String jsonFileName = fileService.writeStringToFile(cargoConverterService.serializeLoadedVansToJson(cargoVanList));
         System.out.println("Результаты распределения выгружены в файл:");
@@ -77,7 +76,7 @@ public class CargoDistributorController {
         CargoVanList cargoVanList = cargoConverterService.deserializeLoadedVansFromJson(fileService.readFromFile(filePath));
         System.out.println("Количество обнаруженных в файле фургонов: " + cargoVanList.getCargoVans().size());
         System.out.println("Распределение посылок:");
-        System.out.println(cargoVanList.getCargoVanListAsString());
+        System.out.println(cargoVanList.getCargoVanListAsString(cargoConverterService));
         System.out.println("Общий список посылок из файла:");
         System.out.println(cargoVanList.getAllCargoItemNamesAsString());
         System.out.println("Общее количество посылок из файла: " + cargoVanList.getAllCargoItemsFromVans().size());

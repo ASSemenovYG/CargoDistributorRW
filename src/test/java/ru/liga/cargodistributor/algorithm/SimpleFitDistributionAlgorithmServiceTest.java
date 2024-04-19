@@ -2,6 +2,7 @@ package ru.liga.cargodistributor.algorithm;
 
 import org.junit.jupiter.api.Test;
 import ru.liga.cargodistributor.cargo.*;
+import ru.liga.cargodistributor.util.FileService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,7 +10,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class SimpleFitDistributionAlgorithmTest {
+class SimpleFitDistributionAlgorithmServiceTest {
     private final FileService fileService = new FileService(true);
     private final CargoConverterService cargoConverterService = new CargoConverterService();
 
@@ -27,10 +28,10 @@ class SimpleFitDistributionAlgorithmTest {
 
         CargoItemList cargoList = new CargoItemList(cargoItemsToLoad);
 
-        DistributionAlgorithm simpleFitDistribution = new SimpleFitDistributionAlgorithm();
+        DistributionAlgorithmService simpleFitDistribution = new SimpleFitDistributionAlgorithmService();
         CargoVanList cargoVanList = new CargoVanList();
         cargoVanList.distributeCargo(simpleFitDistribution, cargoList);
-        System.out.println(cargoVanList.getCargoVanListAsString());
+        System.out.println(cargoVanList.getCargoVanListAsString(cargoConverterService));
 
         assertThat(cargoVanList.getCargoVans().size())
                 .isEqualTo(2);
@@ -43,10 +44,10 @@ class SimpleFitDistributionAlgorithmTest {
     void distributeCargo_validCargoFile_oneVan() {
         CargoItemList cargoList = new CargoItemList(cargoConverterService.parseCargoItems(fileService.readFromFile("src/test/resources/test_valid_cargo_file.pkg")));
 
-        DistributionAlgorithm simpleFitDistribution = new SimpleFitDistributionAlgorithm();
+        DistributionAlgorithmService simpleFitDistribution = new SimpleFitDistributionAlgorithmService();
         CargoVanList cargoVanList = new CargoVanList();
         cargoVanList.distributeCargo(simpleFitDistribution, cargoList);
-        System.out.println(cargoVanList.getCargoVanListAsString());
+        System.out.println(cargoVanList.getCargoVanListAsString(cargoConverterService));
 
         assertThat(cargoVanList.getCargoVans().size())
                 .isEqualTo(1);
@@ -59,10 +60,10 @@ class SimpleFitDistributionAlgorithmTest {
     void distributeCargo_validCargoFile1_twoVans() {
         CargoItemList cargoList = new CargoItemList(cargoConverterService.parseCargoItems(fileService.readFromFile("src/test/resources/test_valid_cargo_file_1.pkg")));
 
-        DistributionAlgorithm simpleFitDistribution = new SimpleFitDistributionAlgorithm();
+        DistributionAlgorithmService simpleFitDistribution = new SimpleFitDistributionAlgorithmService();
         CargoVanList cargoVanList = new CargoVanList();
         cargoVanList.distributeCargo(simpleFitDistribution, cargoList);
-        System.out.println(cargoVanList.getCargoVanListAsString());
+        System.out.println(cargoVanList.getCargoVanListAsString(cargoConverterService));
 
         assertThat(cargoVanList.getCargoVans().size())
                 .isEqualTo(2);
@@ -75,10 +76,10 @@ class SimpleFitDistributionAlgorithmTest {
     void distributeCargo_validCargoFile2_twoVans() {
         CargoItemList cargoList = new CargoItemList(cargoConverterService.parseCargoItems(fileService.readFromFile("src/test/resources/test_valid_cargo_file_2.pkg")));
 
-        DistributionAlgorithm simpleFitDistribution = new SimpleFitDistributionAlgorithm();
+        DistributionAlgorithmService simpleFitDistribution = new SimpleFitDistributionAlgorithmService();
         CargoVanList cargoVanList = new CargoVanList();
         cargoVanList.distributeCargo(simpleFitDistribution, cargoList);
-        System.out.println(cargoVanList.getCargoVanListAsString());
+        System.out.println(cargoVanList.getCargoVanListAsString(cargoConverterService));
 
         assertThat(cargoVanList.getCargoVans().size())
                 .isEqualTo(2);
@@ -91,10 +92,10 @@ class SimpleFitDistributionAlgorithmTest {
     void distributeCargo_validCargoFile3_threeVans() {
         CargoItemList cargoList = new CargoItemList(cargoConverterService.parseCargoItems(fileService.readFromFile("src/test/resources/test_valid_cargo_file_3.pkg")));
 
-        DistributionAlgorithm simpleFitDistribution = new SimpleFitDistributionAlgorithm();
+        DistributionAlgorithmService simpleFitDistribution = new SimpleFitDistributionAlgorithmService();
         CargoVanList cargoVanList = new CargoVanList();
         cargoVanList.distributeCargo(simpleFitDistribution, cargoList);
-        System.out.println(cargoVanList.getCargoVanListAsString());
+        System.out.println(cargoVanList.getCargoVanListAsString(cargoConverterService));
 
         assertThat(cargoVanList.getCargoVans().size())
                 .isEqualTo(3);

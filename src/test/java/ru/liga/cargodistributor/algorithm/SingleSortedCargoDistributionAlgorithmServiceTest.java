@@ -1,6 +1,7 @@
 package ru.liga.cargodistributor.algorithm;
 
 import org.junit.jupiter.api.Test;
+import ru.liga.cargodistributor.cargo.CargoConverterService;
 import ru.liga.cargodistributor.cargo.CargoItem;
 import ru.liga.cargodistributor.cargo.CargoItemList;
 import ru.liga.cargodistributor.cargo.CargoVanList;
@@ -11,7 +12,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class SingleSortedCargoDistributionAlgorithmTest {
+class SingleSortedCargoDistributionAlgorithmServiceTest {
     @Test
     void printLoadedVans() {
         List<CargoItem> cargoItemsToLoad = new ArrayList<>(Arrays.asList(
@@ -25,10 +26,10 @@ class SingleSortedCargoDistributionAlgorithmTest {
         ));
 
         CargoItemList cargoList = new CargoItemList(cargoItemsToLoad);
-        DistributionAlgorithm singleSortedCargoDistribution = new SingleSortedCargoDistributionAlgorithm();
+        DistributionAlgorithmService singleSortedCargoDistribution = new SingleSortedCargoDistributionAlgorithmService();
         CargoVanList cargoVanList = new CargoVanList();
         cargoVanList.distributeCargo(singleSortedCargoDistribution, cargoList);
-        System.out.println(cargoVanList.getCargoVanListAsString());
+        System.out.println(cargoVanList.getCargoVanListAsString(new CargoConverterService()));
 
         List<CargoItem> loadedCargoItems = new ArrayList<>(cargoVanList.getAllCargoItemsFromVans());
 

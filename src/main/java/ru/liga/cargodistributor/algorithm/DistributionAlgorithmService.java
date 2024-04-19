@@ -10,7 +10,7 @@ import java.util.List;
  * Абстрактный класс алгоритма распределения посылок по грузовым фургонам
  */
 @Service
-public abstract class DistributionAlgorithm {
+public abstract class DistributionAlgorithmService {
     /**
      * Метод, реализующий алгоритм распределения посылок по фургонам
      *

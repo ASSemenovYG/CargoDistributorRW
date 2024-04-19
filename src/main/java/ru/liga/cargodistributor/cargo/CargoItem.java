@@ -90,7 +90,7 @@ public class CargoItem {
         String validationMessage = validateCargoItemByParams(size, length, width);
         if (!validationMessage.isEmpty()) {
             LOGGER.error(validationMessage);
-            throw new IllegalArgumentException(validationMessage);
+            throw new CargoItemValidationException(validationMessage);
         }
         this.length = length;
         this.width = width;
@@ -201,7 +201,7 @@ public class CargoItem {
         String firstLine = unparsedCargoItem.peekFirst();
         if (firstLine == null || firstLine.isEmpty()) {
             LOGGER.error("В посылке не может быть пустых или null строк");
-            throw new IllegalArgumentException("В посылке не может быть пустых или null строк");
+            throw new CargoItemValidationException("В посылке не может быть пустых или null строк");
         }
         int cargoItemSize = Integer.parseInt(firstLine.substring(0, 1));
         int cargoItemLength = unparsedCargoItem.size();
@@ -219,7 +219,7 @@ public class CargoItem {
         if (!validationMessage.isEmpty()) {
             validationMessage.insert(0, "Во входных данных обнаружена невалидная посылка:\n" + getUnparsedCargoItemName(unparsedCargoItem) + "\n");
             LOGGER.error(validationMessage.toString());
-            throw new IllegalArgumentException(validationMessage.toString());
+            throw new CargoItemValidationException(validationMessage.toString());
         }
     }
 

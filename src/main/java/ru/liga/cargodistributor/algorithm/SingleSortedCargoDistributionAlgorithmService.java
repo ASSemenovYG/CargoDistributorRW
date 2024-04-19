@@ -19,8 +19,8 @@ import java.util.List;
  * <br>Посылки ставятся друг на друга, пока есть место в грузовом фургоне, если нет - переход к следующему фургону
  */
 @Service
-public class SingleSortedCargoDistributionAlgorithm extends DistributionAlgorithm {
-    private static final Logger LOGGER = LogManager.getLogger(SingleSortedCargoDistributionAlgorithm.class);
+public class SingleSortedCargoDistributionAlgorithmService extends DistributionAlgorithmService {
+    private static final Logger LOGGER = LogManager.getLogger(SingleSortedCargoDistributionAlgorithmService.class);
 
     @Override
     public List<CargoVan> distributeCargo(CargoItemList cargoList) {

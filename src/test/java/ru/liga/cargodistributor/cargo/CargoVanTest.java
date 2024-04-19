@@ -3,6 +3,9 @@ package ru.liga.cargodistributor.cargo;
 import org.assertj.core.data.Index;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 class CargoVanTest {
@@ -27,7 +30,9 @@ class CargoVanTest {
                 new CargoVan.CargoVanCell()
         };
         CargoVan van = new CargoVan(cargoItem);
-        System.out.println(van.getVanCargoAsString());
+        List<CargoVan> cargoVans = new ArrayList<>();
+        cargoVans.add(van);
+        System.out.println(new CargoConverterService().convertCargoVanListToString(new CargoVanList(cargoVans)));
 
         assertThat(van.getCargo())
                 .isNotEmpty()

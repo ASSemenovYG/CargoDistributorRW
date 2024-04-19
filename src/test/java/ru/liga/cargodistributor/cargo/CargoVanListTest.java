@@ -1,8 +1,9 @@
 package ru.liga.cargodistributor.cargo;
 
 import org.junit.jupiter.api.Test;
-import ru.liga.cargodistributor.algorithm.DistributionAlgorithm;
-import ru.liga.cargodistributor.algorithm.SingleSortedCargoDistributionAlgorithm;
+import ru.liga.cargodistributor.algorithm.DistributionAlgorithmService;
+import ru.liga.cargodistributor.algorithm.SingleSortedCargoDistributionAlgorithmService;
+import ru.liga.cargodistributor.util.FileService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,7 +30,7 @@ class CargoVanListTest {
     @Test
     void printCargoVanList() {
         CargoVanList cargoVanList = cargoConverterService.deserializeLoadedVansFromJson(fileService.readFromFile("src/test/resources/test_loaded_vans.json"));
-        System.out.println(cargoVanList.getCargoVanListAsString());
+        System.out.println(cargoVanList.getCargoVanListAsString(cargoConverterService));
         assertThat(cargoVanList.getCargoVans())
                 .hasSize(3);
     }
@@ -38,7 +39,7 @@ class CargoVanListTest {
     void getAllCargoItemsFromVans() {
         CargoVanList cargoVanList = cargoConverterService.deserializeLoadedVansFromJson(fileService.readFromFile("src/test/resources/test_loaded_vans.json"));
 
-        DistributionAlgorithm singleSortedCargoDistribution = new SingleSortedCargoDistributionAlgorithm();
+        DistributionAlgorithmService singleSortedCargoDistribution = new SingleSortedCargoDistributionAlgorithmService();
         CargoVanList cargoVanListSorted = new CargoVanList();
         cargoVanListSorted.distributeCargo(singleSortedCargoDistribution, cargoList);
 

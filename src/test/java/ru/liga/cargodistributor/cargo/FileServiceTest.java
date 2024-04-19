@@ -2,8 +2,9 @@ package ru.liga.cargodistributor.cargo;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
-import ru.liga.cargodistributor.algorithm.DistributionAlgorithm;
-import ru.liga.cargodistributor.algorithm.SingleSortedCargoDistributionAlgorithm;
+import ru.liga.cargodistributor.algorithm.DistributionAlgorithmService;
+import ru.liga.cargodistributor.algorithm.SingleSortedCargoDistributionAlgorithmService;
+import ru.liga.cargodistributor.util.FileService;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ class FileServiceTest {
 
     @Test
     void writeJsonToFile() {
-        DistributionAlgorithm singleSortedCargoDistribution = new SingleSortedCargoDistributionAlgorithm();
+        DistributionAlgorithmService singleSortedCargoDistribution = new SingleSortedCargoDistributionAlgorithmService();
         CargoVanList cargoVanList = new CargoVanList();
         cargoVanList.distributeCargo(singleSortedCargoDistribution, cargoList);
 

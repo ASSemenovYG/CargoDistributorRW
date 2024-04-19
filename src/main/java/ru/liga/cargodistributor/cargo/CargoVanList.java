@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.liga.cargodistributor.algorithm.DistributionAlgorithm;
+import ru.liga.cargodistributor.algorithm.DistributionAlgorithmService;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -43,10 +43,10 @@ public class CargoVanList {
     /**
      * Распределяет посылки из списка по фургонам
      *
-     * @param algorithm {@link DistributionAlgorithm} алгоритм распределения
+     * @param algorithm {@link DistributionAlgorithmService} алгоритм распределения
      * @param cargoList {@link CargoItemList} список посылок
      */
-    public void distributeCargo(DistributionAlgorithm algorithm, CargoItemList cargoList) {
+    public void distributeCargo(DistributionAlgorithmService algorithm, CargoItemList cargoList) {
         cargoVans.clear();
         cargoVans.addAll(algorithm.distributeCargo(cargoList));
         fillCoordinatesForLoadedCargoItems();
@@ -55,6 +55,7 @@ public class CargoVanList {
     /**
      * @return String со всеми посылками из всех загруженных фургонов
      */
+    @JsonIgnore
     public String getAllCargoItemNamesAsString() {
         StringBuilder sb = new StringBuilder();
         for (String cargoItemName : getAllCargoItemNames()) {
@@ -66,13 +67,10 @@ public class CargoVanList {
     /**
      * @return String со всеми загруженными машинами для вывода в консоль
      */
-    public String getCargoVanListAsString() {
+    @JsonIgnore
+    public String getCargoVanListAsString(CargoConverterService cargoConverterService) {
         setAllCargoByCoordinates();
-        StringBuilder sb = new StringBuilder();
-        for (CargoVan cargoVan : cargoVans) {
-            sb.append("\n").append(cargoVan.getVanCargoAsString()).append("\n");
-        }
-        return sb.toString();
+        return cargoConverterService.convertCargoVanListToString(this);
     }
 
     /**

@@ -1,4 +1,4 @@
-package ru.liga.cargodistributor.cargo;
+package ru.liga.cargodistributor.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,13 +33,13 @@ public class FileService {
             writer.write(content);
         } catch (IOException e) {
             LOGGER.error("writeStringToFile: {}", e.getMessage());
-            throw new RuntimeException(e);
+            throw new WriteToFileException(e.getMessage(), e);
         }
         return fileName;
     }
 
     public String readFromFile(String filePath) {
-        LOGGER.info("Чтение данных из файла " + filePath);
+        LOGGER.info("Чтение данных из файла {}", filePath);
         StringBuilder result = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -52,7 +52,7 @@ public class FileService {
             }
         } catch (IOException e) {
             LOGGER.error("readFromFile: {}", e.getMessage());
-            throw new RuntimeException(e);
+            throw new ReadFromFileException(e.getMessage(), e);
         }
         LOGGER.trace("Result :\n{}", result);
         return result.toString();

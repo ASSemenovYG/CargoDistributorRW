@@ -18,9 +18,6 @@ public class CargoVan {
     private static final Logger LOGGER = LoggerFactory.getLogger(CargoVan.class);
     public static final int VAN_LENGTH = 6;
     public static final int VAN_WIDTH = 6;
-    private static final String VAN_BORDER_SYMBOL = "+";
-    private static final String EMPTY_CARGO_CELL_SYMBOL = " ";
-    private static final String VAN_BACK_WALL = VAN_BORDER_SYMBOL.repeat(VAN_WIDTH + 2);
 
     /**
      * Класс погрузочной единицы (клетки) в кузове грузовой машины
@@ -46,11 +43,6 @@ public class CargoVan {
             return occupiedBy == null;
         }
 
-        public void setCargoItem(CargoItem cargoItem) {
-            this.occupiedBy = cargoItem;
-            this.cellItemTitle = String.valueOf(cargoItem.getSize());
-        }
-
         public String getCellItemTitle() {
             return cellItemTitle;
         }
@@ -62,6 +54,11 @@ public class CargoVan {
             }
             CargoVanCell other = (CargoVanCell) o;
             return Objects.equals(this.cellItemTitle, other.getCellItemTitle()) && Objects.equals(getOccupiedBy(), other.getOccupiedBy());
+        }
+
+        private void setCargoItem(CargoItem cargoItem) {
+            this.occupiedBy = cargoItem;
+            this.cellItemTitle = String.valueOf(cargoItem.getSize());
         }
     }
 
@@ -101,19 +98,37 @@ public class CargoVan {
      * @return true, если возможно добавить посылку с указанными координатами, иначе false
      */
     public boolean tryPuttingCargoItemAtCoordinates(CargoItem cargoItem, int x, int y) {
-        if (x + cargoItem.getLength() > CargoVan.VAN_LENGTH) {
+        if (x + cargoItem.getLength() > VAN_LENGTH) {
+            LOGGER.debug(
+                    "tryPuttingCargoItemAtCoordinates: Невозможно добавить в фургон посылку {} с начальными координатами [{}],[{}], превышено ограничение по длине фургона",
+                    cargoItem.getName(),
+                    x,
+                    y
+            );
             return false;
         }
-        if (y + cargoItem.getWidth() > CargoVan.VAN_WIDTH) {
+        if (y + cargoItem.getWidth() > VAN_WIDTH) {
+            LOGGER.debug(
+                    "tryPuttingCargoItemAtCoordinates: Невозможно добавить в фургон посылку {} с начальными координатами [{}],[{}], превышено ограничение по ширине фургона",
+                    cargoItem.getName(),
+                    x,
+                    y
+            );
             return false;
         }
         for (int i = x; i < x + cargoItem.getLength(); i++) {
             for (int j = y; j < y + cargoItem.getWidth(); j++) {
+                LOGGER.debug("tryPuttingCargoItemAtCoordinates: Заполняю координату [{}],[{}] посылкой {}", i, j, cargoItem.getName());
                 cargo[i][j].setCargoItem(cargoItem);
             }
         }
         loadedCargoItems.add(cargoItem);
+        LOGGER.info("Посылка {} успешно добавлена в фургон", cargoItem.getName());
         return true;
+    }
+
+    public List<CargoItem> getLoadedCargoItems() {
+        return loadedCargoItems;
     }
 
     /**
@@ -123,40 +138,19 @@ public class CargoVan {
      * @param coordinates Координата XY
      */
     void fillExactCargoVanCellByCoordinate(CargoItem cargoItem, CargoItem.Coordinates coordinates) {
+        LOGGER.debug("fillExactCargoVanCellByCoordinate: Заполняю координату [{}],[{}] посылкой {}", coordinates.getX(), coordinates.getY(), cargoItem.getName());
         cargo[coordinates.getX()][coordinates.getY()].setCargoItem(cargoItem);
     }
 
     /**
-     * @return
-     * String с кузовом грузовика в формате:
-     *
-     * <br>+8888  +
-     * <br>+8888  +
-     * <br>+118888+
-     * <br>+224444+
-     * <br>+224444+
-     * <br>+333333+
-     * <br>++++++++
+     * Заполняет двумерный массив кузова фургона пустыми клетками
      */
-    public String getVanCargoAsString() {
-        StringBuilder sb = new StringBuilder();
-        for (int i = VAN_LENGTH - 1; i >= 0; i--) {
-            if (i < VAN_LENGTH - 1) {
-                sb.append("\n");
-            }
-            sb.append(VAN_BORDER_SYMBOL);
+    void initializeCargo() {
+        for (int i = 0; i < VAN_LENGTH; i++) {
             for (int j = 0; j < VAN_WIDTH; j++) {
-                sb.append((cargo[i][j].isEmpty()) ? EMPTY_CARGO_CELL_SYMBOL : cargo[i][j].getCellItemTitle());
+                cargo[i][j] = new CargoVanCell();
             }
-            sb.append(VAN_BORDER_SYMBOL);
         }
-        sb.append("\n").append(VAN_BACK_WALL);
-        LOGGER.trace("Returning to print cargo van:\n{}", sb);
-        return sb.toString();
-    }
-
-    public List<CargoItem> getLoadedCargoItems() {
-        return loadedCargoItems;
     }
 
     private void fillSingleCargoItem(CargoItem cargoItem) {
@@ -166,13 +160,5 @@ public class CargoVan {
             }
         }
         loadedCargoItems.add(cargoItem);
-    }
-
-    void initializeCargo() {
-        for (int i = 0; i < VAN_LENGTH; i++) {
-            for (int j = 0; j < VAN_WIDTH; j++) {
-                cargo[i][j] = new CargoVanCell();
-            }
-        }
     }
 }

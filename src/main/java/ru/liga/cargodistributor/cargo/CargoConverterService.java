@@ -17,6 +17,9 @@ import java.util.List;
 @Service
 public class CargoConverterService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CargoConverterService.class);
+    private static final String VAN_BORDER_SYMBOL = "+";
+    private static final String EMPTY_CARGO_CELL_SYMBOL = " ";
+    private static final String VAN_BACK_WALL = VAN_BORDER_SYMBOL.repeat(CargoVan.VAN_WIDTH + 2);
 
     public CargoVanList deserializeLoadedVansFromJson(String content) {
         try {
@@ -25,8 +28,7 @@ public class CargoConverterService {
             return mapper.readValue(content, CargoVanList.class);
         } catch (IOException e) {
             LOGGER.error("deserializeLoadedVansFromJson: {}", e.getMessage());
-            //todo: сделать кастомный exception
-            throw new RuntimeException(e);
+            throw new CargoVanDeserializationException(e.getMessage(), e);
         }
     }
 
@@ -39,7 +41,7 @@ public class CargoConverterService {
             return writer.toString();
         } catch (IOException e) {
             LOGGER.error("serializeLoadedVansToJson: {}", e.getMessage());
-            throw new RuntimeException(e);
+            throw new CargoVanSerializationException(e.getMessage(), e);
         }
     }
 
@@ -70,7 +72,7 @@ public class CargoConverterService {
             }
         } catch (IOException e) {
             LOGGER.error("parseCargoItems: {}", e.getMessage());
-            throw new RuntimeException(e);
+            throw new CargoItemParserException(e.getMessage(), e);
         }
 
         List<CargoItem> result = new ArrayList<>();
@@ -78,5 +80,41 @@ public class CargoConverterService {
             result.add(new CargoItem(unparsedCargoItem));
         }
         return result;
+    }
+
+    /**
+     * @return String с кузовами грузовиков в формате:
+     *
+     * <br>+8888  +
+     * <br>+8888  +
+     * <br>+118888+
+     * <br>+224444+
+     * <br>+224444+
+     * <br>+333333+
+     * <br>++++++++
+     */
+    protected String convertCargoVanListToString(CargoVanList cargoVanList) {
+        StringBuilder sb = new StringBuilder();
+        for (CargoVan cargoVan : cargoVanList.getCargoVans()) {
+            sb.append("\n").append(convertVanCargoToString(cargoVan)).append("\n");
+        }
+        return sb.toString();
+    }
+
+    private String convertVanCargoToString(CargoVan cargoVan) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = CargoVan.VAN_LENGTH - 1; i >= 0; i--) {
+            if (i < CargoVan.VAN_LENGTH - 1) {
+                sb.append("\n");
+            }
+            sb.append(VAN_BORDER_SYMBOL);
+            for (int j = 0; j < CargoVan.VAN_WIDTH; j++) {
+                sb.append((cargoVan.getCargo()[i][j].isEmpty()) ? EMPTY_CARGO_CELL_SYMBOL : cargoVan.getCargo()[i][j].getCellItemTitle());
+            }
+            sb.append(VAN_BORDER_SYMBOL);
+        }
+        sb.append("\n").append(VAN_BACK_WALL);
+        LOGGER.trace("Returning to print cargo van:\n{}", sb);
+        return sb.toString();
     }
 }

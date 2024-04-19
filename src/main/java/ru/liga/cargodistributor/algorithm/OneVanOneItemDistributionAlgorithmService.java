@@ -13,7 +13,7 @@ import java.util.List;
  * 1 машина = 1 посылка
  */
 @Service
-public class OneVanOneItemDistributionAlgorithm extends DistributionAlgorithm {
+public class OneVanOneItemDistributionAlgorithmService extends DistributionAlgorithmService {
     @Override
     public List<CargoVan> distributeCargo(CargoItemList cargoList) {
         List<CargoVan> result = new ArrayList<>();

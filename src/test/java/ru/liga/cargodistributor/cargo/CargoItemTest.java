@@ -8,28 +8,28 @@ class CargoItemTest {
 
     @Test
     void createCargoItemsWithIncorrectParameters() {
-        Assertions.assertThrows(IllegalArgumentException.class, () ->
+        Assertions.assertThrows(CargoItemValidationException.class, () ->
                 new CargoItem(0,1,1));
 
-        Assertions.assertThrows(IllegalArgumentException.class, () ->
+        Assertions.assertThrows(CargoItemValidationException.class, () ->
                 new CargoItem(1,0,1));
 
-        Assertions.assertThrows(IllegalArgumentException.class, () ->
+        Assertions.assertThrows(CargoItemValidationException.class, () ->
                 new CargoItem(1,1,0));
 
-        Assertions.assertThrows(IllegalArgumentException.class, () ->
+        Assertions.assertThrows(CargoItemValidationException.class, () ->
                 new CargoItem(-100,0,100));
 
-        Assertions.assertThrows(IllegalArgumentException.class, () ->
+        Assertions.assertThrows(CargoItemValidationException.class, () ->
                 new CargoItem(10,5,5));
 
-        Assertions.assertThrows(IllegalArgumentException.class, () ->
+        Assertions.assertThrows(CargoItemValidationException.class, () ->
                 new CargoItem(9,3,2));
 
-        Assertions.assertThrows(IllegalArgumentException.class, () ->
+        Assertions.assertThrows(CargoItemValidationException.class, () ->
                 new CargoItem(9,9,1));
 
-        Assertions.assertThrows(IllegalArgumentException.class, () ->
+        Assertions.assertThrows(CargoItemValidationException.class, () ->
                 new CargoItem(9,1,9));
     }
 

@@ -1,10 +1,13 @@
 package ru.liga.cargodistributor.cargo;
 
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 
 /**
  * Класс, представляющий собой список посылок для распределения
  */
+@Component
 public class CargoItemList {
     private final List<CargoItem> cargo;
 

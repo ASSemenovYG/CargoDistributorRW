@@ -1,8 +1,9 @@
 package ru.liga.cargodistributor.cargo;
 
 import org.junit.jupiter.api.Test;
-import ru.liga.cargodistributor.algorithm.DistributionAlgorithm;
-import ru.liga.cargodistributor.algorithm.SingleSortedCargoDistributionAlgorithm;
+import ru.liga.cargodistributor.algorithm.DistributionAlgorithmService;
+import ru.liga.cargodistributor.algorithm.SingleSortedCargoDistributionAlgorithmService;
+import ru.liga.cargodistributor.util.FileService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +34,7 @@ class CargoConverterServiceTest {
 
     @Test
     void serializeLoadedVansToJson() {
-        DistributionAlgorithm singleSortedCargoDistribution = new SingleSortedCargoDistributionAlgorithm();
+        DistributionAlgorithmService singleSortedCargoDistribution = new SingleSortedCargoDistributionAlgorithmService();
         CargoVanList cargoVanList = new CargoVanList();
         cargoVanList.distributeCargo(singleSortedCargoDistribution, cargoList);
 
@@ -63,5 +64,25 @@ class CargoConverterServiceTest {
 
         assertThat(cargoItems).containsExactlyInAnyOrderElementsOf(cargoItemsToCompare);
 
+    }
+
+    @Test
+    void convertCargoVanListToString_oneVan() {
+        CargoItem cargoItem = new CargoItem(9, 3, 3);
+        CargoVan van = new CargoVan(cargoItem);
+        List<CargoVan> cargoVans = new ArrayList<>();
+        cargoVans.add(van);
+        String result = cargoConverterService.convertCargoVanListToString(new CargoVanList(cargoVans));
+
+        assertThat(result).isEqualTo("""
+                
+                +      +
+                +      +
+                +      +
+                +999   +
+                +999   +
+                +999   +
+                ++++++++
+                """);
     }
 }
