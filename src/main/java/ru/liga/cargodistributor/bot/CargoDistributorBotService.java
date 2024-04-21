@@ -46,7 +46,7 @@ public class CargoDistributorBotService {
                 .text(content)
                 .replyMarkup(ReplyKeyboardMarkup
                         .builder()
-                        .keyboardRow(new KeyboardRow(getKeyboardButtons(keyboard))                        )
+                        .keyboardRow(new KeyboardRow(getKeyboardButtons(keyboard)))
                         .build())
                 .build();
     }
@@ -84,18 +84,31 @@ public class CargoDistributorBotService {
     }
 
     public SendMessage getLastSendMessageFromCache(String chatId) {
-        return getBotChatDataFromCache(chatId).getLastMessage();
+        CargoDistributorBotChatData chatData = getBotChatDataFromCache(chatId);
+        if (chatData == null) {
+            return null;
+        }
+        return chatData.getLastMessage();
     }
 
     public CargoItemList getCargoItemListFromCache(String chatId) {
-        return getBotChatDataFromCache(chatId).getCargoItemList();
+        CargoDistributorBotChatData chatData = getBotChatDataFromCache(chatId);
+        if (chatData == null) {
+            return null;
+        }
+        return chatData.getCargoItemList();
     }
 
     public int getVanLimitFromCache(String chatId) {
-        return getBotChatDataFromCache(chatId).getVanLimit();
+        CargoDistributorBotChatData chatData = getBotChatDataFromCache(chatId);
+        if (chatData == null) {
+            return 0;
+        }
+        return chatData.getVanLimit();
     }
 
     public File getFileFromUpdate(Update update, TelegramClient telegramClient) {
+        //todo: сделать кастомный exception
         Document document = update.getMessage().getDocument();
         GetFile getFileMethod = new GetFile(document.getFileId());
         org.telegram.telegrambots.meta.api.objects.File file = null;
@@ -116,6 +129,7 @@ public class CargoDistributorBotService {
     }
 
     private String[] getKeyboardButtons(CargoDistributorBotKeyboard keyboard) {
+        //todo: запихнуть тексты кнопок в enum
         switch (keyboard) {
             case START -> {
                 return new String[]{"Прочитать посылки из файла и разложить по фургонам", "Прочитать json с загруженными фургонами"};
