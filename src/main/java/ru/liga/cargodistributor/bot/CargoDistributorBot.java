@@ -16,6 +16,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendVideoNote;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
+import ru.liga.cargodistributor.bot.commandhandler.CommandHandlerService;
 import ru.liga.cargodistributor.cargo.CargoConverterService;
 import ru.liga.cargodistributor.util.FileService;
 
@@ -29,14 +30,16 @@ public class CargoDistributorBot implements SpringLongPollingBot, LongPollingSin
 
     private final TelegramClient telegramClient;
     private final CargoDistributorBotService botService;
-    private final CargoDistributorBotUpdateHandler updateHandler;
+    private final CargoConverterService cargoConverterService;
+    private final FileService fileService;
 
     @Autowired
     public CargoDistributorBot(@Value("${bot.token}") String token, @Value("${cache.capacity}") int cacheCapacity) {
         this.token = token;
+        this.cargoConverterService = new CargoConverterService();
+        this.fileService = new FileService();
         this.telegramClient = new OkHttpTelegramClient(getBotToken());
         this.botService = new CargoDistributorBotService(cacheCapacity);
-        this.updateHandler = new CargoDistributorBotUpdateHandler(this.telegramClient, this.botService, new CargoConverterService(), new FileService());
     }
 
     @Override
@@ -51,7 +54,14 @@ public class CargoDistributorBot implements SpringLongPollingBot, LongPollingSin
 
     @Override
     public void consume(Update update) {
-        List<Object> responseMessages = updateHandler.processUpdateAndGetResponseMessages(update);
+        //todo: добавить логирование
+        //todo: добавить тесты
+        SendMessage lastSendMessage = botService.getLastSendMessageFromCache(String.valueOf(update.getMessage().getChatId()));
+        CommandHandlerService handlerService = CommandHandlerService.determineAndGetCommandHandler(
+                update, botService, lastSendMessage, telegramClient, cargoConverterService, fileService
+        );
+
+        List<Object> responseMessages = handlerService.processCommandAndGetResponseMessages(update);
 
         for (Object responseMessage : responseMessages) {
             if (responseMessage.getClass().equals(SendMessage.class)) {

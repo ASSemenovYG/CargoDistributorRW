@@ -10,7 +10,7 @@ public enum CargoDistributorBotResponseMessage {
     LOOK_WHAT_I_CAN_DO("Вот что я могу:"),
     ERROR_WHILE_PROCESSING_CARGO_FILE("Произошла ошибка при обработке файла с посылками:"),
     ERROR_WHILE_PROCESSING_CARGO_VAN_FILE("Произошла ошибка при обработке файла с посылками:"),
-    ERROR_WHILE_PROCESSING_CARGO_VAN_JSON_MESSAGE("Произошла ошибка при обработке файла с посылками:"),
+    ERROR_WHILE_PROCESSING_CARGO_VAN_JSON_MESSAGE("Произошла ошибка при обработке JSON с посылками:"),
     TRY_AGAIN("Попробуй еще раз"),
     NO_CARGO_ITEMS_FOUND_IN_A_FILE("В файле не найдено ни одной посылки!"),
     FOUND_CARGO_ITEMS_IN_A_FILE("В файле найдены следующие посылки:"),
@@ -26,6 +26,7 @@ public enum CargoDistributorBotResponseMessage {
     CARGO_LIST_FROM_VANS("Общий список посылок из файла:"),
     NUMBER_OF_ITEMS_FROM_VANS("Общее количество посылок из файла: "),
     RETURNING_TO_START("Возвращаюсь в начало"),
+    CANT_RESOLVE_PICKED_ALGORITHM_NAME("Я не понял, какой алгоритм ты выбрал"),
     CANT_PROCESS_LAST_MESSAGE("Я не понял, как обработать последнее сообщение"),
     CANT_PROCESS_LAST_MESSAGE_FOUND_PREVIOUS_RESPONSE("Я не понял, как обработать последнее сообщение, вот последнее, о чем я тебя просил:"),
     HELP_DISTRIBUTE_COMMAND_DESCRIPTION(
