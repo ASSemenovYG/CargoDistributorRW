@@ -51,7 +51,6 @@ public class CargoDistributorBotUpdateHandler {
 
         List<Object> resultResponse = new LinkedList<>();
 
-        //todo: запихнуть все возможные тексты команд в enum
         if (updateHasMessageText(update) && messageText.equals(CargoDistributorBotUserCommand.START.getCommandText())) {
             processStartCommand(chatId, resultResponse);
         } else if (
@@ -156,7 +155,7 @@ public class CargoDistributorBotUpdateHandler {
             resultResponse.add(
                     botService.buildTextMessageWithoutKeyboard(
                             chatId,
-                            "Произошла ошибка при обработке файла с посылками:"
+                            CargoDistributorBotResponseMessage.ERROR_WHILE_PROCESSING_CARGO_FILE.getMessageText()
                     )
             );
 
@@ -170,7 +169,7 @@ public class CargoDistributorBotUpdateHandler {
             resultResponse.add(
                     botService.buildTextMessageWithoutKeyboard(
                             chatId,
-                            "Попробуй еще раз"
+                            CargoDistributorBotResponseMessage.TRY_AGAIN.getMessageText()
                     )
             );
 
@@ -187,7 +186,7 @@ public class CargoDistributorBotUpdateHandler {
             resultResponse.add(
                     botService.buildTextMessageWithoutKeyboard(
                             chatId,
-                            "В файле не найдено ни одной посылки!"
+                            CargoDistributorBotResponseMessage.NO_CARGO_ITEMS_FOUND_IN_A_FILE.getMessageText()
                     )
             );
 
@@ -198,7 +197,7 @@ public class CargoDistributorBotUpdateHandler {
         resultResponse.add(
                 botService.buildTextMessageWithoutKeyboard(
                         chatId,
-                        "В файле найдены следующие посылки:"
+                        CargoDistributorBotResponseMessage.FOUND_CARGO_ITEMS_IN_A_FILE.getMessageText()
                 )
         );
 
@@ -214,7 +213,7 @@ public class CargoDistributorBotUpdateHandler {
         resultResponse.add(
                 botService.buildTextMessageWithoutKeyboard(
                         chatId,
-                        "Введи максимальное количество грузовых фургонов для распределения"
+                        CargoDistributorBotResponseMessage.ENTER_CARGO_VAN_LIMIT.getMessageText()
                 )
         );
     }
@@ -229,14 +228,14 @@ public class CargoDistributorBotUpdateHandler {
             resultResponse.add(
                     botService.buildTextMessageWithoutKeyboard(
                             chat_id,
-                            "Не могу распознать число. Необходимо ввести целое число"
+                            CargoDistributorBotResponseMessage.FAILED_TO_PARSE_INTEGER.getMessageText()
                     )
             );
 
             resultResponse.add(
                     botService.buildTextMessageWithoutKeyboard(
                             chat_id,
-                            "Введи максимальное количество грузовых фургонов для распределения"
+                            CargoDistributorBotResponseMessage.ENTER_CARGO_VAN_LIMIT.getMessageText()
                     )
             );
 
@@ -292,14 +291,14 @@ public class CargoDistributorBotUpdateHandler {
             resultResponse.add(
                     botService.buildTextMessageWithoutKeyboard(
                             chatId,
-                            "Я не нашел твой список посылок, который ты отправлял до этого"
+                            CargoDistributorBotResponseMessage.FAILED_TO_FIND_CARGO_LIST.getMessageText()
                     )
             );
 
             resultResponse.add(
                     botService.buildTextMessageWithoutKeyboard(
                             chatId,
-                            "Отправь мне файл с посылками"
+                            CargoDistributorBotResponseMessage.SEND_FILE_WITH_CARGO.getMessageText()
                     )
             );
 
@@ -313,7 +312,7 @@ public class CargoDistributorBotUpdateHandler {
             resultResponse.add(
                     botService.buildTextMessageWithoutKeyboard(
                             chatId,
-                            "Не удалось распределить посылки из файла по указанному количеству фургонов"
+                            CargoDistributorBotResponseMessage.FAILED_TO_DISTRIBUTE_UNDER_VAN_LIMIT.getMessageText()
                     )
             );
 
@@ -324,7 +323,7 @@ public class CargoDistributorBotUpdateHandler {
         resultResponse.add(
                 botService.buildTextMessageWithoutKeyboard(
                         chatId,
-                        "Результат распределения посылок по грузовым фургонам:"
+                        CargoDistributorBotResponseMessage.DISTRIBUTION_RESULT.getMessageText()
                 )
         );
 
@@ -344,7 +343,7 @@ public class CargoDistributorBotUpdateHandler {
             resultResponse.add(
                     botService.buildTextMessageWithoutKeyboard(
                             chatId,
-                            "Произошла ошибка при формировании файла с результатами распределения"
+                            CargoDistributorBotResponseMessage.ERROR_WHILE_CREATING_DISTRIBUTION_RESULT_FILE.getMessageText()
                     )
             );
 
@@ -362,7 +361,7 @@ public class CargoDistributorBotUpdateHandler {
         resultResponse.add(
                 botService.buildTextMessageWithoutKeyboard(
                         chatId,
-                        "Результат распределения в файле:"
+                        CargoDistributorBotResponseMessage.DISTRIBUTION_RESULT_IN_A_FILE.getMessageText()
                 )
         );
 
@@ -392,7 +391,7 @@ public class CargoDistributorBotUpdateHandler {
                 resultResponse.add(
                         botService.buildTextMessageWithoutKeyboard(
                                 chatId,
-                                "Произошла ошибка при обработке файла:"
+                                CargoDistributorBotResponseMessage.ERROR_WHILE_PROCESSING_CARGO_VAN_FILE.getMessageText()
                         )
                 );
 
@@ -415,7 +414,7 @@ public class CargoDistributorBotUpdateHandler {
                 resultResponse.add(
                         botService.buildTextMessageWithoutKeyboard(
                                 chatId,
-                                "Произошла ошибка при обработке JSON из сообщения:"
+                                CargoDistributorBotResponseMessage.ERROR_WHILE_PROCESSING_CARGO_VAN_JSON_MESSAGE.getMessageText()
                         )
                 );
 
@@ -434,14 +433,14 @@ public class CargoDistributorBotUpdateHandler {
         resultResponse.add(
                 botService.buildTextMessageWithoutKeyboard(
                         chatId,
-                        "Количество обнаруженных фургонов: " + cargoVanList.getCargoVans().size()
+                        CargoDistributorBotResponseMessage.NUMBER_OF_READ_VANS.getMessageText() + cargoVanList.getCargoVans().size()
                 )
         );
 
         resultResponse.add(
                 botService.buildTextMessageWithoutKeyboard(
                         chatId,
-                        "Распределение посылок:"
+                        CargoDistributorBotResponseMessage.DISTRIBUTION_OF_CARGO_FROM_VANS.getMessageText()
                 )
         );
 
@@ -455,7 +454,7 @@ public class CargoDistributorBotUpdateHandler {
         resultResponse.add(
                 botService.buildTextMessageWithoutKeyboard(
                         chatId,
-                        "Общий список посылок из файла:"
+                        CargoDistributorBotResponseMessage.CARGO_LIST_FROM_VANS.getMessageText()
                 )
         );
 
@@ -469,7 +468,7 @@ public class CargoDistributorBotUpdateHandler {
         resultResponse.add(
                 botService.buildTextMessageWithoutKeyboard(
                         chatId,
-                        "Общее количество посылок из файла: " + cargoVanList.getAllCargoItemsFromVans().size())
+                        CargoDistributorBotResponseMessage.NUMBER_OF_ITEMS_FROM_VANS.getMessageText() + cargoVanList.getAllCargoItemsFromVans().size())
         );
 
         returnToStart(chatId, resultResponse);
@@ -479,7 +478,7 @@ public class CargoDistributorBotUpdateHandler {
         resultResponse.add(
                 botService.buildTextMessageWithKeyboard(
                         chatId,
-                        "Возвращаюсь в начало",
+                        CargoDistributorBotResponseMessage.RETURNING_TO_START.getMessageText(),
                         CargoDistributorBotKeyboard.START
                 )
         );
@@ -493,13 +492,12 @@ public class CargoDistributorBotUpdateHandler {
                 )
         );
 
-        resultResponse.add(botService.buildTextMessageWithoutKeyboard(chatId,
-                """
-                        Бот умеет распределять посылки по заданному количеству фургонов используя алгоритм по выбору.
-                        Посылки берутся из файла, максимальный размер посылки - 9 клеток, посылки могут быть только прямоугольными
-                        Грузовой фургон двумерный, размером 6x6 клеток
-                        Пример файла:"""
-        ));
+        resultResponse.add(
+                botService.buildTextMessageWithoutKeyboard(
+                        chatId,
+                        CargoDistributorBotResponseMessage.HELP_DISTRIBUTE_COMMAND_DESCRIPTION.getMessageText()
+                )
+        );
 
         resultResponse.add(
                 botService.buildDocumentMessage(
@@ -509,18 +507,19 @@ public class CargoDistributorBotUpdateHandler {
                 )
         );
 
-        resultResponse.add(botService.buildTextMessageWithoutKeyboard(chatId,
-                """
-                        Для запуска функции распределения используй команду /distribute
-                        Или используй команду /start и нажми на соответствующую кнопку"""
-        ));
+        resultResponse.add(
+                botService.buildTextMessageWithoutKeyboard(
+                        chatId,
+                        CargoDistributorBotResponseMessage.HELP_DISTRIBUTE_COMMAND_RUN.getMessageText()
+                )
+        );
 
-        resultResponse.add(botService.buildTextMessageWithoutKeyboard(chatId,
-                """
-                        Еще бот умеет считывать загруженные фургоны из JSON.
-                        Можешь скинуть JSON файлом или прямо в сообщении
-                        Пример файла:"""
-        ));
+        resultResponse.add(
+                botService.buildTextMessageWithoutKeyboard(
+                        chatId,
+                        CargoDistributorBotResponseMessage.HELP_READCARGO_COMMAND_DESCRIPTION.getMessageText()
+                )
+        );
 
         resultResponse.add(
                 botService.buildDocumentMessage(
@@ -530,11 +529,12 @@ public class CargoDistributorBotUpdateHandler {
                 )
         );
 
-        resultResponse.add(botService.buildTextMessageWithoutKeyboard(chatId,
-                """
-                        Для запуска функции считывания используй команду /readcargo
-                        Или используй команду /start и нажми на соответствующую кнопку"""
-        ));
+        resultResponse.add(
+                botService.buildTextMessageWithoutKeyboard(
+                        chatId,
+                        CargoDistributorBotResponseMessage.HELP_READCARGO_COMMAND_RUN.getMessageText()
+                )
+        );
 
         returnToStart(chatId, resultResponse);
     }
@@ -577,7 +577,7 @@ public class CargoDistributorBotUpdateHandler {
             resultResponse.add(
                     botService.buildTextMessageWithoutKeyboard(
                             chatId,
-                            "Я не понял, как обработать последнее сообщение"
+                            CargoDistributorBotResponseMessage.CANT_PROCESS_LAST_MESSAGE.getMessageText()
                     )
             );
 
@@ -588,7 +588,7 @@ public class CargoDistributorBotUpdateHandler {
         resultResponse.add(
                 botService.buildTextMessageWithoutKeyboard(
                         chatId,
-                        "Я не понял, как обработать последнее сообщение, вот последнее, о чем я тебя просил:"
+                        CargoDistributorBotResponseMessage.CANT_PROCESS_LAST_MESSAGE_FOUND_PREVIOUS_RESPONSE.getMessageText()
                 )
         );
 
