@@ -111,6 +111,7 @@ public class CargoDistributorBotUpdateHandler {
         return resultResponse;
     }
 
+    //todo: в идеале это все эти методы надо размазать по абстрактным классам или интерфейсу
     private void processStartCommand(long chatId, List<Object> resultResponse) {
         resultResponse.add(
                 botService.buildTextMessageWithKeyboard(
