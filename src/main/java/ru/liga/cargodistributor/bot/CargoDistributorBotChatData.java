@@ -2,35 +2,28 @@ package ru.liga.cargodistributor.bot;
 
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import ru.liga.cargodistributor.cargo.CargoItemList;
-import ru.liga.cargodistributor.cargo.CargoVanList;
 
 public class CargoDistributorBotChatData {
     private CargoItemList cargoItemList;
-    private CargoVanList cargoVanList;
     private int vanLimit;
     private SendMessage lastMessage;
 
-    public CargoDistributorBotChatData(CargoItemList cargoItemList, CargoVanList cargoVanList, SendMessage lastMessage, int vanLimit) {
+    public CargoDistributorBotChatData(CargoItemList cargoItemList, SendMessage lastMessage, int vanLimit) {
         this.cargoItemList = cargoItemList;
-        this.cargoVanList = cargoVanList;
         this.vanLimit = vanLimit;
         this.lastMessage = lastMessage;
     }
 
     public CargoDistributorBotChatData(CargoItemList cargoItemList) {
-        this(cargoItemList, null, null, 0);
-    }
-
-    public CargoDistributorBotChatData(CargoVanList cargoVanList) {
-        this(null, cargoVanList, null, 0);
+        this(cargoItemList, null, 0);
     }
 
     public CargoDistributorBotChatData(SendMessage lastMessage) {
-        this(null, null, lastMessage, 0);
+        this(null, lastMessage, 0);
     }
 
     public CargoDistributorBotChatData(int vanLimit) {
-        this(null, null, null, vanLimit);
+        this(null, null, vanLimit);
     }
 
     public CargoItemList getCargoItemList() {
@@ -39,14 +32,6 @@ public class CargoDistributorBotChatData {
 
     public void setCargoItemList(CargoItemList cargoItemList) {
         this.cargoItemList = cargoItemList;
-    }
-
-    public CargoVanList getCargoVanList() {
-        return cargoVanList;
-    }
-
-    public void setCargoVanList(CargoVanList cargoVanList) {
-        this.cargoVanList = cargoVanList;
     }
 
     public int getVanLimit() {

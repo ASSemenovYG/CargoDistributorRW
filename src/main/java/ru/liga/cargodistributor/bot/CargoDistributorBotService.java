@@ -1,11 +1,18 @@
 package ru.liga.cargodistributor.bot;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
+import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
+import org.telegram.telegrambots.meta.api.methods.send.SendVideoNote;
 import org.telegram.telegrambots.meta.api.objects.Document;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
@@ -13,15 +20,17 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 import ru.liga.cargodistributor.cargo.CargoItemList;
-import ru.liga.cargodistributor.cargo.CargoVanList;
 import ru.liga.cargodistributor.util.LruCache;
 
 import java.io.File;
 
 @Service
 public class CargoDistributorBotService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CargoDistributorBotService.class);
+
     private final LruCache cache;
 
+    @Autowired
     public CargoDistributorBotService(@Value("${cache.capacity}") int cacheCapacity) {
         this.cache = new LruCache(cacheCapacity);
     }
@@ -51,6 +60,18 @@ public class CargoDistributorBotService {
                 .build();
     }
 
+    public SendDocument buildDocumentMessage(long chatId, String filePath, String fileName) {
+        return new SendDocument(String.valueOf(chatId), new InputFile(new File(filePath), fileName));
+    }
+
+    public SendSticker buildStickerMessage(long chatId, String stickerFileId) {
+        return new SendSticker(String.valueOf(chatId), new InputFile(stickerFileId));
+    }
+
+    public SendVideoNote buildMessageWithVideo(long chatId, String fileId) {
+        return new SendVideoNote(String.valueOf(chatId), new InputFile(fileId));
+    }
+
     public void putCargoItemListToCache(String chatId, CargoItemList cargoItemList) {
         if (cache.get(chatId) == null) {
             cache.put(chatId, new CargoDistributorBotChatData(cargoItemList));
@@ -65,14 +86,6 @@ public class CargoDistributorBotService {
             return;
         }
         getBotChatDataFromCache(chatId).setLastMessage(message);
-    }
-
-    public void putCargoVanListToCache(String chatId, CargoVanList cargoVanList) {
-        if (cache.get(chatId) == null) {
-            cache.put(chatId, new CargoDistributorBotChatData(cargoVanList));
-            return;
-        }
-        getBotChatDataFromCache(chatId).setCargoVanList(cargoVanList);
     }
 
     public void putVanLimitToCache(String chatId, int vanLimit) {
@@ -108,19 +121,20 @@ public class CargoDistributorBotService {
     }
 
     public File getFileFromUpdate(Update update, TelegramClient telegramClient) {
-        //todo: сделать кастомный exception
         Document document = update.getMessage().getDocument();
         GetFile getFileMethod = new GetFile(document.getFileId());
         org.telegram.telegrambots.meta.api.objects.File file = null;
         try {
             file = telegramClient.execute(getFileMethod);
         } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
+            LOGGER.error("getFileFromUpdate.GetFile execute: {}", e.getMessage());
+            throw new GetFileFromUpdateException(e.getMessage(), e);
         }
         try {
             return telegramClient.downloadFile(file.getFilePath());
         } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
+            LOGGER.error("getFileFromUpdate.downloadFile: {}", e.getMessage());
+            throw new GetFileFromUpdateException(e.getMessage(), e);
         }
     }
 
@@ -129,13 +143,19 @@ public class CargoDistributorBotService {
     }
 
     private String[] getKeyboardButtons(CargoDistributorBotKeyboard keyboard) {
-        //todo: запихнуть тексты кнопок в enum
         switch (keyboard) {
             case START -> {
-                return new String[]{"Прочитать посылки из файла и разложить по фургонам", "Прочитать json с загруженными фургонами"};
+                return new String[]{
+                        CargoDistributorBotKeyboardButton.READ_CARGO_AND_DISTRIBUTE.getButtonText(),
+                        CargoDistributorBotKeyboardButton.READ_JSON_WITH_LOADED_VANS.getButtonText()
+                };
             }
             case PICK_ALGORITHM -> {
-                return new String[]{"OneVanOneItemDistribution", "SingleSortedCargoDistribution", "SimpleFitDistribution"};
+                return new String[]{
+                        CargoDistributorBotKeyboardButton.ALGORITHM_ONE_VAN_ONE_ITEM.getButtonText(),
+                        CargoDistributorBotKeyboardButton.ALGORITHM_SINGLE_SORTED.getButtonText(),
+                        CargoDistributorBotKeyboardButton.ALGORITHM_SIMPLE_FIT.getButtonText()
+                };
             }
         }
         return null;
