@@ -17,7 +17,6 @@ import java.util.List;
 
 @Service
 public class DistributeCommandHandlerService extends CommandHandlerService {
-    //todo: add tests
     private static final Logger LOGGER = LoggerFactory.getLogger(DistributeCommandHandlerService.class);
 
     @Autowired

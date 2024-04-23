@@ -21,7 +21,6 @@ import java.util.List;
 
 @Service
 public class PickAlgorithmCommandHandlerService extends CommandHandlerService {
-    //todo: add tests
     private static final Logger LOGGER = LoggerFactory.getLogger(PickAlgorithmCommandHandlerService.class);
 
     private static final String RESULT_JSON_FILE_NAME = "loadedVans.json";
@@ -76,7 +75,7 @@ public class PickAlgorithmCommandHandlerService extends CommandHandlerService {
 
         CargoItemList cargoItemList = botService.getCargoItemListFromCache(String.valueOf(chatId));
 
-        if (cargoItemList.isEmptyOrNull()) {
+        if (cargoItemList == null || cargoItemList.isEmptyOrNull()) {
             resultResponse.add(
                     botService.buildTextMessageWithoutKeyboard(
                             chatId,

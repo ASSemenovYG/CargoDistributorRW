@@ -16,7 +16,6 @@ import java.util.List;
 
 @Service
 public class AboutCommandHandlerService extends CommandHandlerService {
-    //todo: add tests
     private static final Logger LOGGER = LoggerFactory.getLogger(AboutCommandHandlerService.class);
 
     private static final String VIDEO_ID = "BAACAgIAAxkBAAPnZiRfZOTOCEhcoD205Iz6fDSiTbMAAqZTAALkTSBJd9KpquJL27A0BA";
