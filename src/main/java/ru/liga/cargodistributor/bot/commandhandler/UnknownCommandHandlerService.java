@@ -1,5 +1,7 @@
 package ru.liga.cargodistributor.bot.commandhandler;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,8 @@ import java.util.List;
 
 @Service
 public class UnknownCommandHandlerService extends CommandHandlerService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(UnknownCommandHandlerService.class);
+
     @Autowired
     protected UnknownCommandHandlerService(@Value("${bot.token}") String token, @Value("${cache.capacity}") int cacheCapacity) {
         super(token, cacheCapacity);
@@ -27,6 +31,8 @@ public class UnknownCommandHandlerService extends CommandHandlerService {
 
     @Override
     public List<Object> processCommandAndGetResponseMessages(Update update) {
+        LOGGER.info("Started processing command");
+
         List<Object> resultResponse = new LinkedList<>();
         long chatId = getChatIdFromUpdate(update);
 
@@ -41,6 +47,7 @@ public class UnknownCommandHandlerService extends CommandHandlerService {
             );
 
             returnToStart(chatId, resultResponse);
+            LOGGER.info("Finished processing command, last message not found");
             return resultResponse;
         }
 
@@ -52,6 +59,7 @@ public class UnknownCommandHandlerService extends CommandHandlerService {
         );
 
         resultResponse.add(lastMessage);
+        LOGGER.info("Finished processing command, last message found");
         return resultResponse;
     }
 }

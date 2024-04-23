@@ -36,6 +36,7 @@ public class PickAlgorithmCommandHandlerService extends CommandHandlerService {
 
     @Override
     public List<Object> processCommandAndGetResponseMessages(Update update) {
+        LOGGER.info("Started processing command");
         List<Object> resultResponse = new LinkedList<>();
         long chatId = getChatIdFromUpdate(update);
 
@@ -68,6 +69,7 @@ public class PickAlgorithmCommandHandlerService extends CommandHandlerService {
                             CargoDistributorBotKeyboard.PICK_ALGORITHM
                     )
             );
+            LOGGER.info("Finished processing command, couldn't resolve algorithm");
             return resultResponse;
         }
 
@@ -88,6 +90,7 @@ public class PickAlgorithmCommandHandlerService extends CommandHandlerService {
                     )
             );
 
+            LOGGER.info("Finished processing command, couldn't find cargo list in cache");
             return resultResponse;
         }
 
@@ -103,6 +106,7 @@ public class PickAlgorithmCommandHandlerService extends CommandHandlerService {
             );
 
             returnToStart(chatId, resultResponse);
+            LOGGER.info("Finished processing command, distribution doesn't fit van limit");
             return resultResponse;
         }
 
@@ -141,6 +145,7 @@ public class PickAlgorithmCommandHandlerService extends CommandHandlerService {
             );
 
             returnToStart(chatId, resultResponse);
+            LOGGER.info("Finished processing command, error occurred while creating JSON file with distribution result");
             return resultResponse;
         }
 
@@ -160,7 +165,7 @@ public class PickAlgorithmCommandHandlerService extends CommandHandlerService {
         );
 
         returnToStart(chatId, resultResponse);
-
+        LOGGER.info("Finished processing command, successful distribution");
         return resultResponse;
     }
 }

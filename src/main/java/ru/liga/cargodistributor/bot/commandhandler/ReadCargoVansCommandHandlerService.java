@@ -31,11 +31,13 @@ public class ReadCargoVansCommandHandlerService extends CommandHandlerService {
 
     @Override
     public List<Object> processCommandAndGetResponseMessages(Update update) {
+        LOGGER.info("Started processing command");
         List<Object> resultResponse = new LinkedList<>();
         long chatId = getChatIdFromUpdate(update);
 
         CargoVanList cargoVanList;
         if (update.getMessage().hasDocument()) {
+            LOGGER.info("Reading cargo vans from a file");
             try {
                 cargoVanList = cargoConverterService.deserializeLoadedVansFromJson(
                         fileService.readFromFile(
@@ -60,9 +62,11 @@ public class ReadCargoVansCommandHandlerService extends CommandHandlerService {
                 );
 
                 returnToStart(chatId, resultResponse);
+                LOGGER.info("Finished processing command, error occurred while reading JSON from file");
                 return resultResponse;
             }
         } else {
+            LOGGER.info("Reading JSON with cargo vans from a message");
             try {
                 cargoVanList = cargoConverterService.deserializeLoadedVansFromJson(update.getMessage().getText());
             } catch (RuntimeException e) {
@@ -83,6 +87,7 @@ public class ReadCargoVansCommandHandlerService extends CommandHandlerService {
                 );
 
                 returnToStart(chatId, resultResponse);
+                LOGGER.info("Finished processing command, error occurred while reading JSON from message");
                 return resultResponse;
             }
         }
@@ -129,7 +134,7 @@ public class ReadCargoVansCommandHandlerService extends CommandHandlerService {
         );
 
         returnToStart(chatId, resultResponse);
-
+        LOGGER.info("Finished processing command without errors");
         return resultResponse;
     }
 }

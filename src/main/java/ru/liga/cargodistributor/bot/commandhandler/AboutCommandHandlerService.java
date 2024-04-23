@@ -1,5 +1,7 @@
 package ru.liga.cargodistributor.bot.commandhandler;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,8 @@ import java.util.List;
 
 @Service
 public class AboutCommandHandlerService extends CommandHandlerService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AboutCommandHandlerService.class);
+
     private static final String VIDEO_ID = "BAACAgIAAxkBAAPnZiRfZOTOCEhcoD205Iz6fDSiTbMAAqZTAALkTSBJd9KpquJL27A0BA";
     private static final String STICKER_ID_1 = "CAACAgIAAxkBAAEL9b5mJFsmbk4g6TvaIYybFKi2wDtuNQACSSwAAnodcUrY0E6TPhUOwjQE";
     private static final String STICKER_ID_2 = "CAACAgIAAxkBAAEL9cBmJFsw7zOK8bp2_y8wmFE1DM-3WAACMC8AAnXKaEp_pe78p-vsCzQE";
@@ -30,6 +34,7 @@ public class AboutCommandHandlerService extends CommandHandlerService {
 
     @Override
     public List<Object> processCommandAndGetResponseMessages(Update update) {
+        LOGGER.info("Started processing command");
         List<Object> resultResponse = new LinkedList<>();
         long chatId = getChatIdFromUpdate(update);
 
@@ -56,12 +61,13 @@ public class AboutCommandHandlerService extends CommandHandlerService {
 
         resultResponse.add(
                 botService.buildStickerMessage(
-                        chatId, STICKER_ID_3
+                        chatId,
+                        STICKER_ID_3
                 )
         );
 
         returnToStart(chatId, resultResponse);
-
+        LOGGER.info("Finished processing command");
         return resultResponse;
     }
 }

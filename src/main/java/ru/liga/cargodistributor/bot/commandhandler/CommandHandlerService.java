@@ -1,5 +1,7 @@
 package ru.liga.cargodistributor.bot.commandhandler;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -7,10 +9,7 @@ import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
-import ru.liga.cargodistributor.bot.CargoDistributorBotKeyboard;
-import ru.liga.cargodistributor.bot.CargoDistributorBotResponseMessage;
-import ru.liga.cargodistributor.bot.CargoDistributorBotService;
-import ru.liga.cargodistributor.bot.CargoDistributorBotUserCommand;
+import ru.liga.cargodistributor.bot.*;
 import ru.liga.cargodistributor.cargo.CargoConverterService;
 import ru.liga.cargodistributor.util.FileService;
 
@@ -18,6 +17,8 @@ import java.util.List;
 
 @Service
 public abstract class CommandHandlerService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommandHandlerService.class);
+
     protected final TelegramClient telegramClient;
     protected final CargoDistributorBotService botService;
     protected final CargoConverterService cargoConverterService;
@@ -89,6 +90,7 @@ public abstract class CommandHandlerService {
         } else {
             handlerService = new UnknownCommandHandlerService(telegramClient, botService, cargoConverterService, fileService);
         }
+        LOGGER.info("Picked command handler: {}", handlerService.getClass().getName());
         return handlerService;
     }
 

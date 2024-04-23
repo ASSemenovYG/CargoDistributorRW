@@ -31,6 +31,7 @@ public class ProcessCargoListCommandHandlerService extends CommandHandlerService
 
     @Override
     public List<Object> processCommandAndGetResponseMessages(Update update) {
+        LOGGER.info("Started processing command");
         List<Object> resultResponse = new LinkedList<>();
         long chatId = getChatIdFromUpdate(update);
 
@@ -73,6 +74,7 @@ public class ProcessCargoListCommandHandlerService extends CommandHandlerService
                             CargoDistributorBotResponseMessage.SEND_FILE_WITH_CARGO.getMessageText()
                     )
             );
+            LOGGER.info("Finished processing command, error occurred while processing file with cargo list");
             return resultResponse;
         }
 
@@ -85,6 +87,7 @@ public class ProcessCargoListCommandHandlerService extends CommandHandlerService
             );
 
             returnToStart(chatId, resultResponse);
+            LOGGER.info("Finished processing command, cargo list is empty");
             return resultResponse;
         }
 
@@ -111,6 +114,7 @@ public class ProcessCargoListCommandHandlerService extends CommandHandlerService
                 )
         );
 
+        LOGGER.info("Finished processing command, cargo list saved to cache");
         return resultResponse;
     }
 }

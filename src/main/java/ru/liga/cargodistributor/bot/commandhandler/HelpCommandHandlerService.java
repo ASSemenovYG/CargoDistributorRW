@@ -1,5 +1,7 @@
 package ru.liga.cargodistributor.bot.commandhandler;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,8 @@ import java.util.List;
 
 @Service
 public class HelpCommandHandlerService extends CommandHandlerService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(HelpCommandHandlerService.class);
+
     private static final String SRC_RESOURCES_PATH = "src/main/resources/";
     private static final String CARGO_FILE_EXAMPLE_NAME = "cargo_file_example.pkg";
     private static final String LOADED_VANS_FILE_EXAMPLE_NAME = "loadedVansExample.json";
@@ -33,6 +37,7 @@ public class HelpCommandHandlerService extends CommandHandlerService {
 
     @Override
     public List<Object> processCommandAndGetResponseMessages(Update update) {
+        LOGGER.info("Started processing command");
         List<Object> resultResponse = new LinkedList<>();
         long chatId = getChatIdFromUpdate(update);
 
@@ -88,7 +93,7 @@ public class HelpCommandHandlerService extends CommandHandlerService {
         );
 
         returnToStart(chatId, resultResponse);
-
+        LOGGER.info("Finished processing command");
         return resultResponse;
     }
 }

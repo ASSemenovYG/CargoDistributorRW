@@ -1,5 +1,7 @@
 package ru.liga.cargodistributor.bot.commandhandler;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,8 @@ import java.util.List;
 
 @Service
 public class ReadCargoCommandHandlerService extends CommandHandlerService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReadCargoCommandHandlerService.class);
+
     @Autowired
     protected ReadCargoCommandHandlerService(@Value("${bot.token}") String token, @Value("${cache.capacity}") int cacheCapacity) {
         super(token, cacheCapacity);
@@ -26,6 +30,7 @@ public class ReadCargoCommandHandlerService extends CommandHandlerService {
 
     @Override
     public List<Object> processCommandAndGetResponseMessages(Update update) {
+        LOGGER.info("Started processing command");
         List<Object> resultResponse = new LinkedList<>();
 
         resultResponse.add(
@@ -34,7 +39,7 @@ public class ReadCargoCommandHandlerService extends CommandHandlerService {
                         CargoDistributorBotResponseMessage.SEND_LOADED_VANS_TO_READ.getMessageText()
                 )
         );
-
+        LOGGER.info("Finished processing command");
         return resultResponse;
     }
 }

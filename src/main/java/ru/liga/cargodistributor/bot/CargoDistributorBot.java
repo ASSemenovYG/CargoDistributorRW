@@ -56,6 +56,8 @@ public class CargoDistributorBot implements SpringLongPollingBot, LongPollingSin
     public void consume(Update update) {
         //todo: добавить логирование
         //todo: добавить тесты
+        LOGGER.info("Receiving message: {}", update.toString());
+
         SendMessage lastSendMessage = botService.getLastSendMessageFromCache(String.valueOf(update.getMessage().getChatId()));
         CommandHandlerService handlerService = CommandHandlerService.determineAndGetCommandHandler(
                 update, botService, lastSendMessage, telegramClient, cargoConverterService, fileService
@@ -78,6 +80,7 @@ public class CargoDistributorBot implements SpringLongPollingBot, LongPollingSin
 
     private void sendMessage(SendMessage message) {
         try {
+            LOGGER.info("Sending response message: {}", message.toString());
             telegramClient.execute(message);
         } catch (TelegramApiException e) {
             LOGGER.error("sendMessage: {}", e.getMessage());
@@ -88,6 +91,7 @@ public class CargoDistributorBot implements SpringLongPollingBot, LongPollingSin
 
     private void sendDocument(SendDocument sendDocument) {
         try {
+            LOGGER.info("Sending response message with document: {}", sendDocument.toString());
             telegramClient.execute(sendDocument);
         } catch (TelegramApiException e) {
             LOGGER.error("sendDocument: {}", e.getMessage());
@@ -96,6 +100,7 @@ public class CargoDistributorBot implements SpringLongPollingBot, LongPollingSin
 
     private void sendSticker(SendSticker sendSticker) {
         try {
+            LOGGER.info("Sending response message with sticker: {}", sendSticker.toString());
             telegramClient.execute(sendSticker);
         } catch (TelegramApiException e) {
             LOGGER.error("sendSticker: {}", e.getMessage());
@@ -104,6 +109,7 @@ public class CargoDistributorBot implements SpringLongPollingBot, LongPollingSin
 
     private void sendVideoNote(SendVideoNote sendVideoNote) {
         try {
+            LOGGER.info("Sending response message with video: {}", sendVideoNote.toString());
             telegramClient.execute(sendVideoNote);
         } catch (TelegramApiException e) {
             LOGGER.error("sendVideoNote: {}", e.getMessage());

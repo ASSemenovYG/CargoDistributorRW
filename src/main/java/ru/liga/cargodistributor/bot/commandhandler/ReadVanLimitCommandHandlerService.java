@@ -31,6 +31,7 @@ public class ReadVanLimitCommandHandlerService extends CommandHandlerService {
 
     @Override
     public List<Object> processCommandAndGetResponseMessages(Update update) {
+        LOGGER.info("Started processing command");
         List<Object> resultResponse = new LinkedList<>();
         long chatId = getChatIdFromUpdate(update);
 
@@ -54,6 +55,7 @@ public class ReadVanLimitCommandHandlerService extends CommandHandlerService {
                     )
             );
 
+            LOGGER.info("Finished processing command, error occurred while parsing Integer");
             return resultResponse;
         }
         botService.putVanLimitToCache(String.valueOf(chatId), vanLimit);
@@ -66,6 +68,7 @@ public class ReadVanLimitCommandHandlerService extends CommandHandlerService {
                 )
         );
 
+        LOGGER.info("Finished processing command");
         return resultResponse;
     }
 }
