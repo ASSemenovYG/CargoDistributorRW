@@ -18,6 +18,7 @@ import java.util.List;
 
 @Service
 public class ReadVanLimitCommandHandlerService extends CommandHandlerService {
+    //todo: add tests
     private static final Logger LOGGER = LoggerFactory.getLogger(ReadVanLimitCommandHandlerService.class);
 
     @Autowired

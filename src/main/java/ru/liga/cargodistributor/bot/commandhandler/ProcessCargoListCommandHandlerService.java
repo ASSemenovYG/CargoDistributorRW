@@ -18,6 +18,7 @@ import java.util.List;
 
 @Service
 public class ProcessCargoListCommandHandlerService extends CommandHandlerService {
+    //todo: add tests
     private static final Logger LOGGER = LoggerFactory.getLogger(ProcessCargoListCommandHandlerService.class);
 
     @Autowired

@@ -54,8 +54,6 @@ public class CargoDistributorBot implements SpringLongPollingBot, LongPollingSin
 
     @Override
     public void consume(Update update) {
-        //todo: добавить логирование
-        //todo: добавить тесты
         LOGGER.info("Receiving message: {}", update.toString());
 
         SendMessage lastSendMessage = botService.getLastSendMessageFromCache(String.valueOf(update.getMessage().getChatId()));

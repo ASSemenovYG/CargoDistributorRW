@@ -21,6 +21,7 @@ import java.util.List;
 
 @Service
 public class PickAlgorithmCommandHandlerService extends CommandHandlerService {
+    //todo: add tests
     private static final Logger LOGGER = LoggerFactory.getLogger(PickAlgorithmCommandHandlerService.class);
 
     private static final String RESULT_JSON_FILE_NAME = "loadedVans.json";

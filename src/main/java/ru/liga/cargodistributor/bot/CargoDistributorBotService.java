@@ -26,6 +26,7 @@ import java.io.File;
 
 @Service
 public class CargoDistributorBotService {
+    //todo: add tests
     private static final Logger LOGGER = LoggerFactory.getLogger(CargoDistributorBotService.class);
 
     private final LruCache cache;

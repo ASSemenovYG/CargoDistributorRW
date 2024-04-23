@@ -17,6 +17,7 @@ import java.util.List;
 
 @Service
 public class HelpCommandHandlerService extends CommandHandlerService {
+    //todo: add tests
     private static final Logger LOGGER = LoggerFactory.getLogger(HelpCommandHandlerService.class);
 
     private static final String SRC_RESOURCES_PATH = "src/main/resources/";

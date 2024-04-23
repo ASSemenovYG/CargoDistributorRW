@@ -17,6 +17,7 @@ import java.util.List;
 
 @Service
 public abstract class CommandHandlerService {
+    //todo: add tests
     private static final Logger LOGGER = LoggerFactory.getLogger(CommandHandlerService.class);
 
     protected final TelegramClient telegramClient;
