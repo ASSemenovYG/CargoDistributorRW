@@ -18,7 +18,6 @@ import java.util.List;
 
 @Service
 public class ReadCargoVansCommandHandlerService extends CommandHandlerService {
-    //todo: add tests
     private static final Logger LOGGER = LoggerFactory.getLogger(ReadCargoVansCommandHandlerService.class);
 
     @Autowired
@@ -40,6 +39,7 @@ public class ReadCargoVansCommandHandlerService extends CommandHandlerService {
         if (update.getMessage().hasDocument()) {
             LOGGER.info("Reading cargo vans from a file");
             try {
+                //todo: подумать, как убрать зависимость от Document внутри Update, иначе этот класс невозможно тестировать
                 cargoVanList = cargoConverterService.deserializeLoadedVansFromJson(
                         fileService.readFromFile(
                                 botService.getFileFromUpdate(update, telegramClient)

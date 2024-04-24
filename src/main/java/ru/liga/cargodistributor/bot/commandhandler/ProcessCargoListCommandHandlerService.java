@@ -18,7 +18,6 @@ import java.util.List;
 
 @Service
 public class ProcessCargoListCommandHandlerService extends CommandHandlerService {
-    //todo: add tests
     private static final Logger LOGGER = LoggerFactory.getLogger(ProcessCargoListCommandHandlerService.class);
 
     @Autowired
@@ -38,6 +37,7 @@ public class ProcessCargoListCommandHandlerService extends CommandHandlerService
 
         CargoItemList cargoList;
         try {
+            //todo: подумать, как убрать зависимость от Document внутри Update, иначе этот класс невозможно тестировать
             cargoList = new CargoItemList(
                     cargoConverterService.parseCargoItems(
                             fileService.readFromFile(
