@@ -17,7 +17,7 @@ import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class FileServiceTest {
+public class FileServiceTest {
     private final List<CargoItem> cargoItemsToLoad = new ArrayList<>(Arrays.asList(
             new CargoItem(9, 3, 3),
             new CargoItem(6, 3, 2),
@@ -34,7 +34,7 @@ class FileServiceTest {
     private final CargoConverterService cargoConverterService = new CargoConverterService();
 
     @AfterAll
-    static void clearJsonVanTestDirectory() {
+    public static void clearJsonVanTestDirectory() {
         File folder = new File(FileService.TEST_DIRECTORY_TO_WRITE_JSON_FILE);
         File[] fList = folder.listFiles();
         for (File file : fList) {

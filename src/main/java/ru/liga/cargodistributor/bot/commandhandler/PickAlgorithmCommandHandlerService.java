@@ -41,6 +41,7 @@ public class PickAlgorithmCommandHandlerService extends CommandHandlerService {
         long chatId = getChatIdFromUpdate(update);
 
         DistributionAlgorithmService algorithm;
+        LOGGER.info("trying to resolve algorithm name from text message: {}", getMessageTextFromUpdate(update));
         DistributionAlgorithmName algorithmName = DistributionAlgorithmName.fromString(getMessageTextFromUpdate(update));
         try {
             if (algorithmName == null) {
