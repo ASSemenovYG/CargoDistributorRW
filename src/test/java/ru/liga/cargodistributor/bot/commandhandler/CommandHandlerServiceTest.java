@@ -1,6 +1,11 @@
 package ru.liga.cargodistributor.bot.commandhandler;
 
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
@@ -9,6 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 import ru.liga.cargodistributor.algorithm.DistributionAlgorithmName;
+import ru.liga.cargodistributor.bot.CargoDistributorBot;
 import ru.liga.cargodistributor.bot.CargoDistributorBotResponseMessage;
 import ru.liga.cargodistributor.bot.CargoDistributorBotService;
 import ru.liga.cargodistributor.bot.CargoDistributorBotUserCommand;
@@ -17,12 +23,16 @@ import ru.liga.cargodistributor.util.FileService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@SpringBootTest
+@RunWith(SpringRunner.class)
+@TestPropertySource(locations = "classpath:application.properties")
 class CommandHandlerServiceTest {
 
+    @Autowired
+    private CargoDistributorBot cargoDistributorBot;
+
     private final TelegramClient telegramClient = new OkHttpTelegramClient("token");
-    ;
     private final CargoDistributorBotService botService = new CargoDistributorBotService(10);
-    ;
     private final CargoConverterService cargoConverterService = new CargoConverterService();
     private final FileService fileService = new FileService(true);
 
@@ -147,6 +157,40 @@ class CommandHandlerServiceTest {
 
         SendMessage lastMessage = botService.buildTextMessageWithoutKeyboard(123L, CargoDistributorBotResponseMessage.SEND_FILE_WITH_CARGO.getMessageText());
 
+        Document document = new Document(
+                "BQACAgIAAxkBAAICImZBAAFaKNCP6NvuteJuYOQmUwX3EAAC0UsAAoCYCUqv4yRB0jnEYTUE",
+                "AgAD0UsAAoCYCUo",
+                null,
+                "test_valid_cargo_file_3.pkg",
+                "application/x-xar",
+                156L
+        );
+
+        Message message = new Message();
+        message.setChat(chat);
+        message.setDocument(document);
+
+        Update update = new Update();
+        update.setMessage(message);
+
+        CommandHandlerService handlerService = CommandHandlerService.determineAndGetCommandHandler(
+                update,
+                botService,
+                lastMessage,
+                new OkHttpTelegramClient(cargoDistributorBot.getBotToken()),
+                cargoConverterService,
+                fileService
+        );
+
+        assertThat(handlerService.getClass()).isEqualTo(ProcessCargoListCommandHandlerService.class);
+    }
+
+    @Test
+    void determineAndGetCommandHandler_ProcessCargoListReadingFileError() {
+        Chat chat = new Chat(123L, "private");
+
+        SendMessage lastMessage = botService.buildTextMessageWithoutKeyboard(123L, CargoDistributorBotResponseMessage.SEND_FILE_WITH_CARGO.getMessageText());
+
         Document document = new Document();
 
         Message message = new Message();
@@ -165,7 +209,7 @@ class CommandHandlerServiceTest {
                 fileService
         );
 
-        assertThat(handlerService.getClass()).isEqualTo(ProcessCargoListCommandHandlerService.class);
+        assertThat(handlerService.getClass()).isEqualTo(ProcessCargoListReadingFileErrorCommandHandlerService.class);
     }
 
     @Test
@@ -253,7 +297,7 @@ class CommandHandlerServiceTest {
     }
 
     @Test
-    void determineAndGetCommandHandler_ReadCargoVans_FromFile() {
+    void determineAndGetCommandHandler_ReadCargoVansReadingFileError() {
         Chat chat = new Chat(123L, "private");
 
         SendMessage lastMessage = botService.buildTextMessageWithoutKeyboard(
@@ -262,7 +306,6 @@ class CommandHandlerServiceTest {
         );
 
         Message message = new Message();
-        message.setText("some json");
         message.setDocument(new Document());
         message.setChat(chat);
 
@@ -274,6 +317,43 @@ class CommandHandlerServiceTest {
                 botService,
                 lastMessage,
                 telegramClient,
+                cargoConverterService,
+                fileService
+        );
+
+        assertThat(handlerService.getClass()).isEqualTo(ReadCargoVansReadingFileErrorCommandHandlerService.class);
+    }
+
+    @Test
+    void determineAndGetCommandHandler_ReadCargoVans_FromFile() {
+        Chat chat = new Chat(123L, "private");
+
+        SendMessage lastMessage = botService.buildTextMessageWithoutKeyboard(
+                123L,
+                CargoDistributorBotResponseMessage.SEND_LOADED_VANS_TO_READ.getMessageText()
+        );
+
+        Message message = new Message();
+        message.setDocument(
+                new Document(
+                        "BQACAgIAAxkBAAIB-2ZA5TGOvTNcFv5XQIPl-L2bmfLPAAKCSgACgJgJShjPI7bBQQIBNQQ",
+                        "AgADgkoAAoCYCUo",
+                        null,
+                        "loadedVansExample.json",
+                        "application/json",
+                        864L
+                )
+        );
+        message.setChat(chat);
+
+        Update update = new Update();
+        update.setMessage(message);
+
+        CommandHandlerService handlerService = CommandHandlerService.determineAndGetCommandHandler(
+                update,
+                botService,
+                lastMessage,
+                new OkHttpTelegramClient(cargoDistributorBot.getBotToken()),
                 cargoConverterService,
                 fileService
         );

@@ -19,14 +19,22 @@ import java.util.List;
 @Service
 public class ProcessCargoListCommandHandlerService extends CommandHandlerService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProcessCargoListCommandHandlerService.class);
+    private final String cargoContent;
 
     @Autowired
     protected ProcessCargoListCommandHandlerService(@Value("${bot.token}") String token, @Value("${cache.capacity}") int cacheCapacity) {
         super(token, cacheCapacity);
+        this.cargoContent = null;
     }
 
-    public ProcessCargoListCommandHandlerService(TelegramClient telegramClient, CargoDistributorBotService botService, CargoConverterService cargoConverterService, FileService fileService) {
+    public ProcessCargoListCommandHandlerService(
+            TelegramClient telegramClient,
+            CargoDistributorBotService botService,
+            CargoConverterService cargoConverterService,
+            FileService fileService,
+            String cargoContent) {
         super(telegramClient, botService, cargoConverterService, fileService);
+        this.cargoContent = cargoContent;
     }
 
     @Override
@@ -37,14 +45,7 @@ public class ProcessCargoListCommandHandlerService extends CommandHandlerService
 
         CargoItemList cargoList;
         try {
-            //todo: подумать, как убрать зависимость от Document внутри Update, иначе этот класс невозможно тестировать
-            cargoList = new CargoItemList(
-                    cargoConverterService.parseCargoItems(
-                            fileService.readFromFile(
-                                    botService.getFileFromUpdate(update, telegramClient)
-                            )
-                    )
-            );
+            cargoList = new CargoItemList(cargoConverterService.parseCargoItems(cargoContent));
         } catch (RuntimeException e) {
             LOGGER.error(e.getMessage());
 

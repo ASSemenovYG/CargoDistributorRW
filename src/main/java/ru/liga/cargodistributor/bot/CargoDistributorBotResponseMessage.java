@@ -55,7 +55,9 @@ public enum CargoDistributorBotResponseMessage {
                     Для запуска функции считывания используй команду /readcargo
                     Или используй команду /start и нажми на соответствующую кнопку
                     """
-    );
+    ),
+    ERROR_WHILE_READING_FROM_FILE_MESSAGE("Произошла ошибка при чтении данных из файла"),
+    ERROR_WHILE_READING_FROM_FILE_FOUND_PREVIOUS_RESPONSE("Вот последнее, о чем я тебя просил:");
 
     private final String messageText;
 

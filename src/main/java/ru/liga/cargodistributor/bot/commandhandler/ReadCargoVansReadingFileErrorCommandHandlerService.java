@@ -4,8 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 import ru.liga.cargodistributor.bot.CargoDistributorBotResponseMessage;
@@ -16,55 +14,49 @@ import ru.liga.cargodistributor.util.FileService;
 import java.util.LinkedList;
 import java.util.List;
 
-@Service
-public class UnknownCommandHandlerService extends CommandHandlerService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(UnknownCommandHandlerService.class);
+public class ReadCargoVansReadingFileErrorCommandHandlerService extends CommandHandlerService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReadCargoVansReadingFileErrorCommandHandlerService.class);
+    private final String errorMessage;
 
     @Autowired
-    protected UnknownCommandHandlerService(@Value("${bot.token}") String token, @Value("${cache.capacity}") int cacheCapacity) {
+    protected ReadCargoVansReadingFileErrorCommandHandlerService(@Value("${bot.token}") String token, @Value("${cache.capacity}") int cacheCapacity) {
         super(token, cacheCapacity);
+        this.errorMessage = null;
     }
 
-    public UnknownCommandHandlerService(
+    public ReadCargoVansReadingFileErrorCommandHandlerService(
             TelegramClient telegramClient,
             CargoDistributorBotService botService,
             CargoConverterService cargoConverterService,
-            FileService fileService
+            FileService fileService,
+            String errorMessage
     ) {
         super(telegramClient, botService, cargoConverterService, fileService);
+        this.errorMessage = errorMessage;
     }
 
     @Override
     public List<Object> processCommandAndGetResponseMessages(Update update) {
         LOGGER.info("Started processing command");
-
         List<Object> resultResponse = new LinkedList<>();
         long chatId = getChatIdFromUpdate(update);
-
-        SendMessage lastMessage = botService.getLastSendMessageFromCache(String.valueOf(chatId));
-
-        if (lastMessage == null) {
-            resultResponse.add(
-                    botService.buildTextMessageWithoutKeyboard(
-                            chatId,
-                            CargoDistributorBotResponseMessage.CANT_PROCESS_LAST_MESSAGE.getMessageText()
-                    )
-            );
-
-            returnToStart(chatId, resultResponse);
-            LOGGER.info("Finished processing command, last message not found");
-            return resultResponse;
-        }
 
         resultResponse.add(
                 botService.buildTextMessageWithoutKeyboard(
                         chatId,
-                        CargoDistributorBotResponseMessage.CANT_PROCESS_LAST_MESSAGE_FOUND_PREVIOUS_RESPONSE.getMessageText()
+                        CargoDistributorBotResponseMessage.ERROR_WHILE_PROCESSING_CARGO_VAN_FILE.getMessageText()
                 )
         );
 
-        resultResponse.add(lastMessage);
-        LOGGER.info("Finished processing command, last message found");
+        resultResponse.add(
+                botService.buildTextMessageWithoutKeyboard(
+                        chatId,
+                        "```" + errorMessage + "```"
+                )
+        );
+
+        returnToStart(chatId, resultResponse);
+        LOGGER.info("Finished processing command");
         return resultResponse;
     }
 }

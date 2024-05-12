@@ -9,7 +9,10 @@ import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
-import ru.liga.cargodistributor.bot.*;
+import ru.liga.cargodistributor.bot.CargoDistributorBotKeyboard;
+import ru.liga.cargodistributor.bot.CargoDistributorBotResponseMessage;
+import ru.liga.cargodistributor.bot.CargoDistributorBotService;
+import ru.liga.cargodistributor.bot.CargoDistributorBotUserCommand;
 import ru.liga.cargodistributor.cargo.CargoConverterService;
 import ru.liga.cargodistributor.util.FileService;
 
@@ -41,7 +44,14 @@ public abstract class CommandHandlerService {
 
     public abstract List<Object> processCommandAndGetResponseMessages(Update update);
 
-    public static CommandHandlerService determineAndGetCommandHandler(Update update, CargoDistributorBotService botService, SendMessage lastSendMessage, TelegramClient telegramClient, CargoConverterService cargoConverterService, FileService fileService) {
+    public static CommandHandlerService determineAndGetCommandHandler(
+            Update update,
+            CargoDistributorBotService botService,
+            SendMessage lastSendMessage,
+            TelegramClient telegramClient,
+            CargoConverterService cargoConverterService,
+            FileService fileService
+    ) {
         CommandHandlerService handlerService;
         if ((updateHasMessageText(update) && isUpdateMessageTextEqualTo(update, CargoDistributorBotUserCommand.START.getCommandText()))) {
             handlerService = new StartCommandHandlerService(telegramClient, botService, cargoConverterService, fileService);
@@ -63,7 +73,14 @@ public abstract class CommandHandlerService {
                 update.getMessage().hasDocument() &&
                 isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.SEND_FILE_WITH_CARGO.getMessageText(), lastSendMessage)
         ) {
-            handlerService = new ProcessCargoListCommandHandlerService(telegramClient, botService, cargoConverterService, fileService);
+            handlerService = parseUpdateDocumentAndDetermineCommandHandler(
+                    "ProcessCargoList",
+                    update,
+                    telegramClient,
+                    botService,
+                    cargoConverterService,
+                    fileService
+            );
         } else if (updateHasMessageText(update) &&
                 isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.ENTER_VAN_LIMIT.getMessageText(), lastSendMessage)
         ) {
@@ -78,7 +95,25 @@ public abstract class CommandHandlerService {
                                 update.getMessage().hasDocument()
                 )
         ) {
-            handlerService = new ReadCargoVansCommandHandlerService(telegramClient, botService, cargoConverterService, fileService);
+            if (update.getMessage().hasDocument()) {
+                return parseUpdateDocumentAndDetermineCommandHandler(
+                        "ReadCargoVans",
+                        update,
+                        telegramClient,
+                        botService,
+                        cargoConverterService,
+                        fileService
+                );
+            }
+
+            handlerService = new ReadCargoVansCommandHandlerService(
+                    telegramClient,
+                    botService,
+                    cargoConverterService,
+                    fileService,
+                    null
+            );
+
         } else if (updateHasMessageText(update) &&
                 isUpdateMessageTextEqualTo(update, CargoDistributorBotUserCommand.HELP.getCommandText())
         ) {
@@ -133,5 +168,80 @@ public abstract class CommandHandlerService {
         return lastSendMessage
                 .getText()
                 .equals(messageText);
+    }
+
+    private static CommandHandlerService parseUpdateDocumentAndDetermineCommandHandler(
+            String handlerName,
+            Update update,
+            TelegramClient telegramClient,
+            CargoDistributorBotService botService,
+            CargoConverterService cargoConverterService,
+            FileService fileService
+    ) {
+        String docContent = null;
+        String errorMessage = null;
+        CommandHandlerService handlerService;
+        try {
+            docContent = fileService.readFromFile(botService.getFileFromUpdate(update, telegramClient));
+        } catch (RuntimeException e) {
+            errorMessage = String.format("error while reading content from file: %s", e.getMessage());
+            LOGGER.error(errorMessage);
+        }
+
+        switch (handlerName) {
+            case "ProcessCargoList": {
+                if (errorMessage == null) {
+                    handlerService = new ProcessCargoListCommandHandlerService(telegramClient,
+                            botService,
+                            cargoConverterService,
+                            fileService,
+                            docContent
+                    );
+                } else {
+                    handlerService = new ProcessCargoListReadingFileErrorCommandHandlerService(
+                            telegramClient,
+                            botService,
+                            cargoConverterService,
+                            fileService,
+                            errorMessage
+                    );
+                }
+
+            }
+            break;
+            case "ReadCargoVans": {
+                if (errorMessage == null) {
+                    handlerService = new ReadCargoVansCommandHandlerService(
+                            telegramClient,
+                            botService,
+                            cargoConverterService,
+                            fileService,
+                            docContent
+                    );
+                } else {
+                    handlerService = new ReadCargoVansReadingFileErrorCommandHandlerService(
+                            telegramClient,
+                            botService,
+                            cargoConverterService,
+                            fileService,
+                            errorMessage
+                    );
+                }
+            }
+            break;
+            default: {
+                LOGGER.info("parseUpdateDocumentAndDetermineCommandHandler: Unknown handler name: {}", handlerName);
+                errorMessage += "\nUnknown handler name: " + handlerName;
+
+                handlerService = new FileReadErrorUnknownCommandHandlerService(
+                        telegramClient,
+                        botService,
+                        cargoConverterService,
+                        fileService,
+                        errorMessage
+                );
+            }
+        }
+        return handlerService;
     }
 }

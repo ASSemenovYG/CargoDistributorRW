@@ -19,14 +19,23 @@ import java.util.List;
 @Service
 public class ReadCargoVansCommandHandlerService extends CommandHandlerService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ReadCargoVansCommandHandlerService.class);
+    private final String jsonContent;
 
     @Autowired
     protected ReadCargoVansCommandHandlerService(@Value("${bot.token}") String token, @Value("${cache.capacity}") int cacheCapacity) {
         super(token, cacheCapacity);
+        this.jsonContent = null;
     }
 
-    public ReadCargoVansCommandHandlerService(TelegramClient telegramClient, CargoDistributorBotService botService, CargoConverterService cargoConverterService, FileService fileService) {
+    public ReadCargoVansCommandHandlerService(
+            TelegramClient telegramClient,
+            CargoDistributorBotService botService,
+            CargoConverterService cargoConverterService,
+            FileService fileService,
+            String jsonContent
+    ) {
         super(telegramClient, botService, cargoConverterService, fileService);
+        this.jsonContent = jsonContent;
     }
 
     @Override
@@ -36,61 +45,35 @@ public class ReadCargoVansCommandHandlerService extends CommandHandlerService {
         long chatId = getChatIdFromUpdate(update);
 
         CargoVanList cargoVanList;
-        if (update.getMessage().hasDocument()) {
-            LOGGER.info("Reading cargo vans from a file");
-            try {
-                //todo: подумать, как убрать зависимость от Document внутри Update, иначе этот класс невозможно тестировать
-                cargoVanList = cargoConverterService.deserializeLoadedVansFromJson(
-                        fileService.readFromFile(
-                                botService.getFileFromUpdate(update, telegramClient)
-                        )
-                );
-            } catch (RuntimeException e) {
-                LOGGER.error("error while deserializing file: {}", e.getMessage());
+        LOGGER.info("Reading JSON with cargo vans");
+        try {
+            cargoVanList = cargoConverterService.deserializeLoadedVansFromJson(
+                    (
+                            jsonContent == null || jsonContent.isEmpty() || jsonContent.isBlank()
+                                    ? update.getMessage().getText()
+                                    : jsonContent
+                    )
+            );
+        } catch (RuntimeException e) {
+            LOGGER.error("error while deserializing JSON: {}", e.getMessage());
 
-                resultResponse.add(
-                        botService.buildTextMessageWithoutKeyboard(
-                                chatId,
-                                CargoDistributorBotResponseMessage.ERROR_WHILE_PROCESSING_CARGO_VAN_FILE.getMessageText()
-                        )
-                );
+            resultResponse.add(
+                    botService.buildTextMessageWithoutKeyboard(
+                            chatId,
+                            CargoDistributorBotResponseMessage.ERROR_WHILE_PROCESSING_CARGO_VAN_JSON_MESSAGE.getMessageText()
+                    )
+            );
 
-                resultResponse.add(
-                        botService.buildTextMessageWithoutKeyboard(
-                                chatId,
-                                "```" + e.getMessage() + "```"
-                        )
-                );
+            resultResponse.add(
+                    botService.buildTextMessageWithoutKeyboard(
+                            chatId,
+                            "```" + e.getMessage() + "```"
+                    )
+            );
 
-                returnToStart(chatId, resultResponse);
-                LOGGER.info("Finished processing command, error occurred while reading JSON from file");
-                return resultResponse;
-            }
-        } else {
-            LOGGER.info("Reading JSON with cargo vans from a message");
-            try {
-                cargoVanList = cargoConverterService.deserializeLoadedVansFromJson(update.getMessage().getText());
-            } catch (RuntimeException e) {
-                LOGGER.error("error while deserializing JSON from message: {}", e.getMessage());
-
-                resultResponse.add(
-                        botService.buildTextMessageWithoutKeyboard(
-                                chatId,
-                                CargoDistributorBotResponseMessage.ERROR_WHILE_PROCESSING_CARGO_VAN_JSON_MESSAGE.getMessageText()
-                        )
-                );
-
-                resultResponse.add(
-                        botService.buildTextMessageWithoutKeyboard(
-                                chatId,
-                                "```" + e.getMessage() + "```"
-                        )
-                );
-
-                returnToStart(chatId, resultResponse);
-                LOGGER.info("Finished processing command, error occurred while reading JSON from message");
-                return resultResponse;
-            }
+            returnToStart(chatId, resultResponse);
+            LOGGER.info("Finished processing command, error occurred while deserializing JSON");
+            return resultResponse;
         }
 
         resultResponse.add(

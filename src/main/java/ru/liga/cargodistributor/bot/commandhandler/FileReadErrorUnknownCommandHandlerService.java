@@ -17,21 +17,25 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Service
-public class UnknownCommandHandlerService extends CommandHandlerService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(UnknownCommandHandlerService.class);
+public class FileReadErrorUnknownCommandHandlerService extends CommandHandlerService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileReadErrorUnknownCommandHandlerService.class);
+    private final String errorMessage;
 
     @Autowired
-    protected UnknownCommandHandlerService(@Value("${bot.token}") String token, @Value("${cache.capacity}") int cacheCapacity) {
+    protected FileReadErrorUnknownCommandHandlerService(@Value("${bot.token}") String token, @Value("${cache.capacity}") int cacheCapacity) {
         super(token, cacheCapacity);
+        this.errorMessage = null;
     }
 
-    public UnknownCommandHandlerService(
+    public FileReadErrorUnknownCommandHandlerService(
             TelegramClient telegramClient,
             CargoDistributorBotService botService,
             CargoConverterService cargoConverterService,
-            FileService fileService
+            FileService fileService,
+            String errorMessage
     ) {
         super(telegramClient, botService, cargoConverterService, fileService);
+        this.errorMessage = errorMessage;
     }
 
     @Override
@@ -41,30 +45,34 @@ public class UnknownCommandHandlerService extends CommandHandlerService {
         List<Object> resultResponse = new LinkedList<>();
         long chatId = getChatIdFromUpdate(update);
 
-        SendMessage lastMessage = botService.getLastSendMessageFromCache(String.valueOf(chatId));
-
-        if (lastMessage == null) {
-            resultResponse.add(
-                    botService.buildTextMessageWithoutKeyboard(
-                            chatId,
-                            CargoDistributorBotResponseMessage.CANT_PROCESS_LAST_MESSAGE.getMessageText()
-                    )
-            );
-
-            returnToStart(chatId, resultResponse);
-            LOGGER.info("Finished processing command, last message not found");
-            return resultResponse;
-        }
+        resultResponse.add(
+                botService.buildTextMessageWithoutKeyboard(
+                        chatId,
+                        CargoDistributorBotResponseMessage.ERROR_WHILE_READING_FROM_FILE_MESSAGE.getMessageText()
+                )
+        );
 
         resultResponse.add(
                 botService.buildTextMessageWithoutKeyboard(
                         chatId,
-                        CargoDistributorBotResponseMessage.CANT_PROCESS_LAST_MESSAGE_FOUND_PREVIOUS_RESPONSE.getMessageText()
+                        "```" + errorMessage + "```"
                 )
         );
 
-        resultResponse.add(lastMessage);
-        LOGGER.info("Finished processing command, last message found");
+        SendMessage lastMessage = botService.getLastSendMessageFromCache(String.valueOf(chatId));
+
+        if (lastMessage != null) {
+            resultResponse.add(
+                    botService.buildTextMessageWithoutKeyboard(
+                            chatId,
+                            CargoDistributorBotResponseMessage.ERROR_WHILE_READING_FROM_FILE_FOUND_PREVIOUS_RESPONSE.getMessageText()
+                    )
+            );
+
+            resultResponse.add(lastMessage);
+        }
+
+        LOGGER.info("Finished processing command");
         return resultResponse;
     }
 }
