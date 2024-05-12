@@ -26,7 +26,6 @@ import java.io.File;
 
 @Service
 public class CargoDistributorBotService {
-    //todo: add tests
     private static final Logger LOGGER = LoggerFactory.getLogger(CargoDistributorBotService.class);
 
     private final LruCache cache;
@@ -135,7 +134,7 @@ public class CargoDistributorBotService {
     public File getFileFromUpdate(Update update, TelegramClient telegramClient) {
         Document document = update.getMessage().getDocument();
         GetFile getFileMethod = new GetFile(document.getFileId());
-        org.telegram.telegrambots.meta.api.objects.File file = null;
+        org.telegram.telegrambots.meta.api.objects.File file;
         try {
             file = telegramClient.execute(getFileMethod);
         } catch (TelegramApiException e) {
