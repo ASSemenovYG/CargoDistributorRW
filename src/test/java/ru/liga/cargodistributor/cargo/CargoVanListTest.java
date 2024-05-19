@@ -1,9 +1,10 @@
 package ru.liga.cargodistributor.cargo;
 
 import org.junit.jupiter.api.Test;
-import ru.liga.cargodistributor.algorithm.DistributionAlgorithmService;
-import ru.liga.cargodistributor.algorithm.SingleSortedCargoDistributionAlgorithmService;
-import ru.liga.cargodistributor.util.FileService;
+import ru.liga.cargodistributor.algorithm.services.DistributionAlgorithmService;
+import ru.liga.cargodistributor.algorithm.serviceImpls.SingleSortedCargoDistributionAlgorithmService;
+import ru.liga.cargodistributor.cargo.services.CargoConverterService;
+import ru.liga.cargodistributor.util.services.FileService;
 
 import java.util.ArrayList;
 import java.util.Arrays;

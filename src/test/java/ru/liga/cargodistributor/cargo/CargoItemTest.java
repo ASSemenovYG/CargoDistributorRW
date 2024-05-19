@@ -2,6 +2,7 @@ package ru.liga.cargodistributor.cargo;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import ru.liga.cargodistributor.cargo.exceptions.CargoItemValidationException;
 
 
 class CargoItemTest {

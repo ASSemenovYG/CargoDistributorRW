@@ -16,9 +16,10 @@ import org.telegram.telegrambots.meta.api.methods.send.SendVideoNote;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
-import ru.liga.cargodistributor.bot.commandhandler.CommandHandlerService;
-import ru.liga.cargodistributor.cargo.CargoConverterService;
-import ru.liga.cargodistributor.util.FileService;
+import ru.liga.cargodistributor.bot.services.CommandHandlerService;
+import ru.liga.cargodistributor.bot.services.CargoDistributorBotService;
+import ru.liga.cargodistributor.cargo.services.CargoConverterService;
+import ru.liga.cargodistributor.util.services.FileService;
 
 import java.util.List;
 

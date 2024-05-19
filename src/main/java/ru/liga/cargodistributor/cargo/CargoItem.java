@@ -3,6 +3,7 @@ package ru.liga.cargodistributor.cargo;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.liga.cargodistributor.cargo.exceptions.CargoItemValidationException;
 
 import java.util.*;
 

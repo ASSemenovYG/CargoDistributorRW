@@ -2,6 +2,7 @@ package ru.liga.cargodistributor.cargo;
 
 import org.assertj.core.data.Index;
 import org.junit.jupiter.api.Test;
+import ru.liga.cargodistributor.cargo.services.CargoConverterService;
 
 import java.util.ArrayList;
 import java.util.List;

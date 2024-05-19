@@ -5,7 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.liga.cargodistributor.algorithm.DistributionAlgorithmService;
+import ru.liga.cargodistributor.algorithm.services.DistributionAlgorithmService;
+import ru.liga.cargodistributor.cargo.services.CargoConverterService;
 
 import java.util.ArrayList;
 import java.util.Collection;
