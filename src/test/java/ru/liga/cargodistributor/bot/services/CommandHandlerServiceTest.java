@@ -18,6 +18,7 @@ import ru.liga.cargodistributor.bot.CargoDistributorBot;
 import ru.liga.cargodistributor.bot.enums.CargoDistributorBotResponseMessage;
 import ru.liga.cargodistributor.bot.serviceImpls.*;
 import ru.liga.cargodistributor.bot.enums.CargoDistributorBotUserCommand;
+import ru.liga.cargodistributor.cargo.repository.CargoItemTypeRepository;
 import ru.liga.cargodistributor.cargo.services.CargoConverterService;
 import ru.liga.cargodistributor.util.services.FileService;
 
@@ -30,6 +31,9 @@ class CommandHandlerServiceTest {
 
     @Autowired
     private CargoDistributorBot cargoDistributorBot;
+
+    @Autowired
+    CargoItemTypeRepository cargoItemTypeRepository;
 
     private final TelegramClient telegramClient = new OkHttpTelegramClient("token");
     private final CargoDistributorBotService botService = new CargoDistributorBotService(10);
@@ -53,7 +57,8 @@ class CommandHandlerServiceTest {
                 null,
                 telegramClient,
                 cargoConverterService,
-                fileService
+                fileService,
+                cargoItemTypeRepository
         );
 
         assertThat(handlerService.getClass()).isEqualTo(StartCommandHandlerService.class);
@@ -76,7 +81,8 @@ class CommandHandlerServiceTest {
                 null,
                 telegramClient,
                 cargoConverterService,
-                fileService
+                fileService,
+                cargoItemTypeRepository
         );
 
         assertThat(handlerService.getClass()).isEqualTo(DistributeCommandHandlerService.class);
@@ -99,7 +105,8 @@ class CommandHandlerServiceTest {
                 null,
                 telegramClient,
                 cargoConverterService,
-                fileService
+                fileService,
+                cargoItemTypeRepository
         );
 
         assertThat(handlerService.getClass()).isEqualTo(DistributeCommandHandlerService.class);
@@ -122,7 +129,8 @@ class CommandHandlerServiceTest {
                 null,
                 telegramClient,
                 cargoConverterService,
-                fileService
+                fileService,
+                cargoItemTypeRepository
         );
 
         assertThat(handlerService.getClass()).isEqualTo(ReadCargoCommandHandlerService.class);
@@ -145,7 +153,8 @@ class CommandHandlerServiceTest {
                 null,
                 telegramClient,
                 cargoConverterService,
-                fileService
+                fileService,
+                cargoItemTypeRepository
         );
 
         assertThat(handlerService.getClass()).isEqualTo(ReadCargoCommandHandlerService.class);
@@ -179,7 +188,8 @@ class CommandHandlerServiceTest {
                 lastMessage,
                 new OkHttpTelegramClient(cargoDistributorBot.getBotToken()),
                 cargoConverterService,
-                fileService
+                fileService,
+                cargoItemTypeRepository
         );
 
         assertThat(handlerService.getClass()).isEqualTo(ProcessCargoListCommandHandlerService.class);
@@ -206,7 +216,8 @@ class CommandHandlerServiceTest {
                 lastMessage,
                 telegramClient,
                 cargoConverterService,
-                fileService
+                fileService,
+                cargoItemTypeRepository
         );
 
         assertThat(handlerService.getClass()).isEqualTo(ProcessCargoListReadingFileErrorCommandHandlerService.class);
@@ -234,7 +245,8 @@ class CommandHandlerServiceTest {
                 lastMessage,
                 telegramClient,
                 cargoConverterService,
-                fileService
+                fileService,
+                cargoItemTypeRepository
         );
 
         assertThat(handlerService.getClass()).isEqualTo(ReadVanLimitCommandHandlerService.class);
@@ -262,7 +274,8 @@ class CommandHandlerServiceTest {
                 lastMessage,
                 telegramClient,
                 cargoConverterService,
-                fileService
+                fileService,
+                cargoItemTypeRepository
         );
 
         assertThat(handlerService.getClass()).isEqualTo(PickAlgorithmCommandHandlerService.class);
@@ -290,7 +303,8 @@ class CommandHandlerServiceTest {
                 lastMessage,
                 telegramClient,
                 cargoConverterService,
-                fileService
+                fileService,
+                cargoItemTypeRepository
         );
 
         assertThat(handlerService.getClass()).isEqualTo(ReadCargoVansCommandHandlerService.class);
@@ -318,7 +332,8 @@ class CommandHandlerServiceTest {
                 lastMessage,
                 telegramClient,
                 cargoConverterService,
-                fileService
+                fileService,
+                cargoItemTypeRepository
         );
 
         assertThat(handlerService.getClass()).isEqualTo(ReadCargoVansReadingFileErrorCommandHandlerService.class);
@@ -355,7 +370,8 @@ class CommandHandlerServiceTest {
                 lastMessage,
                 new OkHttpTelegramClient(cargoDistributorBot.getBotToken()),
                 cargoConverterService,
-                fileService
+                fileService,
+                cargoItemTypeRepository
         );
 
         assertThat(handlerService.getClass()).isEqualTo(ReadCargoVansCommandHandlerService.class);
@@ -378,7 +394,8 @@ class CommandHandlerServiceTest {
                 null,
                 telegramClient,
                 cargoConverterService,
-                fileService
+                fileService,
+                cargoItemTypeRepository
         );
 
         assertThat(handlerService.getClass()).isEqualTo(HelpCommandHandlerService.class);
@@ -401,7 +418,8 @@ class CommandHandlerServiceTest {
                 null,
                 telegramClient,
                 cargoConverterService,
-                fileService
+                fileService,
+                cargoItemTypeRepository
         );
 
         assertThat(handlerService.getClass()).isEqualTo(AboutCommandHandlerService.class);
@@ -424,7 +442,8 @@ class CommandHandlerServiceTest {
                 null,
                 telegramClient,
                 cargoConverterService,
-                fileService
+                fileService,
+                cargoItemTypeRepository
         );
 
         assertThat(handlerService.getClass()).isEqualTo(UnknownCommandHandlerService.class);

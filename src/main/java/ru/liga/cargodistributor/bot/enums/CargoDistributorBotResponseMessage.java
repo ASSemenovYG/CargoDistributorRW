@@ -4,6 +4,7 @@ public enum CargoDistributorBotResponseMessage {
     DISTRIBUTE_CARGO(CargoDistributorBotKeyboardButton.READ_CARGO_AND_DISTRIBUTE.getButtonText()),
     READ_JSON_WITH_LOADED_VANS(CargoDistributorBotKeyboardButton.READ_JSON_WITH_LOADED_VANS.getButtonText()),
     SEND_FILE_WITH_CARGO("Отправь мне файл с посылками"),
+    SEND_FILE_WITH_SINGLE_CARGO("Отправь мне файл с одной посылкой"),
     ENTER_VAN_LIMIT("Введи максимальное количество грузовых фургонов для распределения"),
     PICK_ALGORITHM("Выбери алгоритм распределения"),
     SEND_LOADED_VANS_TO_READ("Отправь мне файл с загруженными фургонами или скинь json в сообщении"),
@@ -13,11 +14,13 @@ public enum CargoDistributorBotResponseMessage {
     ERROR_WHILE_PROCESSING_CARGO_VAN_JSON_MESSAGE("Произошла ошибка при обработке JSON с загруженными фургонами:"),
     TRY_AGAIN("Попробуй еще раз"),
     NO_CARGO_ITEMS_FOUND_IN_A_FILE("В файле не найдено ни одной посылки!"),
+    MORE_THAN_ONE_CARGO_ITEM_FOUND_IN_A_FILE("В файле не найдено ни одной посылки!"),
     FOUND_CARGO_ITEMS_IN_A_FILE("В файле найдены следующие посылки:"),
     ENTER_CARGO_VAN_LIMIT("Введи максимальное количество грузовых фургонов для распределения"),
     FAILED_TO_PARSE_INTEGER("Не могу распознать число. Необходимо ввести целое число"),
     FAILED_TO_FIND_CARGO_LIST("Я не нашел твой список посылок, который ты отправлял до этого"),
     FAILED_TO_DISTRIBUTE_UNDER_VAN_LIMIT("Не удалось распределить посылки из файла по указанному количеству фургонов"),
+    FAILED_TO_FIND_CARGO_ITEM_TYPE_DATA("Я не нашел данные для типа посылки, которые ты оправлял ранее"),
     DISTRIBUTION_RESULT("Результат распределения посылок по грузовым фургонам:"),
     ERROR_WHILE_CREATING_DISTRIBUTION_RESULT_FILE("Произошла ошибка при формировании файла с результатами распределения"),
     DISTRIBUTION_RESULT_IN_A_FILE("Результат распределения в файле:"),
@@ -57,7 +60,12 @@ public enum CargoDistributorBotResponseMessage {
                     """
     ),
     ERROR_WHILE_READING_FROM_FILE_MESSAGE("Произошла ошибка при чтении данных из файла"),
-    ERROR_WHILE_READING_FROM_FILE_FOUND_PREVIOUS_RESPONSE("Вот последнее, о чем я тебя просил:");
+    ERROR_WHILE_READING_FROM_FILE_FOUND_PREVIOUS_RESPONSE("Вот последнее, о чем я тебя просил:"),
+    ENTER_CARGO_TYPE_NAME("Введи название посылки"),
+    ENTER_CARGO_TYPE_LEGEND("Введи один символ легенды посылки"),
+    INCORRECT_CARGO_TYPE_LEGEND("Введены некорректные данные для легенды посылки"),
+    CARGO_TYPE_NAME_ALREADY_EXISTS("Посылка с таким названием уже существует"),
+    CARGO_ITEM_TYPE_SUCCESSFULLY_ADDED("Тип посылки успешно добавлен. Название: ");
 
     private final String messageText;
 

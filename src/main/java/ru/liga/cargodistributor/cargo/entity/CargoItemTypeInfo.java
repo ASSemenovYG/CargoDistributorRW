@@ -1,0 +1,54 @@
+package ru.liga.cargodistributor.cargo.entity;
+
+import jakarta.persistence.*;
+
+import java.util.UUID;
+
+@Entity
+@Table(name = "cargo_item_type", schema = "cargo_distributor")
+public class CargoItemTypeInfo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+    private String name;
+    private String legend;
+    private String shape;
+
+
+    public CargoItemTypeInfo(String name, String legend, String shape) {
+        this.name = name;
+        this.legend = legend;
+        this.shape = shape;
+    }
+
+    public CargoItemTypeInfo() {
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLegend() {
+        return legend;
+    }
+
+    public void setLegend(String legend) {
+        this.legend = legend;
+    }
+
+    public String getShape() {
+        return shape;
+    }
+
+    public void setShape(String shape) {
+        this.shape = shape;
+    }
+}

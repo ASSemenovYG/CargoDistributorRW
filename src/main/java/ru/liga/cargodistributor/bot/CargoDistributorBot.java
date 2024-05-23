@@ -18,6 +18,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 import ru.liga.cargodistributor.bot.services.CommandHandlerService;
 import ru.liga.cargodistributor.bot.services.CargoDistributorBotService;
+import ru.liga.cargodistributor.cargo.repository.CargoItemTypeRepository;
 import ru.liga.cargodistributor.cargo.services.CargoConverterService;
 import ru.liga.cargodistributor.util.services.FileService;
 
@@ -33,6 +34,9 @@ public class CargoDistributorBot implements SpringLongPollingBot, LongPollingSin
     private final CargoDistributorBotService botService;
     private final CargoConverterService cargoConverterService;
     private final FileService fileService;
+
+    @Autowired
+    private CargoItemTypeRepository cargoItemTypeRepository;
 
     @Autowired
     public CargoDistributorBot(@Value("${bot.token}") String token, @Value("${cache.capacity}") int cacheCapacity) {
@@ -59,7 +63,7 @@ public class CargoDistributorBot implements SpringLongPollingBot, LongPollingSin
 
         SendMessage lastSendMessage = botService.getLastSendMessageFromCache(String.valueOf(update.getMessage().getChatId()));
         CommandHandlerService handlerService = CommandHandlerService.determineAndGetCommandHandler(
-                update, botService, lastSendMessage, telegramClient, cargoConverterService, fileService
+                update, botService, lastSendMessage, telegramClient, cargoConverterService, fileService, cargoItemTypeRepository
         );
 
         List<Object> responseMessages = handlerService.processCommandAndGetResponseMessages(update);

@@ -27,6 +27,7 @@ import ru.liga.cargodistributor.cargo.CargoItemList;
 import ru.liga.cargodistributor.util.LruCache;
 
 import java.io.File;
+import java.util.List;
 
 @Service
 public class CargoDistributorBotService {
@@ -61,7 +62,7 @@ public class CargoDistributorBotService {
                 .text(content)
                 .replyMarkup(ReplyKeyboardMarkup
                         .builder()
-                        .keyboardRow(new KeyboardRow(getKeyboardButtons(keyboard)))
+                        .keyboard(getKeyboardRows(keyboard))
                         .build())
                 .build();
     }
@@ -108,6 +109,24 @@ public class CargoDistributorBotService {
         getBotChatDataFromCache(chatId).setVanLimit(vanLimit);
     }
 
+    public void putCargoItemTypeNameToCache(String chatId, String cargoItemTypeName) {
+        if (cache.get(chatId) == null) {
+            LOGGER.debug("putCargoItemTypeNameToCache: creating new cache for chatId {}", chatId);
+            cache.put(chatId, new CargoDistributorBotChatData(cargoItemTypeName));
+            return;
+        }
+        getBotChatDataFromCache(chatId).setCargoItemTypeName(cargoItemTypeName);
+    }
+
+    public void putCargoItemTypeLegendToCache(String chatId, String cargoItemTypeLegend) {
+        if (cache.get(chatId) == null) {
+            LOGGER.debug("putCargoItemTypeLegendToCache: creating new cache for chatId {}", chatId);
+            cache.put(chatId, new CargoDistributorBotChatData(null, null, 0, null, cargoItemTypeLegend));
+            return;
+        }
+        getBotChatDataFromCache(chatId).setCargoItemTypeLegend(cargoItemTypeLegend);
+    }
+
     public SendMessage getLastSendMessageFromCache(String chatId) {
         CargoDistributorBotChatData chatData = getBotChatDataFromCache(chatId);
         if (chatData == null) {
@@ -135,6 +154,24 @@ public class CargoDistributorBotService {
         return chatData.getVanLimit();
     }
 
+    public String getCargoItemTypeLegendFromCache(String chatId) {
+        CargoDistributorBotChatData chatData = getBotChatDataFromCache(chatId);
+        if (chatData == null) {
+            LOGGER.debug("getCargoItemTypeLegendFromCache: couldn't find cache for chatId {}", chatId);
+            return null;
+        }
+        return chatData.getCargoItemTypeLegend();
+    }
+
+    public String getCargoItemTypeNameFromCache(String chatId) {
+        CargoDistributorBotChatData chatData = getBotChatDataFromCache(chatId);
+        if (chatData == null) {
+            LOGGER.debug("getCargoItemTypeNameFromCache: couldn't find cache for chatId {}", chatId);
+            return null;
+        }
+        return chatData.getCargoItemTypeName();
+    }
+
     public File getFileFromUpdate(Update update, TelegramClient telegramClient) {
         Document document = update.getMessage().getDocument();
         GetFile getFileMethod = new GetFile(document.getFileId());
@@ -158,20 +195,29 @@ public class CargoDistributorBotService {
         return (CargoDistributorBotChatData) cache.get(chatId);
     }
 
-    private String[] getKeyboardButtons(CargoDistributorBotKeyboard keyboard) {
+    private List<KeyboardRow> getKeyboardRows(CargoDistributorBotKeyboard keyboard) {
         switch (keyboard) {
             case START -> {
-                return new String[]{
-                        CargoDistributorBotKeyboardButton.READ_CARGO_AND_DISTRIBUTE.getButtonText(),
-                        CargoDistributorBotKeyboardButton.READ_JSON_WITH_LOADED_VANS.getButtonText()
-                };
+                return List.of(
+                        new KeyboardRow(
+                                CargoDistributorBotKeyboardButton.READ_CARGO_AND_DISTRIBUTE.getButtonText(),
+                                CargoDistributorBotKeyboardButton.READ_JSON_WITH_LOADED_VANS.getButtonText()
+                        ),
+                        new KeyboardRow(
+                                CargoDistributorBotKeyboardButton.ADD_CARGO_TYPE.getButtonText(),
+                                CargoDistributorBotKeyboardButton.EDIT_CARGO_TYPE.getButtonText(),
+                                CargoDistributorBotKeyboardButton.DELETE_CARGO_TYPE.getButtonText()
+                        )
+                );
             }
             case PICK_ALGORITHM -> {
-                return new String[]{
-                        CargoDistributorBotKeyboardButton.ALGORITHM_ONE_VAN_ONE_ITEM.getButtonText(),
-                        CargoDistributorBotKeyboardButton.ALGORITHM_SINGLE_SORTED.getButtonText(),
-                        CargoDistributorBotKeyboardButton.ALGORITHM_SIMPLE_FIT.getButtonText()
-                };
+                return List.of(
+                        new KeyboardRow(
+                                CargoDistributorBotKeyboardButton.ALGORITHM_ONE_VAN_ONE_ITEM.getButtonText(),
+                                CargoDistributorBotKeyboardButton.ALGORITHM_SINGLE_SORTED.getButtonText(),
+                                CargoDistributorBotKeyboardButton.ALGORITHM_SIMPLE_FIT.getButtonText()
+                        )
+                );
             }
         }
         return null;
