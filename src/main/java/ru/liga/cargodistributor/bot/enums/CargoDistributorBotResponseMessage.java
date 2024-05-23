@@ -65,7 +65,10 @@ public enum CargoDistributorBotResponseMessage {
     ENTER_CARGO_TYPE_LEGEND("Введи один символ легенды посылки"),
     INCORRECT_CARGO_TYPE_LEGEND("Введены некорректные данные для легенды посылки"),
     CARGO_TYPE_NAME_ALREADY_EXISTS("Посылка с таким названием уже существует"),
-    CARGO_ITEM_TYPE_SUCCESSFULLY_ADDED("Тип посылки успешно добавлен. Название: ");
+    CARGO_ITEM_TYPE_SUCCESSFULLY_ADDED("Тип посылки успешно добавлен. Название: "),
+    ENTER_CARGO_TYPE_NAME_TO_DELETE("Введи название посылки для удаления"),
+    CARGO_TYPE_TO_DELETE_NOT_FOUND("Не найден тип посылки для удаления с названием: "),
+    CARGO_TYPE_SUCCESSFULLY_DELETED("Успешно удален тип посылки с названием: ");
 
     private final String messageText;
 
