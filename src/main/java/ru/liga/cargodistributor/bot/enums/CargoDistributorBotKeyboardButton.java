@@ -10,7 +10,11 @@ public enum CargoDistributorBotKeyboardButton {
     ALGORITHM_SIMPLE_FIT(DistributionAlgorithmName.SIMPLE_FIT.getTitle()),
     ADD_CARGO_TYPE("Добавить тип посылки"),
     EDIT_CARGO_TYPE("Изменить тип посылки"),
-    DELETE_CARGO_TYPE("Удалить тип посылки");
+    DELETE_CARGO_TYPE("Удалить тип посылки"),
+    EDIT_CARGO_TYPE_NAME("Название"),
+    EDIT_CARGO_TYPE_LEGEND("Легенда"),
+    EDIT_CARGO_TYPE_SHAPE("Форма"),
+    EDIT_CARGO_TYPE_SAVE_CHANGES("Сохранить изменения");
 
     private final String buttonText;
 

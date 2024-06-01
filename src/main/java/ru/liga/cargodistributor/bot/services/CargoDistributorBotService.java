@@ -24,6 +24,7 @@ import ru.liga.cargodistributor.bot.enums.CargoDistributorBotKeyboard;
 import ru.liga.cargodistributor.bot.enums.CargoDistributorBotKeyboardButton;
 import ru.liga.cargodistributor.bot.exceptions.GetFileFromUpdateException;
 import ru.liga.cargodistributor.cargo.CargoItemList;
+import ru.liga.cargodistributor.cargo.entity.CargoItemTypeInfo;
 import ru.liga.cargodistributor.util.LruCache;
 
 import java.io.File;
@@ -121,10 +122,19 @@ public class CargoDistributorBotService {
     public void putCargoItemTypeLegendToCache(String chatId, String cargoItemTypeLegend) {
         if (cache.get(chatId) == null) {
             LOGGER.debug("putCargoItemTypeLegendToCache: creating new cache for chatId {}", chatId);
-            cache.put(chatId, new CargoDistributorBotChatData(null, null, 0, null, cargoItemTypeLegend));
+            cache.put(chatId, new CargoDistributorBotChatData(null, null, 0, null, cargoItemTypeLegend, null));
             return;
         }
         getBotChatDataFromCache(chatId).setCargoItemTypeLegend(cargoItemTypeLegend);
+    }
+
+    public void putCargoItemTypeIntoToUpdateToCache(String chatId, CargoItemTypeInfo cargoItemTypeInfoToUpdate) {
+        if (cache.get(chatId) == null) {
+            LOGGER.debug("putCargoItemTypeIntoToUpdateToCache: creating new cache for chatId {}", chatId);
+            cache.put(chatId, new CargoDistributorBotChatData(null, null, 0, null, null, cargoItemTypeInfoToUpdate));
+            return;
+        }
+        getBotChatDataFromCache(chatId).setCargoItemTypeInfoToUpdate(cargoItemTypeInfoToUpdate);
     }
 
     public SendMessage getLastSendMessageFromCache(String chatId) {
@@ -172,6 +182,15 @@ public class CargoDistributorBotService {
         return chatData.getCargoItemTypeName();
     }
 
+    public CargoItemTypeInfo getCargoItemTypeInfoToUpdateFromCache(String chatId) {
+        CargoDistributorBotChatData chatData = getBotChatDataFromCache(chatId);
+        if (chatData == null) {
+            LOGGER.debug("getCargoItemTypeInfoToUpdateFromCache: couldn't find cache for chatId {}", chatId);
+            return null;
+        }
+        return chatData.getCargoItemTypeInfoToUpdate();
+    }
+
     public File getFileFromUpdate(Update update, TelegramClient telegramClient) {
         Document document = update.getMessage().getDocument();
         GetFile getFileMethod = new GetFile(document.getFileId());
@@ -216,6 +235,18 @@ public class CargoDistributorBotService {
                                 CargoDistributorBotKeyboardButton.ALGORITHM_ONE_VAN_ONE_ITEM.getButtonText(),
                                 CargoDistributorBotKeyboardButton.ALGORITHM_SINGLE_SORTED.getButtonText(),
                                 CargoDistributorBotKeyboardButton.ALGORITHM_SIMPLE_FIT.getButtonText()
+                        )
+                );
+            }
+            case EDIT_CARGO_TYPE -> {
+                return List.of(
+                        new KeyboardRow(
+                                CargoDistributorBotKeyboardButton.EDIT_CARGO_TYPE_NAME.getButtonText(),
+                                CargoDistributorBotKeyboardButton.EDIT_CARGO_TYPE_LEGEND.getButtonText(),
+                                CargoDistributorBotKeyboardButton.EDIT_CARGO_TYPE_SHAPE.getButtonText()
+                        ),
+                        new KeyboardRow(
+                                CargoDistributorBotKeyboardButton.EDIT_CARGO_TYPE_SAVE_CHANGES.getButtonText()
                         )
                 );
             }

@@ -51,4 +51,23 @@ public class CargoItemTypeInfo {
     public void setShape(String shape) {
         this.shape = shape;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        result.append("Название посылки: ")
+                .append(this.name)
+                .append("\n")
+                .append("Легенда: ")
+                .append(this.legend)
+                .append("\n")
+                .append("Форма: ")
+                .append("\n")
+                .append("```")
+                .append("\n")
+                .append(this.shape)
+                .append("\n")
+                .append("```");
+        return result.toString();
+    }
 }

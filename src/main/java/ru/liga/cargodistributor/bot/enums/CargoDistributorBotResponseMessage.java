@@ -68,7 +68,17 @@ public enum CargoDistributorBotResponseMessage {
     CARGO_ITEM_TYPE_SUCCESSFULLY_ADDED("Тип посылки успешно добавлен. Название: "),
     ENTER_CARGO_TYPE_NAME_TO_DELETE("Введи название посылки для удаления"),
     CARGO_TYPE_TO_DELETE_NOT_FOUND("Не найден тип посылки для удаления с названием: "),
-    CARGO_TYPE_SUCCESSFULLY_DELETED("Успешно удален тип посылки с названием: ");
+    CARGO_TYPE_SUCCESSFULLY_DELETED("Успешно удален тип посылки с названием: "),
+    EDIT_CARGO_ENTER_CARGO_TYPE_NAME("Введи название посылки, которую хочешь изменить"),
+    CARGO_TYPE_TO_EDIT_NOT_FOUND("Не найден тип посылки для изменения с названием: "),
+    EDIT_CARGO_TYPE_PICK_PARAMETER("Выбери параметр для изменения"),
+    EDIT_CARGO_TYPE_ITEM_NOT_FOUND_IN_CACHE("Посылка для изменения не найдена в кеше"),
+    CARGO_TYPE_SUCCESSFULLY_UPDATED("Тип посылки успешно обновлен"),
+    FAILED_TO_FIND_CARGO_ITEM_TYPE_TO_UPDATE("Я не нашел в кеше данные типа посылки, который ты хотел обновить"),
+    UPDATE_CARGO_TYPE_CURRENT_PARAMETERS("Текущие параметры типа посылки для обновления:"),
+    ENTER_NEW_CARGO_TYPE_LEGEND("Введи один символ новой легенды посылки"),
+    ENTER_NEW_CARGO_TYPE_NAME("Введи новое название типа посылки"),
+    SEND_FILE_WITH_SINGLE_CARGO_NEW_SHAPE("Отправь мне файл с одной посылкой с новой формой");
 
     private final String messageText;
 

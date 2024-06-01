@@ -66,6 +66,7 @@ public class CargoDistributorBot implements SpringLongPollingBot, LongPollingSin
                 update, botService, lastSendMessage, telegramClient, cargoConverterService, fileService, cargoItemTypeRepository
         );
 
+        //todo: мб попробовать поменять лист объектов на BotApiMethodMessage
         List<Object> responseMessages = handlerService.processCommandAndGetResponseMessages(update);
 
         for (Object responseMessage : responseMessages) {

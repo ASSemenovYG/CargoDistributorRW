@@ -59,18 +59,14 @@ public abstract class CommandHandlerService {
         if ((updateHasMessageText(update) && isUpdateMessageTextEqualTo(update, CargoDistributorBotUserCommand.START.getCommandText()))) {
             handlerService = new StartCommandHandlerService(telegramClient, botService, cargoConverterService, fileService);
         } else if (
-                (
-                        updateHasMessageText(update) &&
-                                isUpdateMessageTextEqualTo(update, CargoDistributorBotKeyboardButton.ADD_CARGO_TYPE.getButtonText())
-                )
+                updateHasMessageText(update) &&
+                        isUpdateMessageTextEqualTo(update, CargoDistributorBotKeyboardButton.ADD_CARGO_TYPE.getButtonText())
         ) {
             //todo: add tests for this scenario
             handlerService = new AddCargoTypeCommandHandlerService(telegramClient, botService, cargoConverterService, fileService);
         } else if (
-                (
-                        updateHasMessageText(update) &&
-                                isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.ENTER_CARGO_TYPE_NAME.getMessageText(), lastSendMessage)
-                )
+                updateHasMessageText(update) &&
+                        isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.ENTER_CARGO_TYPE_NAME.getMessageText(), lastSendMessage)
         ) {
             //todo: add tests for this scenario
             handlerService = new AddCargoTypeEnterNameCommandHandlerService(
@@ -81,10 +77,8 @@ public abstract class CommandHandlerService {
                     cargoItemTypeRepository
             );
         } else if (
-                (
-                        updateHasMessageText(update) &&
-                                isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.ENTER_CARGO_TYPE_LEGEND.getMessageText(), lastSendMessage)
-                )
+                updateHasMessageText(update) &&
+                        isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.ENTER_CARGO_TYPE_LEGEND.getMessageText(), lastSendMessage)
         ) {
             //todo: add tests for this scenario
             handlerService = new AddCargoTypeEnterLegendCommandHandlerService(
@@ -95,11 +89,9 @@ public abstract class CommandHandlerService {
                     cargoItemTypeRepository
             );
         } else if (
-                (
-                        !updateHasMessageText(update) &&
-                                update.getMessage().hasDocument() &&
-                                isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.SEND_FILE_WITH_SINGLE_CARGO.getMessageText(), lastSendMessage)
-                )
+                !updateHasMessageText(update) &&
+                        update.getMessage().hasDocument() &&
+                        isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.SEND_FILE_WITH_SINGLE_CARGO.getMessageText(), lastSendMessage)
         ) {
             //todo: add tests for this scenario
             handlerService = parseUpdateDocumentAndDetermineCommandHandler(
@@ -112,25 +104,120 @@ public abstract class CommandHandlerService {
                     cargoItemTypeRepository
             );
         } else if (
-                (
-                        updateHasMessageText(update) &&
-                                isUpdateMessageTextEqualTo(update, CargoDistributorBotKeyboardButton.EDIT_CARGO_TYPE.getButtonText())
-                )
+                updateHasMessageText(update) &&
+                        isUpdateMessageTextEqualTo(update, CargoDistributorBotKeyboardButton.EDIT_CARGO_TYPE.getButtonText())
         ) {
-            //todo: add handler
-            handlerService = new UnknownCommandHandlerService(telegramClient, botService, cargoConverterService, fileService);
+            //todo: add tests for this scenario
+            handlerService = new EditCargoTypeCommandHandlerService(telegramClient, botService, cargoConverterService, fileService);
         } else if (
-                (
-                        updateHasMessageText(update) &&
-                                isUpdateMessageTextEqualTo(update, CargoDistributorBotKeyboardButton.DELETE_CARGO_TYPE.getButtonText())
-                )
+                updateHasMessageText(update) &&
+                        isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.EDIT_CARGO_ENTER_CARGO_TYPE_NAME.getMessageText(), lastSendMessage)
+        ) {
+            //todo: add tests for this scenario
+            handlerService = new EditCargoTypePickParameterCommandHandlerService(
+                    telegramClient,
+                    botService,
+                    cargoConverterService,
+                    fileService,
+                    cargoItemTypeRepository
+            );
+        } else if (
+                updateHasMessageText(update) &&
+                        isUpdateMessageTextEqualTo(update, CargoDistributorBotKeyboardButton.EDIT_CARGO_TYPE_NAME.getButtonText()) &&
+                        isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.EDIT_CARGO_TYPE_PICK_PARAMETER.getMessageText(), lastSendMessage)
+        ) {
+            //todo: add tests for this scenario
+            handlerService = new EditCargoTypeEnterNameCommandHandlerService(
+                    telegramClient,
+                    botService,
+                    cargoConverterService,
+                    fileService
+            );
+        } else if (
+                updateHasMessageText(update) &&
+                        isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.ENTER_NEW_CARGO_TYPE_NAME.getMessageText(), lastSendMessage)
+        ) {
+            //todo: add tests for this scenario
+            handlerService = new EditCargoTypeProcessNameCommandHandlerService(
+                    telegramClient,
+                    botService,
+                    cargoConverterService,
+                    fileService,
+                    cargoItemTypeRepository
+            );
+        } else if (
+                updateHasMessageText(update) &&
+                        isUpdateMessageTextEqualTo(update, CargoDistributorBotKeyboardButton.EDIT_CARGO_TYPE_LEGEND.getButtonText()) &&
+                        isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.EDIT_CARGO_TYPE_PICK_PARAMETER.getMessageText(), lastSendMessage)
+        ) {
+            //todo: add tests for this scenario
+            handlerService = new EditCargoTypeEnterLegendCommandHandlerService(
+                    telegramClient,
+                    botService,
+                    cargoConverterService,
+                    fileService
+            );
+        } else if (
+                updateHasMessageText(update) &&
+                        isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.ENTER_NEW_CARGO_TYPE_LEGEND.getMessageText(), lastSendMessage)
+        ) {
+            //todo: add tests for this scenario
+            handlerService = new EditCargoTypeProcessLegendCommandHandlerService(
+                    telegramClient,
+                    botService,
+                    cargoConverterService,
+                    fileService
+            );
+        } else if (
+                updateHasMessageText(update) &&
+                        isUpdateMessageTextEqualTo(update, CargoDistributorBotKeyboardButton.EDIT_CARGO_TYPE_SHAPE.getButtonText()) &&
+                        isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.EDIT_CARGO_TYPE_PICK_PARAMETER.getMessageText(), lastSendMessage)
+        ) {
+            //todo: add tests for this scenario
+            handlerService = new EditCargoTypeEnterShapeCommandHandlerService(
+                    telegramClient,
+                    botService,
+                    cargoConverterService,
+                    fileService
+            );
+        } else if (
+                !updateHasMessageText(update) &&
+                        update.getMessage().hasDocument() &&
+                        isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.SEND_FILE_WITH_SINGLE_CARGO_NEW_SHAPE.getMessageText(), lastSendMessage)
+
+        ) {
+            //todo: add tests for this scenario
+            handlerService = parseUpdateDocumentAndDetermineCommandHandler(
+                    "EditCargoTypeProcessNewShape",
+                    update,
+                    telegramClient,
+                    botService,
+                    cargoConverterService,
+                    fileService,
+                    cargoItemTypeRepository
+            );
+        } else if (
+                updateHasMessageText(update) &&
+                        isUpdateMessageTextEqualTo(update, CargoDistributorBotKeyboardButton.EDIT_CARGO_TYPE_SAVE_CHANGES.getButtonText()) &&
+                        isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.EDIT_CARGO_TYPE_PICK_PARAMETER.getMessageText(), lastSendMessage)
+
+        ) {
+            //todo: add tests for this scenario
+            handlerService = new EditCargoTypeSaveChangesCommandHandlerService(
+                    telegramClient,
+                    botService,
+                    cargoConverterService,
+                    fileService,
+                    cargoItemTypeRepository
+            );
+        } else if (
+                updateHasMessageText(update) &&
+                        isUpdateMessageTextEqualTo(update, CargoDistributorBotKeyboardButton.DELETE_CARGO_TYPE.getButtonText())
         ) {
             handlerService = new DeleteCargoTypeCommandHandlerService(telegramClient, botService, cargoConverterService, fileService);
         } else if (
-                (
-                        updateHasMessageText(update) &&
-                                isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.ENTER_CARGO_TYPE_NAME_TO_DELETE.getMessageText(), lastSendMessage)
-                )
+                updateHasMessageText(update) &&
+                        isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.ENTER_CARGO_TYPE_NAME_TO_DELETE.getMessageText(), lastSendMessage)
         ) {
             handlerService = new DeleteCargoTypeEnterNameCommandHandlerService(
                     telegramClient,
@@ -139,23 +226,26 @@ public abstract class CommandHandlerService {
                     fileService,
                     cargoItemTypeRepository
             );
-        } else if (updateHasMessageText(update) &&
-                (
-                        isUpdateMessageTextEqualTo(update, CargoDistributorBotResponseMessage.DISTRIBUTE_CARGO.getMessageText()) ||
-                                isUpdateMessageTextEqualTo(update, CargoDistributorBotUserCommand.DISTRIBUTE.getCommandText())
-                )
+        } else if (
+                updateHasMessageText(update) &&
+                        (
+                                isUpdateMessageTextEqualTo(update, CargoDistributorBotResponseMessage.DISTRIBUTE_CARGO.getMessageText()) ||
+                                        isUpdateMessageTextEqualTo(update, CargoDistributorBotUserCommand.DISTRIBUTE.getCommandText())
+                        )
         ) {
             handlerService = new DistributeCommandHandlerService(telegramClient, botService, cargoConverterService, fileService);
-        } else if (updateHasMessageText(update) &&
-                (
-                        isUpdateMessageTextEqualTo(update, CargoDistributorBotResponseMessage.READ_JSON_WITH_LOADED_VANS.getMessageText()) ||
-                                isUpdateMessageTextEqualTo(update, CargoDistributorBotUserCommand.READ_CARGO.getCommandText())
-                )
+        } else if (
+                updateHasMessageText(update) &&
+                        (
+                                isUpdateMessageTextEqualTo(update, CargoDistributorBotResponseMessage.READ_JSON_WITH_LOADED_VANS.getMessageText()) ||
+                                        isUpdateMessageTextEqualTo(update, CargoDistributorBotUserCommand.READ_CARGO.getCommandText())
+                        )
         ) {
             handlerService = new ReadCargoCommandHandlerService(telegramClient, botService, cargoConverterService, fileService);
-        } else if (!updateHasMessageText(update) &&
-                update.getMessage().hasDocument() &&
-                isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.SEND_FILE_WITH_CARGO.getMessageText(), lastSendMessage)
+        } else if (
+                !updateHasMessageText(update) &&
+                        update.getMessage().hasDocument() &&
+                        isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.SEND_FILE_WITH_CARGO.getMessageText(), lastSendMessage)
         ) {
             handlerService = parseUpdateDocumentAndDetermineCommandHandler(
                     "ProcessCargoList",
@@ -166,19 +256,22 @@ public abstract class CommandHandlerService {
                     fileService,
                     cargoItemTypeRepository
             );
-        } else if (updateHasMessageText(update) &&
-                isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.ENTER_VAN_LIMIT.getMessageText(), lastSendMessage)
+        } else if (
+                updateHasMessageText(update) &&
+                        isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.ENTER_VAN_LIMIT.getMessageText(), lastSendMessage)
         ) {
             handlerService = new ReadVanLimitCommandHandlerService(telegramClient, botService, cargoConverterService, fileService);
-        } else if (updateHasMessageText(update) &&
-                isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.PICK_ALGORITHM.getMessageText(), lastSendMessage)
+        } else if (
+                updateHasMessageText(update) &&
+                        isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.PICK_ALGORITHM.getMessageText(), lastSendMessage)
         ) {
             handlerService = new PickAlgorithmCommandHandlerService(telegramClient, botService, cargoConverterService, fileService);
-        } else if (isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.SEND_LOADED_VANS_TO_READ.getMessageText(), lastSendMessage) &&
-                (
-                        updateHasMessageText(update) ||
-                                update.getMessage().hasDocument()
-                )
+        } else if (
+                isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.SEND_LOADED_VANS_TO_READ.getMessageText(), lastSendMessage) &&
+                        (
+                                updateHasMessageText(update) ||
+                                        update.getMessage().hasDocument()
+                        )
         ) {
             if (update.getMessage().hasDocument()) {
                 return parseUpdateDocumentAndDetermineCommandHandler(
@@ -200,12 +293,14 @@ public abstract class CommandHandlerService {
                     null
             );
 
-        } else if (updateHasMessageText(update) &&
-                isUpdateMessageTextEqualTo(update, CargoDistributorBotUserCommand.HELP.getCommandText())
+        } else if (
+                updateHasMessageText(update) &&
+                        isUpdateMessageTextEqualTo(update, CargoDistributorBotUserCommand.HELP.getCommandText())
         ) {
             handlerService = new HelpCommandHandlerService(telegramClient, botService, cargoConverterService, fileService);
-        } else if (updateHasMessageText(update) &&
-                isUpdateMessageTextEqualTo(update, CargoDistributorBotUserCommand.ABOUT.getCommandText())
+        } else if (
+                updateHasMessageText(update) &&
+                        isUpdateMessageTextEqualTo(update, CargoDistributorBotUserCommand.ABOUT.getCommandText())
         ) {
             handlerService = new AboutCommandHandlerService(telegramClient, botService, cargoConverterService, fileService);
         } else {
@@ -328,6 +423,26 @@ public abstract class CommandHandlerService {
                     );
                 } else {
                     handlerService = new AddCargoTypeProcessSingleCargoReadingFileErrorCommandHandlerService(
+                            telegramClient,
+                            botService,
+                            cargoConverterService,
+                            fileService,
+                            errorMessage
+                    );
+                }
+            }
+            break;
+            case "EditCargoTypeProcessNewShape": {
+                if (errorMessage == null) {
+                    handlerService = new EditCargoTypeProcessNewShapeCommandHandlerService(
+                            telegramClient,
+                            botService,
+                            cargoConverterService,
+                            fileService,
+                            docContent
+                    );
+                } else {
+                    handlerService = new EditCargoTypeProcessNewShapeReadingFileErrorCommandHandlerService(
                             telegramClient,
                             botService,
                             cargoConverterService,
