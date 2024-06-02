@@ -64,7 +64,9 @@ public class CargoVanTypeInfo {
                 .append("Ширина: ")
                 .append(this.width)
                 .append("\n")
-                .append("Высота: ");
+                .append("Высота: ")
+                .append(this.height)
+                .append("\n");
         return result.toString();
     }
 }

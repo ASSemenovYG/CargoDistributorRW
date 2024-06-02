@@ -86,7 +86,8 @@ public enum CargoDistributorBotResponseMessage {
     CARGO_VAN_TYPE_NAME_ALREADY_EXISTS("Грузовой фургон с таким названием уже существует"),
     FAILED_TO_FIND_CARGO_VAN_TYPE_TO_INSERT("Я не нашел в кеше данные грузового фургона, который ты хотел создать"),
     CARGO_VAN_TYPE_SUCCESSFULLY_ADDED("Тип грузового фургона успешно добавлен. Название: "),
-    NEED_TO_ENTER_INTEGER_GREATER_THAN_ZERO("Необходимо ввести целое число больше нуля");
+    NEED_TO_ENTER_INTEGER_GREATER_THAN_ZERO("Необходимо ввести целое число больше нуля"),
+    NUMBER_OF_CARGO_VAN_TYPES_FOUND("Найдено типов грузовых фургонов: ");
 
     private final String messageText;
 

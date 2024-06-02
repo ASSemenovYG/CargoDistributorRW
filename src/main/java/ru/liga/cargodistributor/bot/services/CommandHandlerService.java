@@ -134,16 +134,17 @@ public abstract class CommandHandlerService {
                     cargoConverterService,
                     fileService
             );
-        }  else if (
+        } else if (
                 updateHasMessageText(update) &&
                         isUpdateMessageTextEqualTo(update, CargoDistributorBotKeyboardButton.GET_ALL_CARGO_VAN_TYPES.getButtonText())
         ) {
-            //todo: add GET_ALL_CARGO_VAN_TYPES handler
-            handlerService = new UnknownCommandHandlerService(
+            //todo: add tests for this scenario
+            handlerService = new GetAllCargoVanTypesCommandHandlerService(
                     telegramClient,
                     botService,
                     cargoConverterService,
-                    fileService
+                    fileService,
+                    cargoVanTypeRepository
             );
         } else if (
                 updateHasMessageText(update) &&
