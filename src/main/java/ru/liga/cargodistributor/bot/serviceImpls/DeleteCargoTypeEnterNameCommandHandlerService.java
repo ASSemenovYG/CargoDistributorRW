@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 import ru.liga.cargodistributor.bot.enums.CargoDistributorBotResponseMessage;
 import ru.liga.cargodistributor.bot.exceptions.RecordNotFoundException;
@@ -47,9 +49,9 @@ public class DeleteCargoTypeEnterNameCommandHandlerService extends CommandHandle
 
     @Override
     @Transactional
-    public List<Object> processCommandAndGetResponseMessages(Update update) {
+    public List<PartialBotApiMethod<Message>> processCommandAndGetResponseMessages(Update update) {
         LOGGER.info("Started processing command");
-        List<Object> resultResponse = new LinkedList<>();
+        List<PartialBotApiMethod<Message>> resultResponse = new LinkedList<>();
         long chatId = getChatIdFromUpdate(update);
         String cargoItemTypeName = getMessageTextFromUpdate(update);
         CargoItemTypeInfo cargoItemTypeInfoToDelete;

@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 import ru.liga.cargodistributor.bot.enums.CargoDistributorBotKeyboard;
 import ru.liga.cargodistributor.bot.enums.CargoDistributorBotKeyboardButton;
@@ -44,7 +46,7 @@ public abstract class CommandHandlerService {
         this.fileService = fileService;
     }
 
-    public abstract List<Object> processCommandAndGetResponseMessages(Update update);
+    public abstract List<PartialBotApiMethod<Message>> processCommandAndGetResponseMessages(Update update);
 
     public static CommandHandlerService determineAndGetCommandHandler(
             Update update,
@@ -310,7 +312,7 @@ public abstract class CommandHandlerService {
         return handlerService;
     }
 
-    protected void returnToStart(long chatId, List<Object> resultResponse) {
+    protected void returnToStart(long chatId, List<PartialBotApiMethod<Message>> resultResponse) {
         resultResponse.add(
                 botService.buildTextMessageWithKeyboard(
                         chatId,

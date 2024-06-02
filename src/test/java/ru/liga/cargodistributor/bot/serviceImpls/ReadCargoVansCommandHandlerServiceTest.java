@@ -2,6 +2,7 @@ package ru.liga.cargodistributor.bot.serviceImpls;
 
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -41,7 +42,7 @@ class ReadCargoVansCommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        List<Object> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
+        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
 
         assertThat(resultResponse.size()).isEqualTo(7);
 
@@ -134,7 +135,7 @@ class ReadCargoVansCommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        List<Object> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
+        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
 
         assertThat(resultResponse.size()).isEqualTo(7);
 
@@ -225,7 +226,7 @@ class ReadCargoVansCommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        List<Object> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
+        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
 
         assertThat(resultResponse.size()).isEqualTo(3);
 

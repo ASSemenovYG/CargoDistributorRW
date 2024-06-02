@@ -3,6 +3,7 @@ package ru.liga.cargodistributor.bot.serviceImpls;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
@@ -43,7 +44,7 @@ class PickAlgorithmCommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        List<Object> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
+        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
         assertThat(resultResponse.size()).isEqualTo(2);
 
         int textMessagesCount = (int) resultResponse.stream()
@@ -94,7 +95,7 @@ class PickAlgorithmCommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        List<Object> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
+        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
 
         assertThat(resultResponse.size()).isEqualTo(5);
 
@@ -153,7 +154,7 @@ class PickAlgorithmCommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        List<Object> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
+        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
 
         assertThat(resultResponse.size()).isEqualTo(2);
 
@@ -189,7 +190,7 @@ class PickAlgorithmCommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        List<Object> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
+        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
 
         assertThat(resultResponse.size()).isEqualTo(2);
 

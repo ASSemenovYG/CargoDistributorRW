@@ -5,7 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 import ru.liga.cargodistributor.bot.enums.CargoDistributorBotResponseMessage;
 import ru.liga.cargodistributor.bot.services.CargoDistributorBotService;
@@ -36,9 +38,9 @@ public class AddCargoTypeCommandHandlerService extends CommandHandlerService {
     }
 
     @Override
-    public List<Object> processCommandAndGetResponseMessages(Update update) {
+    public List<PartialBotApiMethod<Message>> processCommandAndGetResponseMessages(Update update) {
         LOGGER.info("Started processing command");
-        List<Object> resultResponse = new LinkedList<>();
+        List<PartialBotApiMethod<Message>> resultResponse = new LinkedList<>();
 
         resultResponse.add(
                 botService.buildTextMessageWithoutKeyboard(

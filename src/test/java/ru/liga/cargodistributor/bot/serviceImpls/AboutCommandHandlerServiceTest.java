@@ -1,6 +1,7 @@
 package ru.liga.cargodistributor.bot.serviceImpls;
 
 import org.junit.jupiter.api.Test;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
 import org.telegram.telegrambots.meta.api.methods.send.SendVideoNote;
@@ -30,7 +31,7 @@ class AboutCommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        List<Object> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
+        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
         assertThat(resultResponse.size()).isEqualTo(5);
 
         int textMessagesCount = (int) resultResponse.stream()

@@ -9,15 +9,17 @@ import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.longpolling.interfaces.LongPollingUpdateConsumer;
 import org.telegram.telegrambots.longpolling.starter.SpringLongPollingBot;
 import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
 import org.telegram.telegrambots.meta.api.methods.send.SendVideoNote;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
-import ru.liga.cargodistributor.bot.services.CommandHandlerService;
 import ru.liga.cargodistributor.bot.services.CargoDistributorBotService;
+import ru.liga.cargodistributor.bot.services.CommandHandlerService;
 import ru.liga.cargodistributor.cargo.repository.CargoItemTypeRepository;
 import ru.liga.cargodistributor.cargo.services.CargoConverterService;
 import ru.liga.cargodistributor.util.services.FileService;
@@ -66,10 +68,9 @@ public class CargoDistributorBot implements SpringLongPollingBot, LongPollingSin
                 update, botService, lastSendMessage, telegramClient, cargoConverterService, fileService, cargoItemTypeRepository
         );
 
-        //todo: мб попробовать поменять лист объектов на BotApiMethodMessage
-        List<Object> responseMessages = handlerService.processCommandAndGetResponseMessages(update);
+        List<PartialBotApiMethod<Message>> responseMessages = handlerService.processCommandAndGetResponseMessages(update);
 
-        for (Object responseMessage : responseMessages) {
+        for (PartialBotApiMethod<Message> responseMessage : responseMessages) {
             if (responseMessage.getClass().equals(SendMessage.class)) {
                 sendMessage((SendMessage) responseMessage);
             } else if (responseMessage.getClass().equals(SendDocument.class)) {
