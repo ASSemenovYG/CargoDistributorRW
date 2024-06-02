@@ -71,11 +71,12 @@ public enum CargoDistributorBotResponseMessage {
     CARGO_TYPE_SUCCESSFULLY_DELETED("Успешно удален тип посылки с названием: "),
     EDIT_CARGO_ENTER_CARGO_TYPE_NAME("Введи название посылки, которую хочешь изменить"),
     CARGO_TYPE_TO_EDIT_NOT_FOUND("Не найден тип посылки для изменения с названием: "),
-    EDIT_CARGO_TYPE_PICK_PARAMETER("Выбери параметр для изменения"),
+    EDIT_CARGO_TYPE_PICK_PARAMETER("Выбери параметр типа посылки для изменения"),
     EDIT_CARGO_TYPE_ITEM_NOT_FOUND_IN_CACHE("Посылка для изменения не найдена в кеше"),
     CARGO_TYPE_SUCCESSFULLY_UPDATED("Тип посылки успешно обновлен"),
     FAILED_TO_FIND_CARGO_ITEM_TYPE_TO_UPDATE("Я не нашел в кеше данные типа посылки, который ты хотел обновить"),
     UPDATE_CARGO_TYPE_CURRENT_PARAMETERS("Текущие параметры типа посылки для обновления:"),
+    UPDATE_CARGO_VAN_TYPE_CURRENT_PARAMETERS("Текущие параметры типа грузового фургона для обновления:"),
     ENTER_NEW_CARGO_TYPE_LEGEND("Введи один символ новой легенды посылки"),
     ENTER_NEW_CARGO_TYPE_NAME("Введи новое название типа посылки"),
     SEND_FILE_WITH_SINGLE_CARGO_NEW_SHAPE("Отправь мне файл с одной посылкой с новой формой"),
@@ -85,12 +86,21 @@ public enum CargoDistributorBotResponseMessage {
     ENTER_CARGO_VAN_TYPE_HEIGHT("Введи высоту грузового фургона"),
     CARGO_VAN_TYPE_NAME_ALREADY_EXISTS("Грузовой фургон с таким названием уже существует"),
     FAILED_TO_FIND_CARGO_VAN_TYPE_TO_INSERT("Я не нашел в кеше данные грузового фургона, который ты хотел создать"),
+    FAILED_TO_FIND_CARGO_VAN_TYPE_TO_UPDATE("Я не нашел в кеше данные грузового фургона, который ты хотел обновить"),
     CARGO_VAN_TYPE_SUCCESSFULLY_ADDED("Тип грузового фургона успешно добавлен. Название: "),
     NEED_TO_ENTER_INTEGER_GREATER_THAN_ZERO("Необходимо ввести целое число больше нуля"),
     NUMBER_OF_CARGO_VAN_TYPES_FOUND("Найдено типов грузовых фургонов: "),
     ENTER_CARGO_VAN_TYPE_NAME_TO_DELETE("Введи название типа грузового фургона для удаления"),
     CARGO_VAN_TYPE_TO_DELETE_NOT_FOUND("Не найден тип грузового фургона для удаления с названием: "),
-    CARGO_VAN_TYPE_SUCCESSFULLY_DELETED("Успешно удален тип грузового фургона с названием: ");
+    CARGO_VAN_TYPE_SUCCESSFULLY_DELETED("Успешно удален тип грузового фургона с названием: "),
+    EDIT_CARGO_VAN_ENTER_CARGO_VAN_TYPE_NAME("Введи название грузового фургона, который хочешь изменить"),
+    CARGO_VAN_TYPE_TO_EDIT_NOT_FOUND("Не найден тип грузового для изменения с названием: "),
+    EDIT_CARGO_VAN_TYPE_PICK_PARAMETER("Выбери параметр типа грузового фургона для изменения"),
+    EDIT_CARGO_VAN_TYPE_ITEM_NOT_FOUND_IN_CACHE("Грузовой фургон для изменения не найден в кеше"),
+    CARGO_VAN_TYPE_SUCCESSFULLY_UPDATED("Тип грузового фургона успешно обновлен"),
+    ENTER_NEW_CARGO_VAN_TYPE_NAME("Введи новое название типа грузового фургона"),
+    ENTER_NEW_CARGO_VAN_TYPE_WIDTH("Введи новую ширину грузового фургона"),
+    ENTER_NEW_CARGO_VAN_TYPE_HEIGHT("Введи новую высоту грузового фургона");
 
     private final String messageText;
 
