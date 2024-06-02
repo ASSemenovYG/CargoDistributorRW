@@ -16,19 +16,16 @@ import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 import ru.liga.cargodistributor.bot.CargoDistributorBotChatData;
 import ru.liga.cargodistributor.bot.enums.CargoDistributorBotKeyboard;
-import ru.liga.cargodistributor.bot.enums.CargoDistributorBotKeyboardButton;
 import ru.liga.cargodistributor.bot.exceptions.GetFileFromUpdateException;
 import ru.liga.cargodistributor.cargo.CargoItemList;
 import ru.liga.cargodistributor.cargo.entity.CargoItemTypeInfo;
 import ru.liga.cargodistributor.util.LruCache;
 
 import java.io.File;
-import java.util.List;
 
 @Service
 public class CargoDistributorBotService {
@@ -63,7 +60,7 @@ public class CargoDistributorBotService {
                 .text(content)
                 .replyMarkup(ReplyKeyboardMarkup
                         .builder()
-                        .keyboard(getKeyboardRows(keyboard))
+                        .keyboard(CargoDistributorBotKeyboard.getKeyboardRows(keyboard))
                         .build())
                 .build();
     }
@@ -212,45 +209,5 @@ public class CargoDistributorBotService {
     private CargoDistributorBotChatData getBotChatDataFromCache(String chatId) {
         LOGGER.debug("getBotChatDataFromCache: getting cache for chatId {}", chatId);
         return (CargoDistributorBotChatData) cache.get(chatId);
-    }
-
-    private List<KeyboardRow> getKeyboardRows(CargoDistributorBotKeyboard keyboard) {
-        switch (keyboard) {
-            case START -> {
-                return List.of(
-                        new KeyboardRow(
-                                CargoDistributorBotKeyboardButton.READ_CARGO_AND_DISTRIBUTE.getButtonText(),
-                                CargoDistributorBotKeyboardButton.READ_JSON_WITH_LOADED_VANS.getButtonText()
-                        ),
-                        new KeyboardRow(
-                                CargoDistributorBotKeyboardButton.ADD_CARGO_TYPE.getButtonText(),
-                                CargoDistributorBotKeyboardButton.EDIT_CARGO_TYPE.getButtonText(),
-                                CargoDistributorBotKeyboardButton.DELETE_CARGO_TYPE.getButtonText()
-                        )
-                );
-            }
-            case PICK_ALGORITHM -> {
-                return List.of(
-                        new KeyboardRow(
-                                CargoDistributorBotKeyboardButton.ALGORITHM_ONE_VAN_ONE_ITEM.getButtonText(),
-                                CargoDistributorBotKeyboardButton.ALGORITHM_SINGLE_SORTED.getButtonText(),
-                                CargoDistributorBotKeyboardButton.ALGORITHM_SIMPLE_FIT.getButtonText()
-                        )
-                );
-            }
-            case EDIT_CARGO_TYPE -> {
-                return List.of(
-                        new KeyboardRow(
-                                CargoDistributorBotKeyboardButton.EDIT_CARGO_TYPE_NAME.getButtonText(),
-                                CargoDistributorBotKeyboardButton.EDIT_CARGO_TYPE_LEGEND.getButtonText(),
-                                CargoDistributorBotKeyboardButton.EDIT_CARGO_TYPE_SHAPE.getButtonText()
-                        ),
-                        new KeyboardRow(
-                                CargoDistributorBotKeyboardButton.EDIT_CARGO_TYPE_SAVE_CHANGES.getButtonText()
-                        )
-                );
-            }
-        }
-        return null;
     }
 }
