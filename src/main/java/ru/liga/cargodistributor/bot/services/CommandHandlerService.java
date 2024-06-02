@@ -127,12 +127,24 @@ public abstract class CommandHandlerService {
                 updateHasMessageText(update) &&
                         isUpdateMessageTextEqualTo(update, CargoDistributorBotKeyboardButton.DELETE_CARGO_VAN_TYPE.getButtonText())
         ) {
-            //todo: add DELETE_CARGO_VAN_TYPE handler
-            handlerService = new UnknownCommandHandlerService(
+            //todo: add tests for this scenario
+            handlerService = new DeleteCargoVanTypeCommandHandlerService(
                     telegramClient,
                     botService,
                     cargoConverterService,
                     fileService
+            );
+        }  else if (
+                updateHasMessageText(update) &&
+                        isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.ENTER_CARGO_VAN_TYPE_NAME_TO_DELETE.getMessageText(), lastSendMessage)
+        ) {
+            //todo: add tests for this scenario
+            handlerService = new DeleteCargoVanTypeEnterNameCommandHandlerService(
+                    telegramClient,
+                    botService,
+                    cargoConverterService,
+                    fileService,
+                    cargoVanTypeRepository
             );
         } else if (
                 updateHasMessageText(update) &&

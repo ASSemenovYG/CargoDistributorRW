@@ -87,7 +87,10 @@ public enum CargoDistributorBotResponseMessage {
     FAILED_TO_FIND_CARGO_VAN_TYPE_TO_INSERT("Я не нашел в кеше данные грузового фургона, который ты хотел создать"),
     CARGO_VAN_TYPE_SUCCESSFULLY_ADDED("Тип грузового фургона успешно добавлен. Название: "),
     NEED_TO_ENTER_INTEGER_GREATER_THAN_ZERO("Необходимо ввести целое число больше нуля"),
-    NUMBER_OF_CARGO_VAN_TYPES_FOUND("Найдено типов грузовых фургонов: ");
+    NUMBER_OF_CARGO_VAN_TYPES_FOUND("Найдено типов грузовых фургонов: "),
+    ENTER_CARGO_VAN_TYPE_NAME_TO_DELETE("Введи название типа грузового фургона для удаления"),
+    CARGO_VAN_TYPE_TO_DELETE_NOT_FOUND("Не найден тип грузового фургона для удаления с названием: "),
+    CARGO_VAN_TYPE_SUCCESSFULLY_DELETED("Успешно удален тип грузового фургона с названием: ");
 
     private final String messageText;
 
