@@ -7,7 +7,8 @@ import java.util.List;
 public enum CargoDistributorBotKeyboard {
     START,
     PICK_ALGORITHM,
-    EDIT_CARGO_TYPE;
+    EDIT_CARGO_TYPE,
+    EDIT_CARGO_VAN_TYPE;
 
     public static List<KeyboardRow> getKeyboardRows(CargoDistributorBotKeyboard keyboard) {
         switch (keyboard) {
@@ -22,6 +23,12 @@ public enum CargoDistributorBotKeyboard {
                                 CargoDistributorBotKeyboardButton.EDIT_CARGO_TYPE.getButtonText(),
                                 CargoDistributorBotKeyboardButton.DELETE_CARGO_TYPE.getButtonText(),
                                 CargoDistributorBotKeyboardButton.GET_ALL_CARGO_TYPES.getButtonText()
+                        ),
+                        new KeyboardRow(
+                                CargoDistributorBotKeyboardButton.ADD_CARGO_VAN_TYPE.getButtonText(),
+                                CargoDistributorBotKeyboardButton.EDIT_CARGO_VAN_TYPE.getButtonText(),
+                                CargoDistributorBotKeyboardButton.DELETE_CARGO_VAN_TYPE.getButtonText(),
+                                CargoDistributorBotKeyboardButton.GET_ALL_CARGO_VAN_TYPES.getButtonText()
                         )
                 );
             }
@@ -43,6 +50,18 @@ public enum CargoDistributorBotKeyboard {
                         ),
                         new KeyboardRow(
                                 CargoDistributorBotKeyboardButton.EDIT_CARGO_TYPE_SAVE_CHANGES.getButtonText()
+                        )
+                );
+            }
+            case EDIT_CARGO_VAN_TYPE -> {
+                return List.of(
+                        new KeyboardRow(
+                                CargoDistributorBotKeyboardButton.EDIT_CARGO_VAN_TYPE_NAME.getButtonText(),
+                                CargoDistributorBotKeyboardButton.EDIT_CARGO_VAN_TYPE_WIDTH.getButtonText(),
+                                CargoDistributorBotKeyboardButton.EDIT_CARGO_VAN_TYPE_HEIGHT.getButtonText()
+                        ),
+                        new KeyboardRow(
+                                CargoDistributorBotKeyboardButton.EDIT_CARGO_VAN_TYPE_SAVE_CHANGES.getButtonText()
                         )
                 );
             }

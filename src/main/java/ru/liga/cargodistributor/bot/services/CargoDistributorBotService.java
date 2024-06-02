@@ -23,6 +23,7 @@ import ru.liga.cargodistributor.bot.enums.CargoDistributorBotKeyboard;
 import ru.liga.cargodistributor.bot.exceptions.GetFileFromUpdateException;
 import ru.liga.cargodistributor.cargo.CargoItemList;
 import ru.liga.cargodistributor.cargo.entity.CargoItemTypeInfo;
+import ru.liga.cargodistributor.cargo.entity.CargoVanTypeInfo;
 import ru.liga.cargodistributor.util.LruCache;
 
 import java.io.File;
@@ -119,7 +120,7 @@ public class CargoDistributorBotService {
     public void putCargoItemTypeLegendToCache(String chatId, String cargoItemTypeLegend) {
         if (cache.get(chatId) == null) {
             LOGGER.debug("putCargoItemTypeLegendToCache: creating new cache for chatId {}", chatId);
-            cache.put(chatId, new CargoDistributorBotChatData(null, null, 0, null, cargoItemTypeLegend, null));
+            cache.put(chatId, new CargoDistributorBotChatData(null, null, 0, null, cargoItemTypeLegend, null, null));
             return;
         }
         getBotChatDataFromCache(chatId).setCargoItemTypeLegend(cargoItemTypeLegend);
@@ -128,10 +129,19 @@ public class CargoDistributorBotService {
     public void putCargoItemTypeIntoToUpdateToCache(String chatId, CargoItemTypeInfo cargoItemTypeInfoToUpdate) {
         if (cache.get(chatId) == null) {
             LOGGER.debug("putCargoItemTypeIntoToUpdateToCache: creating new cache for chatId {}", chatId);
-            cache.put(chatId, new CargoDistributorBotChatData(null, null, 0, null, null, cargoItemTypeInfoToUpdate));
+            cache.put(chatId, new CargoDistributorBotChatData(cargoItemTypeInfoToUpdate));
             return;
         }
         getBotChatDataFromCache(chatId).setCargoItemTypeInfoToUpdate(cargoItemTypeInfoToUpdate);
+    }
+
+    public void putCargoVanTypeInfoToCache(String chatId, CargoVanTypeInfo cargoVanTypeInfo) {
+        if (cache.get(chatId) == null) {
+            LOGGER.debug("putCargoVanTypeInfoToCache: creating new cache for chatId {}", chatId);
+            cache.put(chatId, new CargoDistributorBotChatData(cargoVanTypeInfo));
+            return;
+        }
+        getBotChatDataFromCache(chatId).setCargoVanTypeInfo(cargoVanTypeInfo);
     }
 
     public SendMessage getLastSendMessageFromCache(String chatId) {
@@ -186,6 +196,15 @@ public class CargoDistributorBotService {
             return null;
         }
         return chatData.getCargoItemTypeInfoToUpdate();
+    }
+
+    public CargoVanTypeInfo getCargoVanTypeInfoFromCache(String chatId) {
+        CargoDistributorBotChatData chatData = getBotChatDataFromCache(chatId);
+        if (chatData == null) {
+            LOGGER.debug("getCargoVanTypeInfoFromCache: couldn't find cache for chatId {}", chatId);
+            return null;
+        }
+        return chatData.getCargoVanTypeInfo();
     }
 
     public File getFileFromUpdate(Update update, TelegramClient telegramClient) {

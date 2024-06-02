@@ -21,6 +21,7 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 import ru.liga.cargodistributor.bot.services.CargoDistributorBotService;
 import ru.liga.cargodistributor.bot.services.CommandHandlerService;
 import ru.liga.cargodistributor.cargo.repository.CargoItemTypeRepository;
+import ru.liga.cargodistributor.cargo.repository.CargoVanTypeRepository;
 import ru.liga.cargodistributor.cargo.services.CargoConverterService;
 import ru.liga.cargodistributor.util.services.FileService;
 
@@ -39,6 +40,8 @@ public class CargoDistributorBot implements SpringLongPollingBot, LongPollingSin
 
     @Autowired
     private CargoItemTypeRepository cargoItemTypeRepository;
+    @Autowired
+    private CargoVanTypeRepository cargoVanTypeRepository;
 
     @Autowired
     public CargoDistributorBot(@Value("${bot.token}") String token, @Value("${cache.capacity}") int cacheCapacity) {
@@ -65,7 +68,7 @@ public class CargoDistributorBot implements SpringLongPollingBot, LongPollingSin
 
         SendMessage lastSendMessage = botService.getLastSendMessageFromCache(String.valueOf(update.getMessage().getChatId()));
         CommandHandlerService handlerService = CommandHandlerService.determineAndGetCommandHandler(
-                update, botService, lastSendMessage, telegramClient, cargoConverterService, fileService, cargoItemTypeRepository
+                update, botService, lastSendMessage, telegramClient, cargoConverterService, fileService, cargoItemTypeRepository, cargoVanTypeRepository
         );
 
         //todo: Добавлять\\Изменять\\Редактировать\\Удалять кузовы

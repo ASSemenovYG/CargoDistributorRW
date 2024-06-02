@@ -79,7 +79,14 @@ public enum CargoDistributorBotResponseMessage {
     ENTER_NEW_CARGO_TYPE_LEGEND("Введи один символ новой легенды посылки"),
     ENTER_NEW_CARGO_TYPE_NAME("Введи новое название типа посылки"),
     SEND_FILE_WITH_SINGLE_CARGO_NEW_SHAPE("Отправь мне файл с одной посылкой с новой формой"),
-    NUMBER_OF_CARGO_TYPES_FOUND("Найдено типов посылок: ");
+    NUMBER_OF_CARGO_TYPES_FOUND("Найдено типов посылок: "),
+    ENTER_CARGO_VAN_TYPE_NAME("Введи название грузового фургона"),
+    ENTER_CARGO_VAN_TYPE_WIDTH("Введи ширину грузового фургона"),
+    ENTER_CARGO_VAN_TYPE_HEIGHT("Введи высоту грузового фургона"),
+    CARGO_VAN_TYPE_NAME_ALREADY_EXISTS("Грузовой фургон с таким названием уже существует"),
+    FAILED_TO_FIND_CARGO_VAN_TYPE_TO_INSERT("Я не нашел в кеше данные грузового фургона, который ты хотел создать"),
+    CARGO_VAN_TYPE_SUCCESSFULLY_ADDED("Тип грузового фургона успешно добавлен. Название: "),
+    NEED_TO_ENTER_INTEGER_GREATER_THAN_ZERO("Необходимо ввести целое число больше нуля");
 
     private final String messageText;
 
