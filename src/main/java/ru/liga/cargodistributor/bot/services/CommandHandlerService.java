@@ -87,8 +87,7 @@ public abstract class CommandHandlerService {
                     telegramClient,
                     botService,
                     cargoConverterService,
-                    fileService,
-                    cargoItemTypeRepository
+                    fileService
             );
         } else if (
                 !updateHasMessageText(update) &&

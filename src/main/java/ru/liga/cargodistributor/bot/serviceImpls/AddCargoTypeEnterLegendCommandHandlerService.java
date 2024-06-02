@@ -12,7 +12,6 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 import ru.liga.cargodistributor.bot.enums.CargoDistributorBotResponseMessage;
 import ru.liga.cargodistributor.bot.services.CargoDistributorBotService;
 import ru.liga.cargodistributor.bot.services.CommandHandlerService;
-import ru.liga.cargodistributor.cargo.repository.CargoItemTypeRepository;
 import ru.liga.cargodistributor.cargo.services.CargoConverterService;
 import ru.liga.cargodistributor.util.services.FileService;
 
@@ -24,24 +23,18 @@ public class AddCargoTypeEnterLegendCommandHandlerService extends CommandHandler
     //todo: add tests
     private static final Logger LOGGER = LoggerFactory.getLogger(AddCargoTypeEnterLegendCommandHandlerService.class);
 
-    //todo: репозиторий, возможно, тут не нужен
-    private final CargoItemTypeRepository cargoItemTypeRepository;
-
     @Autowired
-    protected AddCargoTypeEnterLegendCommandHandlerService(@Value("${bot.token}") String token, @Value("${cache.capacity}") int cacheCapacity, CargoItemTypeRepository cargoItemTypeRepository) {
+    protected AddCargoTypeEnterLegendCommandHandlerService(@Value("${bot.token}") String token, @Value("${cache.capacity}") int cacheCapacity) {
         super(token, cacheCapacity);
-        this.cargoItemTypeRepository = cargoItemTypeRepository;
     }
 
     public AddCargoTypeEnterLegendCommandHandlerService(
             TelegramClient telegramClient,
             CargoDistributorBotService botService,
             CargoConverterService cargoConverterService,
-            FileService fileService,
-            CargoItemTypeRepository cargoItemTypeRepository
+            FileService fileService
     ) {
         super(telegramClient, botService, cargoConverterService, fileService);
-        this.cargoItemTypeRepository = cargoItemTypeRepository;
     }
 
     @Override
