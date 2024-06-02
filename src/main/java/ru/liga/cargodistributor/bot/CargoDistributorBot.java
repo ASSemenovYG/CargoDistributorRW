@@ -68,7 +68,6 @@ public class CargoDistributorBot implements SpringLongPollingBot, LongPollingSin
                 update, botService, lastSendMessage, telegramClient, cargoConverterService, fileService, cargoItemTypeRepository
         );
 
-        //todo: добавить выгрузку всех типов посылок
         //todo: Добавлять\\Изменять\\Редактировать\\Удалять кузовы
         //todo: добавить выгрузку всех типов кузовов
         //todo: процесс распределения посылок с типами кузовов и посылок

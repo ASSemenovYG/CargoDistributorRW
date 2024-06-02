@@ -11,6 +11,7 @@ public enum CargoDistributorBotKeyboardButton {
     ADD_CARGO_TYPE("Добавить тип посылки"),
     EDIT_CARGO_TYPE("Изменить тип посылки"),
     DELETE_CARGO_TYPE("Удалить тип посылки"),
+    GET_ALL_CARGO_TYPES("Получить список всех типов посылок"),
     EDIT_CARGO_TYPE_NAME("Название"),
     EDIT_CARGO_TYPE_LEGEND("Легенда"),
     EDIT_CARGO_TYPE_SHAPE("Форма"),

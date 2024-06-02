@@ -4,6 +4,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import ru.liga.cargodistributor.cargo.entity.CargoItemTypeInfo;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -14,4 +15,6 @@ public interface CargoItemTypeRepository extends CrudRepository<CargoItemTypeInf
     boolean existsByName(String name);
 
     void deleteByName(String name);
+
+    List<CargoItemTypeInfo> findAll();
 }

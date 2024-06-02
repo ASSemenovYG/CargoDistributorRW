@@ -58,8 +58,23 @@ public abstract class CommandHandlerService {
             CargoItemTypeRepository cargoItemTypeRepository
     ) {
         CommandHandlerService handlerService;
-        if ((updateHasMessageText(update) && isUpdateMessageTextEqualTo(update, CargoDistributorBotUserCommand.START.getCommandText()))) {
+        if (
+                updateHasMessageText(update) &&
+                        isUpdateMessageTextEqualTo(update, CargoDistributorBotUserCommand.START.getCommandText())
+        ) {
             handlerService = new StartCommandHandlerService(telegramClient, botService, cargoConverterService, fileService);
+        } else if (
+                updateHasMessageText(update) &&
+                        isUpdateMessageTextEqualTo(update, CargoDistributorBotKeyboardButton.GET_ALL_CARGO_TYPES.getButtonText())
+        ) {
+            //todo: add tests for this scenario
+            handlerService = new GetAllCargoTypesCommandHandlerService(
+                    telegramClient,
+                    botService,
+                    cargoConverterService,
+                    fileService,
+                    cargoItemTypeRepository
+            );
         } else if (
                 updateHasMessageText(update) &&
                         isUpdateMessageTextEqualTo(update, CargoDistributorBotKeyboardButton.ADD_CARGO_TYPE.getButtonText())

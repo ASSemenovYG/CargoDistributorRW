@@ -20,7 +20,8 @@ public enum CargoDistributorBotKeyboard {
                         new KeyboardRow(
                                 CargoDistributorBotKeyboardButton.ADD_CARGO_TYPE.getButtonText(),
                                 CargoDistributorBotKeyboardButton.EDIT_CARGO_TYPE.getButtonText(),
-                                CargoDistributorBotKeyboardButton.DELETE_CARGO_TYPE.getButtonText()
+                                CargoDistributorBotKeyboardButton.DELETE_CARGO_TYPE.getButtonText(),
+                                CargoDistributorBotKeyboardButton.GET_ALL_CARGO_TYPES.getButtonText()
                         )
                 );
             }

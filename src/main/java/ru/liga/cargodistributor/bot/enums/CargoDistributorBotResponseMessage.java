@@ -78,7 +78,8 @@ public enum CargoDistributorBotResponseMessage {
     UPDATE_CARGO_TYPE_CURRENT_PARAMETERS("Текущие параметры типа посылки для обновления:"),
     ENTER_NEW_CARGO_TYPE_LEGEND("Введи один символ новой легенды посылки"),
     ENTER_NEW_CARGO_TYPE_NAME("Введи новое название типа посылки"),
-    SEND_FILE_WITH_SINGLE_CARGO_NEW_SHAPE("Отправь мне файл с одной посылкой с новой формой");
+    SEND_FILE_WITH_SINGLE_CARGO_NEW_SHAPE("Отправь мне файл с одной посылкой с новой формой"),
+    NUMBER_OF_CARGO_TYPES_FOUND("Найдено типов посылок: ");
 
     private final String messageText;
 
