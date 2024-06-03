@@ -14,10 +14,10 @@ import java.util.Map;
  * The Least Recently Used (LRU)
  */
 @Component
-public class LruCache {
-    private final Map<String, Object> cache;
+public class LruCache<K, T> {
+    private final Map<K, T> cache;
     private final int capacity;
-    private final LinkedList<String> usageHistory;
+    private final LinkedList<K> usageHistory;
 
     /**
      * Конструктор для создания кэша с определённой ёмкостью.
@@ -37,8 +37,10 @@ public class LruCache {
      * @param key Ключ, по которому нужно получить значение.
      * @return Значение, соответствующее ключу, или {@code null}, если ключ не найден.
      */
-    public Object get(String key) {
-        if (!cache.containsKey(key)) return null;
+    public T get(K key) {
+        if (!cache.containsKey(key)) {
+            return null;
+        }
         this.moveKeyToTop(key);
         return cache.get(key);
     }
@@ -50,10 +52,13 @@ public class LruCache {
      * @param key   Ключ для добавляемого значения.
      * @param value Значение, которое нужно добавить.
      */
-    public void put(String key, Object value) {
+    public void put(K key, T value) {
         cache.put(key, value);
-        if (usageHistory.contains(key)) this.moveKeyToTop(key);
-        else this.addNewKeyAndRemoveLeastUsed(key);
+        if (usageHistory.contains(key)) {
+            this.moveKeyToTop(key);
+        } else {
+            this.addNewKeyAndRemoveLeastUsed(key);
+        }
     }
 
     /**
@@ -61,7 +66,7 @@ public class LruCache {
      *
      * @param key Ключ для добавляемого/извлекаемого значения.
      */
-    private void moveKeyToTop(String key) {
+    private void moveKeyToTop(K key) {
         usageHistory.remove(key);
         usageHistory.addFirst(key);
     }
@@ -71,7 +76,7 @@ public class LruCache {
      *
      * @param key Ключ для добавляемого значения.
      */
-    private void addNewKeyAndRemoveLeastUsed(String key) {
+    private void addNewKeyAndRemoveLeastUsed(K key) {
         if (capacity - usageHistory.size() > 0) usageHistory.addFirst(key);
         else {
             cache.remove(usageHistory.removeLast());

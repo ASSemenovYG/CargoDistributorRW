@@ -6,11 +6,11 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class LruCacheTest {
-    private LruCache lruCache;
+    private LruCache<String, Integer> lruCache;
 
     @BeforeEach
     public void setUp() {
-        lruCache = new LruCache(3); // установим ёмкость кэша равной 3
+        lruCache = new LruCache<>(3); // установим ёмкость кэша равной 3
     }
 
     @Test

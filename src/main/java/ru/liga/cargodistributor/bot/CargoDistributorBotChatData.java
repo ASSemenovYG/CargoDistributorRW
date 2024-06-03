@@ -14,47 +14,66 @@ public class CargoDistributorBotChatData {
     private CargoItemTypeInfo cargoItemTypeInfoToUpdate;
     private CargoVanTypeInfo cargoVanTypeInfo;
 
-    //todo: мб стоит добавить сюда билдер
-    public CargoDistributorBotChatData(
-            CargoItemList cargoItemList,
-            SendMessage lastMessage,
-            int vanLimit,
-            String cargoItemTypeName,
-            String cargoItemTypeLegend,
-            CargoItemTypeInfo cargoItemTypeInfoToUpdate,
-            CargoVanTypeInfo cargoVanTypeInfo
-    ) {
-        this.cargoItemList = cargoItemList;
-        this.vanLimit = vanLimit;
-        this.lastMessage = lastMessage;
-        this.cargoItemTypeName = cargoItemTypeName;
-        this.cargoItemTypeLegend = cargoItemTypeLegend;
-        this.cargoItemTypeInfoToUpdate = cargoItemTypeInfoToUpdate;
-        this.cargoVanTypeInfo = cargoVanTypeInfo;
+    private CargoDistributorBotChatData(Builder builder) {
+        this.cargoItemList = builder.cargoItemList;
+        this.vanLimit = builder.vanLimit;
+        this.lastMessage = builder.lastMessage;
+        this.cargoItemTypeName = builder.cargoItemTypeName;
+        this.cargoItemTypeLegend = builder.cargoItemTypeLegend;
+        this.cargoItemTypeInfoToUpdate = builder.cargoItemTypeInfoToUpdate;
+        this.cargoVanTypeInfo = builder.cargoVanTypeInfo;
     }
 
-    public CargoDistributorBotChatData(CargoItemList cargoItemList) {
-        this(cargoItemList, null, 0, null, null, null, null);
-    }
+    public static class Builder {
+        private CargoItemList cargoItemList;
+        private int vanLimit;
+        private SendMessage lastMessage;
+        private String cargoItemTypeName;
+        private String cargoItemTypeLegend;
+        private CargoItemTypeInfo cargoItemTypeInfoToUpdate;
+        private CargoVanTypeInfo cargoVanTypeInfo;
 
-    public CargoDistributorBotChatData(SendMessage lastMessage) {
-        this(null, lastMessage, 0, null, null, null, null);
-    }
+        public Builder() {
+        }
 
-    public CargoDistributorBotChatData(int vanLimit) {
-        this(null, null, vanLimit, null, null, null, null);
-    }
+        public Builder setCargoItemList(CargoItemList cargoItemList) {
+            this.cargoItemList = cargoItemList;
+            return this;
+        }
 
-    public CargoDistributorBotChatData(String cargoItemTypeName) {
-        this(null, null, 0, cargoItemTypeName, null, null, null);
-    }
+        public Builder setVanLimit(int vanLimit) {
+            this.vanLimit = vanLimit;
+            return this;
+        }
 
-    public CargoDistributorBotChatData(CargoItemTypeInfo cargoItemTypeInfoToUpdate) {
-        this(null, null, 0, null, null, cargoItemTypeInfoToUpdate, null);
-    }
+        public Builder setLastMessage(SendMessage lastMessage) {
+            this.lastMessage = lastMessage;
+            return this;
+        }
 
-    public CargoDistributorBotChatData(CargoVanTypeInfo cargoVanTypeInfo) {
-        this(null, null, 0, null, null, null, cargoVanTypeInfo);
+        public Builder setCargoItemTypeName(String cargoItemTypeName) {
+            this.cargoItemTypeName = cargoItemTypeName;
+            return this;
+        }
+
+        public Builder setCargoItemTypeLegend(String cargoItemTypeLegend) {
+            this.cargoItemTypeLegend = cargoItemTypeLegend;
+            return this;
+        }
+
+        public Builder setCargoItemTypeInfoToUpdate(CargoItemTypeInfo cargoItemTypeInfoToUpdate) {
+            this.cargoItemTypeInfoToUpdate = cargoItemTypeInfoToUpdate;
+            return this;
+        }
+
+        public Builder setCargoVanTypeInfo(CargoVanTypeInfo cargoVanTypeInfo) {
+            this.cargoVanTypeInfo = cargoVanTypeInfo;
+            return this;
+        }
+
+        public CargoDistributorBotChatData build() {
+            return new CargoDistributorBotChatData(this);
+        }
     }
 
     public CargoItemList getCargoItemList() {
