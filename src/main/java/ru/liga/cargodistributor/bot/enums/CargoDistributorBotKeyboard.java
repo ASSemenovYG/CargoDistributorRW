@@ -29,6 +29,9 @@ public enum CargoDistributorBotKeyboard {
                                 CargoDistributorBotKeyboardButton.EDIT_CARGO_VAN_TYPE.getButtonText(),
                                 CargoDistributorBotKeyboardButton.DELETE_CARGO_VAN_TYPE.getButtonText(),
                                 CargoDistributorBotKeyboardButton.GET_ALL_CARGO_VAN_TYPES.getButtonText()
+                        ),
+                        new KeyboardRow(
+                                CargoDistributorBotKeyboardButton.DISTRIBUTE_BY_SELECTED_TYPES.getButtonText()
                         )
                 );
             }

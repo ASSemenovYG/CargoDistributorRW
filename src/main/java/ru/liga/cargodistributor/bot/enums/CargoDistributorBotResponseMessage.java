@@ -100,7 +100,16 @@ public enum CargoDistributorBotResponseMessage {
     CARGO_VAN_TYPE_SUCCESSFULLY_UPDATED("Тип грузового фургона успешно обновлен"),
     ENTER_NEW_CARGO_VAN_TYPE_NAME("Введи новое название типа грузового фургона"),
     ENTER_NEW_CARGO_VAN_TYPE_WIDTH("Введи новую ширину грузового фургона"),
-    ENTER_NEW_CARGO_VAN_TYPE_LENGTH("Введи новую длину грузового фургона");
+    ENTER_NEW_CARGO_VAN_TYPE_LENGTH("Введи новую длину грузового фургона"),
+    DISTRIBUTE_BY_TYPES_ENTER_CARGO_VAN_TYPE_NAME("Введи название типа грузового фургона для распределения"),
+    CARGO_VAN_TYPE_TO_DISTRIBUTE_NOT_FOUND("Не найден тип грузового фургона для распределения с названием: "),
+    CARGO_ITEM_TYPE_TO_DISTRIBUTE_NOT_FOUND("Не найден тип посылки для распределения с названием: "),
+    DISTRIBUTE_BY_TYPES_ERROR_WHILE_CREATING_CARGO_VAN("Произошла ошибка при создании экземпляра грузового фургона: "),
+    DISTRIBUTE_BY_TYPES_ERROR_WHILE_CREATING_CARGO_ITEM("Произошла ошибка при создании экземпляра посылки: "),
+    DISTRIBUTE_BY_TYPES_ENTER_CARGO_ITEM_TYPE_NAME("Введи название типа посылки для распределения"),
+    DISTRIBUTE_BY_TYPES_ENTER_CARGO_ITEM_TYPE_COUNT("Введи количество экземпляров добавленного типа посылки для распределения"),
+    DISTRIBUTE_BY_TYPES_CARGO_ITEM_TYPE_ADDED("Добавлен тип посылки:"),
+    FAILED_TO_FIND_CARGO_PARAMETERS_TO_DISTRIBUTE("Я не нашел в кеше данные для распределения, заполненные на предыдущих шагах");
 
     private final String messageText;
 

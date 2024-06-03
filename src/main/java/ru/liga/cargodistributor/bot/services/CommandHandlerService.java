@@ -25,6 +25,9 @@ import ru.liga.cargodistributor.bot.serviceImpls.deletecargotype.DeleteCargoType
 import ru.liga.cargodistributor.bot.serviceImpls.deletecargotype.DeleteCargoTypeEnterNameCommandHandlerService;
 import ru.liga.cargodistributor.bot.serviceImpls.deletecargovantype.DeleteCargoVanTypeCommandHandlerService;
 import ru.liga.cargodistributor.bot.serviceImpls.deletecargovantype.DeleteCargoVanTypeEnterNameCommandHandlerService;
+import ru.liga.cargodistributor.bot.serviceImpls.distributebytypes.DistributeByTypesProcessCargoTypeNameCommandHandlerService;
+import ru.liga.cargodistributor.bot.serviceImpls.distributebytypes.DistributeByTypesProcessCargoVanTypeNameCommandHandlerService;
+import ru.liga.cargodistributor.bot.serviceImpls.distributebytypes.DistributeByTypesStartCommandHandlerService;
 import ru.liga.cargodistributor.bot.serviceImpls.distributefromfile.*;
 import ru.liga.cargodistributor.bot.serviceImpls.editcargotype.*;
 import ru.liga.cargodistributor.bot.serviceImpls.editcargovantype.*;
@@ -42,7 +45,7 @@ import java.util.List;
 public abstract class CommandHandlerService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CommandHandlerService.class);
 
-    //todo: надо выпилить протекшие абстракции, бОльшая часть хендлеров эти сервисы не использует
+    //todo: надо выпилить протекшие абстракции, бОльшая часть хендлеров эти сервисы не использует (кроме botservice)
     protected final TelegramClient telegramClient;
     protected final CargoDistributorBotService botService;
     protected final CargoConverterService cargoConverterService;
@@ -81,6 +84,52 @@ public abstract class CommandHandlerService {
                         isUpdateMessageTextEqualTo(update, CargoDistributorBotUserCommand.START.getCommandText())
         ) {
             handlerService = new StartCommandHandlerService(telegramClient, botService, cargoConverterService, fileService);
+        } else if (
+                updateHasMessageText(update) &&
+                        isUpdateMessageTextEqualTo(update, CargoDistributorBotKeyboardButton.DISTRIBUTE_BY_SELECTED_TYPES.getButtonText())
+        ) {
+            //todo: add tests for this scenario
+            handlerService = new DistributeByTypesStartCommandHandlerService(
+                    telegramClient,
+                    botService,
+                    cargoConverterService,
+                    fileService
+            );
+        } else if (
+                updateHasMessageText(update) &&
+                        isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.DISTRIBUTE_BY_TYPES_ENTER_CARGO_VAN_TYPE_NAME.getMessageText(), lastSendMessage)
+        ) {
+            //todo: add tests for this scenario
+            handlerService = new DistributeByTypesProcessCargoVanTypeNameCommandHandlerService(
+                    telegramClient,
+                    botService,
+                    cargoConverterService,
+                    fileService,
+                    cargoVanTypeRepository
+            );
+        } else if (
+                updateHasMessageText(update) &&
+                        isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.DISTRIBUTE_BY_TYPES_ENTER_CARGO_ITEM_TYPE_NAME.getMessageText(), lastSendMessage)
+        ) {
+            //todo: add tests for this scenario
+            handlerService = new DistributeByTypesProcessCargoTypeNameCommandHandlerService(
+                    telegramClient,
+                    botService,
+                    cargoConverterService,
+                    fileService,
+                    cargoItemTypeRepository
+            );
+        } else if (
+                updateHasMessageText(update) &&
+                        isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.DISTRIBUTE_BY_TYPES_ENTER_CARGO_ITEM_TYPE_COUNT.getMessageText(), lastSendMessage)
+        ) {
+            //todo: add DISTRIBUTE_BY_TYPES_ENTER_CARGO_ITEM_TYPE_COUNT handler
+            handlerService = new UnknownCommandHandlerService(
+                    telegramClient,
+                    botService,
+                    cargoConverterService,
+                    fileService
+            );
         } else if (
                 updateHasMessageText(update) &&
                         isUpdateMessageTextEqualTo(update, CargoDistributorBotKeyboardButton.ADD_CARGO_VAN_TYPE.getButtonText())

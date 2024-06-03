@@ -2,6 +2,8 @@ package ru.liga.cargodistributor.cargo.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -50,6 +52,10 @@ public class CargoItemTypeInfo {
 
     public void setShape(String shape) {
         this.shape = shape;
+    }
+
+    public List<String> getShapeAsList() {
+        return Arrays.asList(shape.split("\n"));
     }
 
     @Override

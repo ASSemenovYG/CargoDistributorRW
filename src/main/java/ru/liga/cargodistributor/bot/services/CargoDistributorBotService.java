@@ -18,6 +18,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
+import ru.liga.cargodistributor.algorithm.CargoDistributionParameters;
 import ru.liga.cargodistributor.bot.CargoDistributorBotChatData;
 import ru.liga.cargodistributor.bot.enums.CargoDistributorBotKeyboard;
 import ru.liga.cargodistributor.bot.exceptions.GetFileFromUpdateException;
@@ -165,6 +166,18 @@ public class CargoDistributorBotService {
         getBotChatDataFromCache(chatId).setCargoVanTypeInfo(cargoVanTypeInfo);
     }
 
+    public void putCargoDistributionParametersToCache(String chatId, CargoDistributionParameters cargoDistributionParameters) {
+        if (cache.get(chatId) == null) {
+            LOGGER.debug("putCargoDistributionParametersToCache: creating new cache for chatId {}", chatId);
+            cache.put(chatId, new CargoDistributorBotChatData.Builder()
+                    .setCargoDistributionParameters(cargoDistributionParameters)
+                    .build()
+            );
+            return;
+        }
+        getBotChatDataFromCache(chatId).setCargoDistributionParameters(cargoDistributionParameters);
+    }
+
     public SendMessage getLastSendMessageFromCache(String chatId) {
         CargoDistributorBotChatData chatData = getBotChatDataFromCache(chatId);
         if (chatData == null) {
@@ -226,6 +239,15 @@ public class CargoDistributorBotService {
             return null;
         }
         return chatData.getCargoVanTypeInfo();
+    }
+
+    public CargoDistributionParameters getCargoDistributionParametersFromCache(String chatId) {
+        CargoDistributorBotChatData chatData = getBotChatDataFromCache(chatId);
+        if (chatData == null) {
+            LOGGER.debug("getCargoDistributionParametersFromCache: couldn't find cache for chatId {}", chatId);
+            return null;
+        }
+        return chatData.getCargoDistributionParameters();
     }
 
     public File getFileFromUpdate(Update update, TelegramClient telegramClient) {

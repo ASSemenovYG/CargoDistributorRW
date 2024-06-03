@@ -111,13 +111,21 @@ public class CargoItem {
 
     /**
      * @param unparsedCargoItem Лист со строками, составляющими посылку
+     * @param cargoVan          Грузовой фургон, когда нужны проверки не по дефолтным параметрам фургона
      */
-    public CargoItem(LinkedList<String> unparsedCargoItem) {
-        validateUnparsedCargoItem(unparsedCargoItem);
+    public CargoItem(LinkedList<String> unparsedCargoItem, CargoVan cargoVan) {
+        validateUnparsedCargoItem(unparsedCargoItem, cargoVan);
         this.name = getUnparsedCargoItemName(unparsedCargoItem);
         this.length = unparsedCargoItem.size();
         this.width = unparsedCargoItem.peekFirst().length();
         this.size = this.length * this.width;
+    }
+
+    /**
+     * @param unparsedCargoItem Лист со строками, составляющими посылку
+     */
+    public CargoItem(LinkedList<String> unparsedCargoItem) {
+        this(unparsedCargoItem, null);
     }
 
     public String getName() {
@@ -210,7 +218,7 @@ public class CargoItem {
         return validationMessage.toString();
     }
 
-    private void validateUnparsedCargoItem(LinkedList<String> unparsedCargoItem) {
+    private void validateUnparsedCargoItem(LinkedList<String> unparsedCargoItem, CargoVan cargoVan) {
         String firstLine = unparsedCargoItem.peekFirst();
         if (firstLine == null || firstLine.isEmpty()) {
             LOGGER.error("В посылке не может быть пустых или null строк");
@@ -227,7 +235,7 @@ public class CargoItem {
                     .append("\n");
         }
 
-        validationMessage.append(validateCargoItemByParams(cargoItemSize, cargoItemLength, cargoItemWidth, null));
+        validationMessage.append(validateCargoItemByParams(cargoItemSize, cargoItemLength, cargoItemWidth, cargoVan));
 
         if (!validationMessage.isEmpty()) {
             validationMessage.insert(0, "Во входных данных обнаружена невалидная посылка:\n" + getUnparsedCargoItemName(unparsedCargoItem) + "\n");

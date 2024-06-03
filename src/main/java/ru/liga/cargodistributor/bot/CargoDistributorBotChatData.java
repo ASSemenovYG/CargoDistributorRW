@@ -1,6 +1,7 @@
 package ru.liga.cargodistributor.bot;
 
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import ru.liga.cargodistributor.algorithm.CargoDistributionParameters;
 import ru.liga.cargodistributor.cargo.CargoItemList;
 import ru.liga.cargodistributor.cargo.entity.CargoItemTypeInfo;
 import ru.liga.cargodistributor.cargo.entity.CargoVanTypeInfo;
@@ -13,6 +14,7 @@ public class CargoDistributorBotChatData {
     private String cargoItemTypeLegend;
     private CargoItemTypeInfo cargoItemTypeInfoToUpdate;
     private CargoVanTypeInfo cargoVanTypeInfo;
+    private CargoDistributionParameters cargoDistributionParameters;
 
     private CargoDistributorBotChatData(Builder builder) {
         this.cargoItemList = builder.cargoItemList;
@@ -22,6 +24,7 @@ public class CargoDistributorBotChatData {
         this.cargoItemTypeLegend = builder.cargoItemTypeLegend;
         this.cargoItemTypeInfoToUpdate = builder.cargoItemTypeInfoToUpdate;
         this.cargoVanTypeInfo = builder.cargoVanTypeInfo;
+        this.cargoDistributionParameters = builder.cargoDistributionParameters;
     }
 
     public static class Builder {
@@ -32,6 +35,7 @@ public class CargoDistributorBotChatData {
         private String cargoItemTypeLegend;
         private CargoItemTypeInfo cargoItemTypeInfoToUpdate;
         private CargoVanTypeInfo cargoVanTypeInfo;
+        private CargoDistributionParameters cargoDistributionParameters;
 
         public Builder() {
         }
@@ -73,6 +77,11 @@ public class CargoDistributorBotChatData {
 
         public CargoDistributorBotChatData build() {
             return new CargoDistributorBotChatData(this);
+        }
+
+        public Builder setCargoDistributionParameters(CargoDistributionParameters cargoDistributionParameters) {
+            this.cargoDistributionParameters = cargoDistributionParameters;
+            return this;
         }
     }
 
@@ -130,5 +139,13 @@ public class CargoDistributorBotChatData {
 
     public void setCargoVanTypeInfo(CargoVanTypeInfo cargoVanTypeInfo) {
         this.cargoVanTypeInfo = cargoVanTypeInfo;
+    }
+
+    public CargoDistributionParameters getCargoDistributionParameters() {
+        return cargoDistributionParameters;
+    }
+
+    public void setCargoDistributionParameters(CargoDistributionParameters cargoDistributionParameters) {
+        this.cargoDistributionParameters = cargoDistributionParameters;
     }
 }
