@@ -113,7 +113,7 @@ public class EditCargoVanTypeProcessLengthCommandHandlerService extends CommandH
                     )
             );
 
-            LOGGER.info("Finished processing command, user entered invalid height: {}", vanLength);
+            LOGGER.info("Finished processing command, user entered invalid length: {}", vanLength);
             return resultResponse;
         }
 
