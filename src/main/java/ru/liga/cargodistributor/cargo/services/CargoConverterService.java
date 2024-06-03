@@ -25,7 +25,6 @@ public class CargoConverterService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CargoConverterService.class);
     private static final String VAN_BORDER_SYMBOL = "+";
     private static final String EMPTY_CARGO_CELL_SYMBOL = " ";
-    private static final String VAN_BACK_WALL = VAN_BORDER_SYMBOL.repeat(CargoVan.VAN_WIDTH + 2);
 
     public CargoVanList deserializeLoadedVansFromJson(String content) {
         try {
@@ -109,17 +108,17 @@ public class CargoConverterService {
 
     private String convertVanCargoToString(CargoVan cargoVan) {
         StringBuilder sb = new StringBuilder();
-        for (int i = CargoVan.VAN_LENGTH - 1; i >= 0; i--) {
-            if (i < CargoVan.VAN_LENGTH - 1) {
+        for (int i = cargoVan.getLength() - 1; i >= 0; i--) {
+            if (i < cargoVan.getLength() - 1) {
                 sb.append("\n");
             }
             sb.append(VAN_BORDER_SYMBOL);
-            for (int j = 0; j < CargoVan.VAN_WIDTH; j++) {
+            for (int j = 0; j < cargoVan.getWidth(); j++) {
                 sb.append((cargoVan.getCargo()[i][j].isEmpty()) ? EMPTY_CARGO_CELL_SYMBOL : cargoVan.getCargo()[i][j].getCellItemTitle());
             }
             sb.append(VAN_BORDER_SYMBOL);
         }
-        sb.append("\n").append(VAN_BACK_WALL);
+        sb.append("\n").append(VAN_BORDER_SYMBOL.repeat(cargoVan.getWidth() + 2));
         LOGGER.trace("Returning to print cargo van:\n{}", sb);
         return sb.toString();
     }

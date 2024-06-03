@@ -53,7 +53,7 @@ public class SimpleFitDistributionAlgorithmService extends DistributionAlgorithm
             rectangles.add(new Rectangle(cargoItem.getWidth(), cargoItem.getLength()));
         }
 
-        Input input = new Input(rectangles, CargoVan.VAN_WIDTH, "CargoItems");
+        Input input = new Input(rectangles, CargoVan.DEFAULT_VAN_WIDTH, "CargoItems");
 
         LOGGER.debug("Запускаю алгоритм распределения");
         Output output = algorithm.solve(input);

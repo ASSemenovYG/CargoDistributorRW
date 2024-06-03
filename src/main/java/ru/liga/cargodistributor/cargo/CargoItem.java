@@ -88,7 +88,17 @@ public class CargoItem {
      * @param width  Ширина посылки
      */
     public CargoItem(int size, int length, int width) {
-        String validationMessage = validateCargoItemByParams(size, length, width);
+        this(size, length, width, null);
+    }
+
+    /**
+     * @param size     Размер (площадь) посылки
+     * @param length   Длина посылки
+     * @param width    Ширина посылки
+     * @param cargoVan Грузовой фургон (для валидации не по дефолтным параметрам)
+     */
+    public CargoItem(int size, int length, int width, CargoVan cargoVan) {
+        String validationMessage = validateCargoItemByParams(size, length, width, cargoVan);
         if (!validationMessage.isEmpty()) {
             LOGGER.error(validationMessage);
             throw new CargoItemValidationException(validationMessage);
@@ -162,8 +172,8 @@ public class CargoItem {
 
     public void fillCoordinatesByCargoVan(CargoVan cargoVan) {
         CargoVan.CargoVanCell[][] cargo = cargoVan.getCargo();
-        for (int i = 0; i < CargoVan.VAN_LENGTH; i++) {
-            for (int j = 0; j < CargoVan.VAN_WIDTH; j++) {
+        for (int i = 0; i < cargoVan.getLength(); i++) {
+            for (int j = 0; j < cargoVan.getWidth(); j++) {
                 if (!cargo[i][j].isEmpty() && cargo[i][j].getOccupiedBy() == this) {
                     coordinates.add(new Coordinates(i, j));
                 }
@@ -171,7 +181,9 @@ public class CargoItem {
         }
     }
 
-    private String validateCargoItemByParams(int size, int length, int width) {
+    private String validateCargoItemByParams(int size, int length, int width, CargoVan cargoVan) {
+        int vanLength = (cargoVan == null ? CargoVan.DEFAULT_VAN_LENGTH : cargoVan.getLength());
+        int vanWidth = (cargoVan == null ? CargoVan.DEFAULT_VAN_WIDTH : cargoVan.getWidth());
         StringBuilder validationMessage = new StringBuilder();
         if (size <= 0) {
             validationMessage.append("Размер посылки должен быть больше нуля, переданный размер: ").append(size).append("\n");
@@ -189,11 +201,11 @@ public class CargoItem {
             validationMessage.append("Некорректные параметры посылки, размер ").append(size).append(" не соответствует длине ").append(length)
                     .append(" и ширине ").append(width).append("\n");
         }
-        if (length > CargoVan.VAN_LENGTH) {
-            validationMessage.append("Длина посылки ").append(length).append(" превышает длину грузового фургона ").append(CargoVan.VAN_LENGTH).append("\n");
+        if (length > vanLength) {
+            validationMessage.append("Длина посылки ").append(length).append(" превышает длину грузового фургона ").append(vanLength).append("\n");
         }
-        if (width > CargoVan.VAN_WIDTH) {
-            validationMessage.append("Ширина посылки ").append(length).append(" превышает ширину грузового фургона ").append(CargoVan.VAN_WIDTH).append("\n");
+        if (width > vanWidth) {
+            validationMessage.append("Ширина посылки ").append(length).append(" превышает ширину грузового фургона ").append(vanWidth).append("\n");
         }
         return validationMessage.toString();
     }
@@ -215,7 +227,7 @@ public class CargoItem {
                     .append("\n");
         }
 
-        validationMessage.append(validateCargoItemByParams(cargoItemSize, cargoItemLength, cargoItemWidth));
+        validationMessage.append(validateCargoItemByParams(cargoItemSize, cargoItemLength, cargoItemWidth, null));
 
         if (!validationMessage.isEmpty()) {
             validationMessage.insert(0, "Во входных данных обнаружена невалидная посылка:\n" + getUnparsedCargoItemName(unparsedCargoItem) + "\n");

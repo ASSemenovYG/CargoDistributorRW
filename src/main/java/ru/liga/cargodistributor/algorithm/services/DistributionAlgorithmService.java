@@ -18,4 +18,6 @@ public abstract class DistributionAlgorithmService {
      * @return Список загруженных фургонов
      */
     public abstract List<CargoVan> distributeCargo(CargoItemList cargoList);
+
+    //todo: добавить метод распределения для заданных типов фургонов и посылок
 }

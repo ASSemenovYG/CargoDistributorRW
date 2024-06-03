@@ -16,8 +16,13 @@ import java.util.Objects;
 @JsonAutoDetect
 public class CargoVan {
     private static final Logger LOGGER = LoggerFactory.getLogger(CargoVan.class);
-    public static final int VAN_LENGTH = 6;
-    public static final int VAN_WIDTH = 6;
+    public static final int DEFAULT_VAN_LENGTH = 6;
+    public static final int DEFAULT_VAN_WIDTH = 6;
+
+    @JsonIgnore
+    private final int length;
+    @JsonIgnore
+    private final int width;
 
     /**
      * Класс погрузочной единицы (клетки) в кузове грузовой машины
@@ -63,14 +68,34 @@ public class CargoVan {
     }
 
     @JsonIgnore
-    private final CargoVanCell[][] cargo = new CargoVanCell[VAN_LENGTH][VAN_WIDTH];
+    private final CargoVanCell[][] cargo;
     @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.WRAPPER_OBJECT)
     private final List<CargoItem> loadedCargoItems;
 
     /**
-     * Создает грузовой фургон с пустым кузовом
+     * Создает грузовой фургон с пустым кузовом с размерами по умолчанию
      */
     public CargoVan() {
+        this.length = DEFAULT_VAN_LENGTH;
+        this.width = DEFAULT_VAN_WIDTH;
+        this.cargo = new CargoVanCell[this.length][this.width];
+        initializeCargo();
+        this.loadedCargoItems = new ArrayList<>();
+    }
+
+    /**
+     * Создает грузовой фургон с пустым кузовом с заданными размерами
+     */
+    public CargoVan(int length, int width) {
+        if (length < 1) {
+            throw new IllegalArgumentException("Длина фургона должна быть больше 0, переданная длина: " + length);
+        }
+        if (width < 1) {
+            throw new IllegalArgumentException("Ширина фургона должна быть больше 0, переданная ширина: " + width);
+        }
+        this.length = length;
+        this.width = width;
+        this.cargo = new CargoVanCell[this.length][this.width];
         initializeCargo();
         this.loadedCargoItems = new ArrayList<>();
     }
@@ -89,6 +114,14 @@ public class CargoVan {
         return this.cargo;
     }
 
+    public int getLength() {
+        return length;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
     /**
      * Добавляет посылку в грузовой фургон, начиная с координат X и Y, соответствующих левой нижней клетке посылки
      *
@@ -98,7 +131,7 @@ public class CargoVan {
      * @return true, если возможно добавить посылку с указанными координатами, иначе false
      */
     public boolean tryPuttingCargoItemAtCoordinates(CargoItem cargoItem, int x, int y) {
-        if (x + cargoItem.getLength() > VAN_LENGTH) {
+        if (x + cargoItem.getLength() > this.length) {
             LOGGER.debug(
                     "tryPuttingCargoItemAtCoordinates: Невозможно добавить в фургон посылку {} с начальными координатами [{}],[{}], превышено ограничение по длине фургона",
                     cargoItem.getName(),
@@ -107,7 +140,7 @@ public class CargoVan {
             );
             return false;
         }
-        if (y + cargoItem.getWidth() > VAN_WIDTH) {
+        if (y + cargoItem.getWidth() > this.width) {
             LOGGER.debug(
                     "tryPuttingCargoItemAtCoordinates: Невозможно добавить в фургон посылку {} с начальными координатами [{}],[{}], превышено ограничение по ширине фургона",
                     cargoItem.getName(),
@@ -146,8 +179,8 @@ public class CargoVan {
      * Заполняет двумерный массив кузова фургона пустыми клетками
      */
     void initializeCargo() {
-        for (int i = 0; i < VAN_LENGTH; i++) {
-            for (int j = 0; j < VAN_WIDTH; j++) {
+        for (int i = 0; i < this.length; i++) {
+            for (int j = 0; j < this.width; j++) {
                 cargo[i][j] = new CargoVanCell();
             }
         }
