@@ -52,9 +52,9 @@ public class AddCargoVanTypeEnterLengthCommandHandlerService extends CommandHand
         List<PartialBotApiMethod<Message>> resultResponse = new LinkedList<>();
         long chatId = getChatIdFromUpdate(update);
 
-        int vanHeight;
+        int vanLength;
         try {
-            vanHeight = Integer.parseInt(getMessageTextFromUpdate(update));
+            vanLength = Integer.parseInt(getMessageTextFromUpdate(update));
         } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());
 
@@ -83,7 +83,7 @@ public class AddCargoVanTypeEnterLengthCommandHandlerService extends CommandHand
             return resultResponse;
         }
 
-        if (vanHeight < 1) {
+        if (vanLength < 1) {
             resultResponse.add(
                     botService.buildTextMessageWithoutKeyboard(
                             chatId,
@@ -105,7 +105,7 @@ public class AddCargoVanTypeEnterLengthCommandHandlerService extends CommandHand
                     )
             );
 
-            LOGGER.info("Finished processing command, user entered invalid height: {}", vanHeight);
+            LOGGER.info("Finished processing command, user entered invalid height: {}", vanLength);
             return resultResponse;
         }
 
@@ -124,7 +124,7 @@ public class AddCargoVanTypeEnterLengthCommandHandlerService extends CommandHand
             return resultResponse;
         }
 
-        cargoVanTypeInfoToInsert.setLength(vanHeight);
+        cargoVanTypeInfoToInsert.setLength(vanLength);
 
         cargoVanTypeRepository.save(cargoVanTypeInfoToInsert);
         String cargoVanTypeName = cargoVanTypeInfoToInsert.getName();

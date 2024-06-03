@@ -60,9 +60,9 @@ public class EditCargoVanTypeProcessLengthCommandHandlerService extends CommandH
             return resultResponse;
         }
 
-        int vanHeight;
+        int vanLength;
         try {
-            vanHeight = Integer.parseInt(getMessageTextFromUpdate(update));
+            vanLength = Integer.parseInt(getMessageTextFromUpdate(update));
         } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());
 
@@ -91,7 +91,7 @@ public class EditCargoVanTypeProcessLengthCommandHandlerService extends CommandH
             return resultResponse;
         }
 
-        if (vanHeight < 1) {
+        if (vanLength < 1) {
             resultResponse.add(
                     botService.buildTextMessageWithoutKeyboard(
                             chatId,
@@ -113,11 +113,11 @@ public class EditCargoVanTypeProcessLengthCommandHandlerService extends CommandH
                     )
             );
 
-            LOGGER.info("Finished processing command, user entered invalid height: {}", vanHeight);
+            LOGGER.info("Finished processing command, user entered invalid height: {}", vanLength);
             return resultResponse;
         }
 
-        cargoVanTypeInfoToUpdate.setLength(vanHeight);
+        cargoVanTypeInfoToUpdate.setLength(vanLength);
 
         resultResponse.add(
                 botService.buildTextMessageWithoutKeyboard(
