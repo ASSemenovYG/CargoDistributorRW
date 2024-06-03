@@ -83,7 +83,7 @@ public enum CargoDistributorBotResponseMessage {
     NUMBER_OF_CARGO_TYPES_FOUND("Найдено типов посылок: "),
     ENTER_CARGO_VAN_TYPE_NAME("Введи название грузового фургона"),
     ENTER_CARGO_VAN_TYPE_WIDTH("Введи ширину грузового фургона"),
-    ENTER_CARGO_VAN_TYPE_HEIGHT("Введи высоту грузового фургона"),
+    ENTER_CARGO_VAN_TYPE_LENGTH("Введи длину грузового фургона"),
     CARGO_VAN_TYPE_NAME_ALREADY_EXISTS("Грузовой фургон с таким названием уже существует"),
     FAILED_TO_FIND_CARGO_VAN_TYPE_TO_INSERT("Я не нашел в кеше данные грузового фургона, который ты хотел создать"),
     FAILED_TO_FIND_CARGO_VAN_TYPE_TO_UPDATE("Я не нашел в кеше данные грузового фургона, который ты хотел обновить"),
@@ -100,7 +100,7 @@ public enum CargoDistributorBotResponseMessage {
     CARGO_VAN_TYPE_SUCCESSFULLY_UPDATED("Тип грузового фургона успешно обновлен"),
     ENTER_NEW_CARGO_VAN_TYPE_NAME("Введи новое название типа грузового фургона"),
     ENTER_NEW_CARGO_VAN_TYPE_WIDTH("Введи новую ширину грузового фургона"),
-    ENTER_NEW_CARGO_VAN_TYPE_HEIGHT("Введи новую высоту грузового фургона");
+    ENTER_NEW_CARGO_VAN_TYPE_LENGTH("Введи новую длину грузового фургона");
 
     private final String messageText;
 

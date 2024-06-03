@@ -58,7 +58,7 @@ public enum CargoDistributorBotKeyboard {
                         new KeyboardRow(
                                 CargoDistributorBotKeyboardButton.EDIT_CARGO_VAN_TYPE_NAME.getButtonText(),
                                 CargoDistributorBotKeyboardButton.EDIT_CARGO_VAN_TYPE_WIDTH.getButtonText(),
-                                CargoDistributorBotKeyboardButton.EDIT_CARGO_VAN_TYPE_HEIGHT.getButtonText()
+                                CargoDistributorBotKeyboardButton.EDIT_CARGO_VAN_TYPE_LENGTH.getButtonText()
                         ),
                         new KeyboardRow(
                                 CargoDistributorBotKeyboardButton.EDIT_CARGO_VAN_TYPE_SAVE_CHANGES.getButtonText()

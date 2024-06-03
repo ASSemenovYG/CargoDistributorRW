@@ -19,16 +19,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Service
-public class EditCargoVanTypeEnterHeightCommandHandlerService extends CommandHandlerService {
+public class EditCargoVanTypeEnterLengthCommandHandlerService extends CommandHandlerService {
     //todo: add tests
-    private static final Logger LOGGER = LoggerFactory.getLogger(EditCargoVanTypeEnterHeightCommandHandlerService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(EditCargoVanTypeEnterLengthCommandHandlerService.class);
 
     @Autowired
-    protected EditCargoVanTypeEnterHeightCommandHandlerService(@Value("${bot.token}") String token, @Value("${cache.capacity}") int cacheCapacity) {
+    protected EditCargoVanTypeEnterLengthCommandHandlerService(@Value("${bot.token}") String token, @Value("${cache.capacity}") int cacheCapacity) {
         super(token, cacheCapacity);
     }
 
-    public EditCargoVanTypeEnterHeightCommandHandlerService(
+    public EditCargoVanTypeEnterLengthCommandHandlerService(
             TelegramClient telegramClient,
             CargoDistributorBotService botService,
             CargoConverterService cargoConverterService,
@@ -45,7 +45,7 @@ public class EditCargoVanTypeEnterHeightCommandHandlerService extends CommandHan
         resultResponse.add(
                 botService.buildTextMessageWithoutKeyboard(
                         getChatIdFromUpdate(update),
-                        CargoDistributorBotResponseMessage.ENTER_NEW_CARGO_VAN_TYPE_HEIGHT.getMessageText()
+                        CargoDistributorBotResponseMessage.ENTER_NEW_CARGO_VAN_TYPE_LENGTH.getMessageText()
                 )
         );
 

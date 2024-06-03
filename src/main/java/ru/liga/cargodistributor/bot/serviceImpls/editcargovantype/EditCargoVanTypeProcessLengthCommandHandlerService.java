@@ -1,20 +1,19 @@
-package ru.liga.cargodistributor.bot.serviceImpls.addcargovantype;
+package ru.liga.cargodistributor.bot.serviceImpls.editcargovantype;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
+import ru.liga.cargodistributor.bot.enums.CargoDistributorBotKeyboard;
 import ru.liga.cargodistributor.bot.enums.CargoDistributorBotResponseMessage;
 import ru.liga.cargodistributor.bot.services.CargoDistributorBotService;
 import ru.liga.cargodistributor.bot.services.CommandHandlerService;
 import ru.liga.cargodistributor.cargo.entity.CargoVanTypeInfo;
-import ru.liga.cargodistributor.cargo.repository.CargoVanTypeRepository;
 import ru.liga.cargodistributor.cargo.services.CargoConverterService;
 import ru.liga.cargodistributor.util.services.FileService;
 
@@ -22,35 +21,44 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Service
-public class AddCargoVanTypeEnterHeightCommandHandlerService extends CommandHandlerService {
+public class EditCargoVanTypeProcessLengthCommandHandlerService extends CommandHandlerService {
     //todo: add tests
-    private static final Logger LOGGER = LoggerFactory.getLogger(AddCargoVanTypeEnterHeightCommandHandlerService.class);
-
-    private final CargoVanTypeRepository cargoVanTypeRepository;
+    private static final Logger LOGGER = LoggerFactory.getLogger(EditCargoVanTypeProcessLengthCommandHandlerService.class);
 
     @Autowired
-    protected AddCargoVanTypeEnterHeightCommandHandlerService(@Value("${bot.token}") String token, @Value("${cache.capacity}") int cacheCapacity, CargoVanTypeRepository cargoVanTypeRepository) {
+    protected EditCargoVanTypeProcessLengthCommandHandlerService(@Value("${bot.token}") String token, @Value("${cache.capacity}") int cacheCapacity) {
         super(token, cacheCapacity);
-        this.cargoVanTypeRepository = cargoVanTypeRepository;
     }
 
-    public AddCargoVanTypeEnterHeightCommandHandlerService(
+    public EditCargoVanTypeProcessLengthCommandHandlerService(
             TelegramClient telegramClient,
             CargoDistributorBotService botService,
             CargoConverterService cargoConverterService,
-            FileService fileService,
-            CargoVanTypeRepository cargoVanTypeRepository
+            FileService fileService
     ) {
         super(telegramClient, botService, cargoConverterService, fileService);
-        this.cargoVanTypeRepository = cargoVanTypeRepository;
     }
 
     @Override
-    @Transactional
     public List<PartialBotApiMethod<Message>> processCommandAndGetResponseMessages(Update update) {
         LOGGER.info("Started processing command");
         List<PartialBotApiMethod<Message>> resultResponse = new LinkedList<>();
         long chatId = getChatIdFromUpdate(update);
+
+        CargoVanTypeInfo cargoVanTypeInfoToUpdate = botService.getCargoVanTypeInfoFromCache(String.valueOf(chatId));
+
+        if (cargoVanTypeInfoToUpdate == null) {
+            resultResponse.add(
+                    botService.buildTextMessageWithoutKeyboard(
+                            chatId,
+                            CargoDistributorBotResponseMessage.FAILED_TO_FIND_CARGO_VAN_TYPE_TO_UPDATE.getMessageText()
+                    )
+            );
+
+            returnToStart(chatId, resultResponse);
+            LOGGER.info("Finished processing command, cargo van type to update not found in cache");
+            return resultResponse;
+        }
 
         int vanHeight;
         try {
@@ -75,7 +83,7 @@ public class AddCargoVanTypeEnterHeightCommandHandlerService extends CommandHand
             resultResponse.add(
                     botService.buildTextMessageWithoutKeyboard(
                             chatId,
-                            CargoDistributorBotResponseMessage.ENTER_CARGO_VAN_TYPE_HEIGHT.getMessageText()
+                            CargoDistributorBotResponseMessage.ENTER_NEW_CARGO_VAN_TYPE_LENGTH.getMessageText()
                     )
             );
 
@@ -101,7 +109,7 @@ public class AddCargoVanTypeEnterHeightCommandHandlerService extends CommandHand
             resultResponse.add(
                     botService.buildTextMessageWithoutKeyboard(
                             chatId,
-                            CargoDistributorBotResponseMessage.ENTER_CARGO_VAN_TYPE_HEIGHT.getMessageText()
+                            CargoDistributorBotResponseMessage.ENTER_NEW_CARGO_VAN_TYPE_LENGTH.getMessageText()
                     )
             );
 
@@ -109,37 +117,31 @@ public class AddCargoVanTypeEnterHeightCommandHandlerService extends CommandHand
             return resultResponse;
         }
 
-        CargoVanTypeInfo cargoVanTypeInfoToInsert = botService.getCargoVanTypeInfoFromCache(String.valueOf(chatId));
-
-        if (cargoVanTypeInfoToInsert == null) {
-            resultResponse.add(
-                    botService.buildTextMessageWithoutKeyboard(
-                            chatId,
-                            CargoDistributorBotResponseMessage.FAILED_TO_FIND_CARGO_VAN_TYPE_TO_INSERT.getMessageText()
-                    )
-            );
-
-            returnToStart(chatId, resultResponse);
-            LOGGER.info("Finished processing command, cargo van type to insert not found in cache");
-            return resultResponse;
-        }
-
-        cargoVanTypeInfoToInsert.setHeight(vanHeight);
-
-        cargoVanTypeRepository.save(cargoVanTypeInfoToInsert);
-        String cargoVanTypeName = cargoVanTypeInfoToInsert.getName();
-        botService.putCargoVanTypeInfoToCache(String.valueOf(chatId), null);
+        cargoVanTypeInfoToUpdate.setLength(vanHeight);
 
         resultResponse.add(
                 botService.buildTextMessageWithoutKeyboard(
                         chatId,
-                        CargoDistributorBotResponseMessage.CARGO_VAN_TYPE_SUCCESSFULLY_ADDED.getMessageText() + cargoVanTypeName
+                        CargoDistributorBotResponseMessage.UPDATE_CARGO_VAN_TYPE_CURRENT_PARAMETERS.getMessageText()
                 )
         );
 
-        returnToStart(chatId, resultResponse);
+        resultResponse.add(
+                botService.buildTextMessageWithoutKeyboard(
+                        chatId,
+                        cargoVanTypeInfoToUpdate.toString()
+                )
+        );
 
-        LOGGER.info("Finished processing command, cargo van type with ID {} successfully added", cargoVanTypeInfoToInsert.getId());
+        resultResponse.add(
+                botService.buildTextMessageWithKeyboard(
+                        chatId,
+                        CargoDistributorBotResponseMessage.EDIT_CARGO_VAN_TYPE_PICK_PARAMETER.getMessageText(),
+                        CargoDistributorBotKeyboard.EDIT_CARGO_VAN_TYPE
+                )
+        );
+
+        LOGGER.info("Finished processing command");
         return resultResponse;
     }
 }

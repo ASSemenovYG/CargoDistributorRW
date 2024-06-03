@@ -23,7 +23,7 @@ public enum CargoDistributorBotKeyboardButton {
     EDIT_CARGO_VAN_TYPE_SAVE_CHANGES("Сохранить изменения грузового фургона"),
     EDIT_CARGO_VAN_TYPE_NAME("Название грузового фургона"),
     EDIT_CARGO_VAN_TYPE_WIDTH("Ширина грузового фургона"),
-    EDIT_CARGO_VAN_TYPE_HEIGHT("Высота грузового фургона");
+    EDIT_CARGO_VAN_TYPE_LENGTH("Длина грузового фургона");
 
     private final String buttonText;
 

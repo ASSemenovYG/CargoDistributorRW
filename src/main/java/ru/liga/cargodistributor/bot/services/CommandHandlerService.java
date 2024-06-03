@@ -17,7 +17,7 @@ import ru.liga.cargodistributor.bot.enums.CargoDistributorBotResponseMessage;
 import ru.liga.cargodistributor.bot.enums.CargoDistributorBotUserCommand;
 import ru.liga.cargodistributor.bot.serviceImpls.addcargotype.*;
 import ru.liga.cargodistributor.bot.serviceImpls.addcargovantype.AddCargoVanTypeCommandHandlerService;
-import ru.liga.cargodistributor.bot.serviceImpls.addcargovantype.AddCargoVanTypeEnterHeightCommandHandlerService;
+import ru.liga.cargodistributor.bot.serviceImpls.addcargovantype.AddCargoVanTypeEnterLengthCommandHandlerService;
 import ru.liga.cargodistributor.bot.serviceImpls.addcargovantype.AddCargoVanTypeEnterNameCommandHandlerService;
 import ru.liga.cargodistributor.bot.serviceImpls.addcargovantype.AddCargoVanTypeEnterWidthCommandHandlerService;
 import ru.liga.cargodistributor.bot.serviceImpls.common.*;
@@ -117,10 +117,10 @@ public abstract class CommandHandlerService {
             );
         } else if (
                 updateHasMessageText(update) &&
-                        isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.ENTER_CARGO_VAN_TYPE_HEIGHT.getMessageText(), lastSendMessage)
+                        isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.ENTER_CARGO_VAN_TYPE_LENGTH.getMessageText(), lastSendMessage)
         ) {
             //todo: add tests for this scenario
-            handlerService = new AddCargoVanTypeEnterHeightCommandHandlerService(
+            handlerService = new AddCargoVanTypeEnterLengthCommandHandlerService(
                     telegramClient,
                     botService,
                     cargoConverterService,
@@ -199,11 +199,11 @@ public abstract class CommandHandlerService {
             );
         } else if (
                 updateHasMessageText(update) &&
-                        isUpdateMessageTextEqualTo(update, CargoDistributorBotKeyboardButton.EDIT_CARGO_VAN_TYPE_HEIGHT.getButtonText()) &&
+                        isUpdateMessageTextEqualTo(update, CargoDistributorBotKeyboardButton.EDIT_CARGO_VAN_TYPE_LENGTH.getButtonText()) &&
                         isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.EDIT_CARGO_VAN_TYPE_PICK_PARAMETER.getMessageText(), lastSendMessage)
         ) {
             //todo: add tests for this scenario
-            handlerService = new EditCargoVanTypeEnterHeightCommandHandlerService(
+            handlerService = new EditCargoVanTypeEnterLengthCommandHandlerService(
                     telegramClient,
                     botService,
                     cargoConverterService,
@@ -211,10 +211,10 @@ public abstract class CommandHandlerService {
             );
         } else if (
                 updateHasMessageText(update) &&
-                        isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.ENTER_NEW_CARGO_VAN_TYPE_HEIGHT.getMessageText(), lastSendMessage)
+                        isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.ENTER_NEW_CARGO_VAN_TYPE_LENGTH.getMessageText(), lastSendMessage)
         ) {
             //todo: add tests for this scenario
-            handlerService = new EditCargoVanTypeProcessHeightCommandHandlerService(
+            handlerService = new EditCargoVanTypeProcessLengthCommandHandlerService(
                     telegramClient,
                     botService,
                     cargoConverterService,

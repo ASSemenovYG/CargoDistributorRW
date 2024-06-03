@@ -12,12 +12,12 @@ public class CargoVanTypeInfo {
     private UUID id;
     private String name;
     private int width;
-    private int height;
+    private int length;
 
-    public CargoVanTypeInfo(String name, int width, int height) {
+    public CargoVanTypeInfo(String name, int width, int length) {
         this.name = name;
         this.width = width;
-        this.height = height;
+        this.length = length;
     }
 
     public CargoVanTypeInfo(String name) {
@@ -47,12 +47,12 @@ public class CargoVanTypeInfo {
         this.width = width;
     }
 
-    public int getHeight() {
-        return height;
+    public int getLength() {
+        return length;
     }
 
-    public void setHeight(int height) {
-        this.height = height;
+    public void setLength(int length) {
+        this.length = length;
     }
 
     @Override
@@ -64,8 +64,8 @@ public class CargoVanTypeInfo {
                 .append("Ширина: ")
                 .append(this.width)
                 .append("\n")
-                .append("Высота: ")
-                .append(this.height)
+                .append("Длина: ")
+                .append(this.length)
                 .append("\n");
         return result.toString();
     }

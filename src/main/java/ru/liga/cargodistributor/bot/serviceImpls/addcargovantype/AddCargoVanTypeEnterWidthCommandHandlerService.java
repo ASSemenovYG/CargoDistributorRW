@@ -121,7 +121,7 @@ public class AddCargoVanTypeEnterWidthCommandHandlerService extends CommandHandl
         resultResponse.add(
                 botService.buildTextMessageWithoutKeyboard(
                         chatId,
-                        CargoDistributorBotResponseMessage.ENTER_CARGO_VAN_TYPE_HEIGHT.getMessageText()
+                        CargoDistributorBotResponseMessage.ENTER_CARGO_VAN_TYPE_LENGTH.getMessageText()
                 )
         );
 
