@@ -143,8 +143,6 @@ public class DistributeByTypesProcessCargoTypeNameCommandHandlerService extends 
             return resultResponse;
         }
 
-        cargoDistributionParameters.addCargoItemToLoad(new CargoDistributionParameters.CargoItemToLoad(cargoItemType, 1));
-
         resultResponse.add(
                 botService.buildTextMessageWithoutKeyboard(
                         chatId,
@@ -158,6 +156,28 @@ public class DistributeByTypesProcessCargoTypeNameCommandHandlerService extends 
                         cargoItemTypeInfo.toString()
                 )
         );
+
+        if (cargoDistributionParameters.isItemWithLegendAlreadyAdded(cargoItemType.getLegend())) {
+            cargoDistributionParameters.addCargoItemToLoad(new CargoDistributionParameters.CargoItemToLoad(cargoItemType, 1));
+
+            resultResponse.add(
+                    botService.buildTextMessageWithoutKeyboard(
+                            chatId,
+                            CargoDistributorBotResponseMessage.DISTRIBUTE_BY_TYPES_AVAILABLE_LEGEND_SYMBOLS.getMessageText()
+                    )
+            );
+
+            resultResponse.add(
+                    botService.buildTextMessageWithoutKeyboard(
+                            chatId,
+                            CargoDistributorBotResponseMessage.DISTRIBUTE_BY_TYPES_CARGO_ITEM_TYPE_WITH_SUCH_LEGEND_ALREADY_ADDED.getMessageText()
+                    )
+            );
+            LOGGER.info("Finished processing command, found duplicate legend");
+            return resultResponse;
+        }
+
+        cargoDistributionParameters.addCargoItemToLoad(new CargoDistributionParameters.CargoItemToLoad(cargoItemType, 1));
 
         resultResponse.add(
                 botService.buildTextMessageWithoutKeyboard(

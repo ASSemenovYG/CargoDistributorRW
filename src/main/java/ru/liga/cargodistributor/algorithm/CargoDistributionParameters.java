@@ -57,6 +57,13 @@ public class CargoDistributionParameters {
         return result.toString();
     }
 
+    public boolean isItemWithLegendAlreadyAdded(String legend) {
+        return cargoItemsToLoad.stream()
+                .map(CargoItemToLoad::getCargoItem)
+                .map(CargoItem::getLegend)
+                .anyMatch(s -> s.equals(legend));
+    }
+
     public static class CargoItemToLoad {
         private final CargoItem cargoItem;
         private int count;

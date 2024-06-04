@@ -1,6 +1,7 @@
 package ru.liga.cargodistributor.cargo;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.liga.cargodistributor.cargo.exceptions.CargoItemValidationException;
@@ -18,6 +19,7 @@ public class CargoItem implements Cloneable {
     private final int width;
     private final int size;
     private final String name;
+
     /**
      * Список координат клеток в кузове грузовой машины, занимаемых посылкой
      */
@@ -148,6 +150,10 @@ public class CargoItem implements Cloneable {
         return String.valueOf(size);
     }
 
+    @JsonIgnore
+    public void setLegend(String legend) {
+    }
+
     public List<Coordinates> getCoordinates() {
         return coordinates;
     }
@@ -184,6 +190,7 @@ public class CargoItem implements Cloneable {
 
     @Override
     public CargoItem clone() {
+        //todo: в распределении с типами дублируются координаты в итоговом файле под CargoItem-ом, разобраться почему (возможно из-за clone)
         try {
             return (CargoItem) super.clone();
         } catch (CloneNotSupportedException e) {

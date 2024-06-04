@@ -1,5 +1,7 @@
 package ru.liga.cargodistributor.bot.enums;
 
+import ru.liga.cargodistributor.cargo.services.CargoConverterService;
+
 public enum CargoDistributorBotResponseMessage {
     DISTRIBUTE_CARGO(CargoDistributorBotKeyboardButton.READ_CARGO_AND_DISTRIBUTE.getButtonText()),
     READ_JSON_WITH_LOADED_VANS(CargoDistributorBotKeyboardButton.READ_JSON_WITH_LOADED_VANS.getButtonText()),
@@ -112,7 +114,14 @@ public enum CargoDistributorBotResponseMessage {
     FAILED_TO_FIND_CARGO_PARAMETERS_TO_DISTRIBUTE("Я не нашел в кеше данные для распределения, заполненные на предыдущих шагах"),
     DISTRIBUTE_BY_TYPES_ADD_MORE_CARGO_TYPE_OR_CONTINUE("Добавить еще один тип посылки или перейти к выбору алгоритма?"),
     DISTRIBUTE_BY_TYPES_PICK_ALGORITHM("Выбери алгоритм для распределения типов посылок"),
-    DISTRIBUTE_BY_TYPES_ENTER_VAN_LIMIT("Введи максимальное количество грузовых фургонов для распределения типов посылок");
+    DISTRIBUTE_BY_TYPES_ENTER_VAN_LIMIT("Введи максимальное количество грузовых фургонов для распределения типов посылок"),
+    DISTRIBUTE_BY_TYPES_CARGO_ITEM_TYPE_WITH_SUCH_LEGEND_ALREADY_ADDED("В списке посылок для распределения уже есть посылка с такой легендой, пожалуйста, введи другую легенду (один символ)"),
+    DISTRIBUTE_BY_TYPES_AVAILABLE_LEGEND_SYMBOLS(
+            "Доступны любые символы для легенды, кроме:\n" +
+                    "Whitespace, Empty, Blank characters,\n" +
+                    "Символ границы кузова фургона: " + CargoConverterService.VAN_BORDER_SYMBOL + ",\n" +
+                    "И тех символов, которые уже используются в качестве легенды в добавленных типах посылок"),
+    DISTRIBUTE_BY_TYPES_CURRENT_CARGO_ITEM_TYPE_LIST("Текущий список типов посылок, добавленных для распределения:");
 
     private final String messageText;
 

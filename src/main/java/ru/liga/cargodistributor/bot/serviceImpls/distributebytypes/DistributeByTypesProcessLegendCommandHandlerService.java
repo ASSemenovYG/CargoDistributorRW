@@ -10,7 +10,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 import ru.liga.cargodistributor.algorithm.CargoDistributionParameters;
-import ru.liga.cargodistributor.bot.enums.CargoDistributorBotKeyboard;
 import ru.liga.cargodistributor.bot.enums.CargoDistributorBotResponseMessage;
 import ru.liga.cargodistributor.bot.services.CargoDistributorBotService;
 import ru.liga.cargodistributor.bot.services.CommandHandlerService;
@@ -21,16 +20,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Service
-public class DistributeByTypesProcessCargoItemTypeCountCommandHandlerService extends CommandHandlerService {
+public class DistributeByTypesProcessLegendCommandHandlerService extends CommandHandlerService {
     //todo: add tests
-    private static final Logger LOGGER = LoggerFactory.getLogger(DistributeByTypesProcessCargoItemTypeCountCommandHandlerService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DistributeByTypesProcessLegendCommandHandlerService.class);
 
     @Autowired
-    protected DistributeByTypesProcessCargoItemTypeCountCommandHandlerService(@Value("${bot.token}") String token, @Value("${cache.capacity}") int cacheCapacity) {
+    protected DistributeByTypesProcessLegendCommandHandlerService(@Value("${bot.token}") String token, @Value("${cache.capacity}") int cacheCapacity) {
         super(token, cacheCapacity);
     }
 
-    public DistributeByTypesProcessCargoItemTypeCountCommandHandlerService(
+    public DistributeByTypesProcessLegendCommandHandlerService(
             TelegramClient telegramClient,
             CargoDistributorBotService botService,
             CargoConverterService cargoConverterService,
@@ -60,87 +59,57 @@ public class DistributeByTypesProcessCargoItemTypeCountCommandHandlerService ext
             return resultResponse;
         }
 
-        int cargoItemTypeCount;
-        try {
-            cargoItemTypeCount = Integer.parseInt(getMessageTextFromUpdate(update));
-        } catch (NumberFormatException e) {
-            LOGGER.error(e.getMessage());
-
+        String cargoItemTypeLegend = getMessageTextFromUpdate(update).strip();
+        //todo: проверку на VAN_BORDER_SYMBOL надо добавить в другие места, где можно указать легенду
+        if (cargoItemTypeLegend.isBlank() || cargoItemTypeLegend.length() != 1 || cargoItemTypeLegend.equals(CargoConverterService.VAN_BORDER_SYMBOL)) {
             resultResponse.add(
                     botService.buildTextMessageWithoutKeyboard(
                             chatId,
-                            CargoDistributorBotResponseMessage.FAILED_TO_PARSE_INTEGER.getMessageText()
+                            CargoDistributorBotResponseMessage.INCORRECT_CARGO_TYPE_LEGEND.getMessageText()
                     )
             );
 
             resultResponse.add(
                     botService.buildTextMessageWithoutKeyboard(
                             chatId,
-                            CargoDistributorBotResponseMessage.TRY_AGAIN.getMessageText()
+                            CargoDistributorBotResponseMessage.DISTRIBUTE_BY_TYPES_AVAILABLE_LEGEND_SYMBOLS.getMessageText()
                     )
             );
 
             resultResponse.add(
                     botService.buildTextMessageWithoutKeyboard(
                             chatId,
-                            CargoDistributorBotResponseMessage.DISTRIBUTE_BY_TYPES_ENTER_CARGO_ITEM_TYPE_COUNT.getMessageText()
+                            CargoDistributorBotResponseMessage.DISTRIBUTE_BY_TYPES_CARGO_ITEM_TYPE_WITH_SUCH_LEGEND_ALREADY_ADDED.getMessageText()
                     )
             );
-
-            LOGGER.info("Finished processing command, error occurred while parsing Integer");
+            LOGGER.info("Finished processing command, incorrect legend {}", cargoItemTypeLegend);
             return resultResponse;
         }
 
-        if (cargoItemTypeCount < 1) {
+        if (cargoDistributionParameters.isItemWithLegendAlreadyAdded(cargoItemTypeLegend)) {
             resultResponse.add(
                     botService.buildTextMessageWithoutKeyboard(
                             chatId,
-                            CargoDistributorBotResponseMessage.NEED_TO_ENTER_INTEGER_GREATER_THAN_ZERO.getMessageText()
+                            CargoDistributorBotResponseMessage.DISTRIBUTE_BY_TYPES_AVAILABLE_LEGEND_SYMBOLS.getMessageText()
                     )
             );
 
             resultResponse.add(
                     botService.buildTextMessageWithoutKeyboard(
                             chatId,
-                            CargoDistributorBotResponseMessage.TRY_AGAIN.getMessageText()
+                            CargoDistributorBotResponseMessage.DISTRIBUTE_BY_TYPES_CARGO_ITEM_TYPE_WITH_SUCH_LEGEND_ALREADY_ADDED.getMessageText()
                     )
             );
-
-            resultResponse.add(
-                    botService.buildTextMessageWithoutKeyboard(
-                            chatId,
-                            CargoDistributorBotResponseMessage.DISTRIBUTE_BY_TYPES_ENTER_CARGO_ITEM_TYPE_COUNT.getMessageText()
-                    )
-            );
-
-            LOGGER.info("Finished processing command, user entered invalid count: {}", cargoItemTypeCount);
+            LOGGER.info("Finished processing command, found duplicate legend");
             return resultResponse;
         }
 
-
-        LinkedList<CargoDistributionParameters.CargoItemToLoad> cargoItemsToLoad = cargoDistributionParameters.getCargoItemsToLoad();
-        cargoItemsToLoad.getLast().setCount(cargoItemTypeCount);
+        cargoDistributionParameters.getCargoItemsToLoad().getLast().getCargoItem().setLegend(cargoItemTypeLegend);
 
         resultResponse.add(
                 botService.buildTextMessageWithoutKeyboard(
                         chatId,
-                        CargoDistributorBotResponseMessage.DISTRIBUTE_BY_TYPES_CURRENT_CARGO_ITEM_TYPE_LIST.getMessageText()
-                )
-        );
-
-        resultResponse.add(
-                botService.buildTextMessageWithoutKeyboard(
-                        chatId,
-                        cargoDistributionParameters.getCargoItemsToLoadStringDescription()
-                )
-        );
-
-
-        resultResponse.add(
-                botService.buildTextMessageWithKeyboard(
-                        chatId,
-                        CargoDistributorBotResponseMessage.DISTRIBUTE_BY_TYPES_ADD_MORE_CARGO_TYPE_OR_CONTINUE.getMessageText(),
-                        CargoDistributorBotKeyboard.DISTRIBUTE_BY_TYPES_ADD_MORE_CARGO_OR_CONTINUE
+                        CargoDistributorBotResponseMessage.DISTRIBUTE_BY_TYPES_ENTER_CARGO_ITEM_TYPE_COUNT.getMessageText()
                 )
         );
 

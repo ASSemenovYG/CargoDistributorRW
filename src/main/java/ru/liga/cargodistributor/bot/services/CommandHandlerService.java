@@ -121,6 +121,17 @@ public abstract class CommandHandlerService {
             );
         } else if (
                 updateHasMessageText(update) &&
+                        isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.DISTRIBUTE_BY_TYPES_CARGO_ITEM_TYPE_WITH_SUCH_LEGEND_ALREADY_ADDED.getMessageText(), lastSendMessage)
+        ) {
+            //todo: add tests for this scenario
+            handlerService = new DistributeByTypesProcessLegendCommandHandlerService(
+                    telegramClient,
+                    botService,
+                    cargoConverterService,
+                    fileService
+            );
+        } else if (
+                updateHasMessageText(update) &&
                         isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.DISTRIBUTE_BY_TYPES_ENTER_CARGO_ITEM_TYPE_COUNT.getMessageText(), lastSendMessage)
         ) {
             //todo: add tests for this scenario
@@ -135,8 +146,8 @@ public abstract class CommandHandlerService {
                         isUpdateMessageTextEqualTo(update, CargoDistributorBotKeyboardButton.DISTRIBUTE_BY_TYPES_ADD_ONE_MORE_CARGO_TYPE.getButtonText()) &&
                         isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.DISTRIBUTE_BY_TYPES_ADD_MORE_CARGO_TYPE_OR_CONTINUE.getMessageText(), lastSendMessage)
         ) {
-            //todo: add DISTRIBUTE_BY_TYPES_ADD_ONE_MORE_CARGO_TYPE handler
-            handlerService = new UnknownCommandHandlerService(
+            //todo: add tests for this scenario
+            handlerService = new DistributeByTypesAddOneMoreCargoItemTypeCommandHandlerService(
                     telegramClient,
                     botService,
                     cargoConverterService,

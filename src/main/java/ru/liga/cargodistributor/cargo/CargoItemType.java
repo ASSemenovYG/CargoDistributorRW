@@ -9,12 +9,16 @@ import java.util.Objects;
 
 public class CargoItemType extends CargoItem {
     private final String name;
-    private final String legend;
+    private String legend;
 
     public CargoItemType(CargoItemTypeInfo cargoItemTypeInfo, CargoVan cargoVan) {
         super(new LinkedList<>(cargoItemTypeInfo.getShapeAsList()));
         this.name = cargoItemTypeInfo.getName();
         this.legend = cargoItemTypeInfo.getLegend();
+    }
+
+    public void setLegend(String legend) {
+        this.legend = legend;
     }
 
     @Override

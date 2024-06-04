@@ -23,7 +23,7 @@ import java.util.List;
 @Service
 public class CargoConverterService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CargoConverterService.class);
-    private static final String VAN_BORDER_SYMBOL = "+";
+    public static final String VAN_BORDER_SYMBOL = "+";
     private static final String EMPTY_CARGO_CELL_SYMBOL = " ";
 
     public CargoVanList deserializeLoadedVansFromJson(String content) {
