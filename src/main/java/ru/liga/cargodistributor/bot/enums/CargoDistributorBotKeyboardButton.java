@@ -24,7 +24,9 @@ public enum CargoDistributorBotKeyboardButton {
     EDIT_CARGO_VAN_TYPE_NAME("Название грузового фургона"),
     EDIT_CARGO_VAN_TYPE_WIDTH("Ширина грузового фургона"),
     EDIT_CARGO_VAN_TYPE_LENGTH("Длина грузового фургона"),
-    DISTRIBUTE_BY_SELECTED_TYPES("Распределить типы посылок по выбранному типу фургонов");
+    DISTRIBUTE_BY_SELECTED_TYPES("Распределить типы посылок по выбранному типу фургонов"),
+    DISTRIBUTE_BY_TYPES_ADD_ONE_MORE_CARGO_TYPE("Добавить еще один тип посылки к распределению"),
+    DISTRIBUTE_BY_TYPES_SELECT_ALGORITHM("Перейти к выбору алгоритма");
 
     private final String buttonText;
 

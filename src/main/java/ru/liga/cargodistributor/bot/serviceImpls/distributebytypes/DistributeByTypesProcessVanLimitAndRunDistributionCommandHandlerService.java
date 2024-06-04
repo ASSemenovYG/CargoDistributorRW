@@ -1,4 +1,4 @@
-package ru.liga.cargodistributor.bot.serviceImpls.distributefromfile;
+package ru.liga.cargodistributor.bot.serviceImpls.distributebytypes;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,16 +9,10 @@ import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMet
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
-import ru.liga.cargodistributor.algorithm.enums.DistributionAlgorithmName;
-import ru.liga.cargodistributor.algorithm.serviceImpls.OneVanOneItemDistributionAlgorithmService;
-import ru.liga.cargodistributor.algorithm.serviceImpls.SimpleFitDistributionAlgorithmService;
-import ru.liga.cargodistributor.algorithm.serviceImpls.SingleSortedCargoDistributionAlgorithmService;
-import ru.liga.cargodistributor.algorithm.services.DistributionAlgorithmService;
-import ru.liga.cargodistributor.bot.enums.CargoDistributorBotKeyboard;
+import ru.liga.cargodistributor.algorithm.CargoDistributionParameters;
 import ru.liga.cargodistributor.bot.enums.CargoDistributorBotResponseMessage;
 import ru.liga.cargodistributor.bot.services.CargoDistributorBotService;
 import ru.liga.cargodistributor.bot.services.CommandHandlerService;
-import ru.liga.cargodistributor.cargo.CargoItemList;
 import ru.liga.cargodistributor.cargo.CargoVanList;
 import ru.liga.cargodistributor.cargo.services.CargoConverterService;
 import ru.liga.cargodistributor.util.services.FileService;
@@ -27,15 +21,15 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Service
-public class PickAlgorithmCommandHandlerService extends CommandHandlerService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PickAlgorithmCommandHandlerService.class);
+public class DistributeByTypesProcessVanLimitAndRunDistributionCommandHandlerService extends CommandHandlerService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DistributeByTypesProcessVanLimitAndRunDistributionCommandHandlerService.class);
 
     @Autowired
-    protected PickAlgorithmCommandHandlerService(@Value("${bot.token}") String token, @Value("${cache.capacity}") int cacheCapacity) {
+    protected DistributeByTypesProcessVanLimitAndRunDistributionCommandHandlerService(@Value("${bot.token}") String token, @Value("${cache.capacity}") int cacheCapacity) {
         super(token, cacheCapacity);
     }
 
-    public PickAlgorithmCommandHandlerService(
+    public DistributeByTypesProcessVanLimitAndRunDistributionCommandHandlerService(
             TelegramClient telegramClient,
             CargoDistributorBotService botService,
             CargoConverterService cargoConverterService,
@@ -50,65 +44,84 @@ public class PickAlgorithmCommandHandlerService extends CommandHandlerService {
         List<PartialBotApiMethod<Message>> resultResponse = new LinkedList<>();
         long chatId = getChatIdFromUpdate(update);
 
-        DistributionAlgorithmService algorithm;
-        LOGGER.info("trying to resolve algorithm name from text message: {}", getMessageTextFromUpdate(update));
-        DistributionAlgorithmName algorithmName = DistributionAlgorithmName.fromString(getMessageTextFromUpdate(update));
+        CargoDistributionParameters cargoDistributionParameters = botService.getCargoDistributionParametersFromCache(String.valueOf(chatId));
+
+        if (cargoDistributionParameters == null) {
+            resultResponse.add(
+                    botService.buildTextMessageWithoutKeyboard(
+                            chatId,
+                            CargoDistributorBotResponseMessage.FAILED_TO_FIND_CARGO_PARAMETERS_TO_DISTRIBUTE.getMessageText()
+                    )
+            );
+
+            returnToStart(chatId, resultResponse);
+            LOGGER.info("Finished processing command, cargo distribution parameters not found in cache");
+            return resultResponse;
+        }
+
+        int vanLimit;
         try {
-            if (algorithmName == null) {
-                throw new RuntimeException("algorithmName cannot be null");
-            }
-
-            algorithm = switch (algorithmName) {
-                case ONE_VAN_ONE_ITEM -> new OneVanOneItemDistributionAlgorithmService();
-                case SINGLE_SORTED -> new SingleSortedCargoDistributionAlgorithmService();
-                case SIMPLE_FIT -> new SimpleFitDistributionAlgorithmService();
-            };
-        } catch (RuntimeException e) {
-            LOGGER.error("couldn't resolve algorithm: {}", e.getMessage());
+            vanLimit = Integer.parseInt(getMessageTextFromUpdate(update));
+        } catch (NumberFormatException e) {
+            LOGGER.error(e.getMessage());
 
             resultResponse.add(
                     botService.buildTextMessageWithoutKeyboard(
                             chatId,
-                            CargoDistributorBotResponseMessage.CANT_RESOLVE_PICKED_ALGORITHM_NAME.getMessageText()
+                            CargoDistributorBotResponseMessage.FAILED_TO_PARSE_INTEGER.getMessageText()
                     )
             );
 
             resultResponse.add(
-                    botService.buildTextMessageWithKeyboard(
+                    botService.buildTextMessageWithoutKeyboard(
                             chatId,
-                            CargoDistributorBotResponseMessage.PICK_ALGORITHM.getMessageText(),
-                            CargoDistributorBotKeyboard.PICK_ALGORITHM
+                            CargoDistributorBotResponseMessage.TRY_AGAIN.getMessageText()
                     )
             );
-            LOGGER.info("Finished processing command, couldn't resolve algorithm");
+
+            resultResponse.add(
+                    botService.buildTextMessageWithoutKeyboard(
+                            chatId,
+                            CargoDistributorBotResponseMessage.DISTRIBUTE_BY_TYPES_ENTER_VAN_LIMIT.getMessageText()
+                    )
+            );
+
+            LOGGER.info("Finished processing command, error occurred while parsing Integer");
             return resultResponse;
         }
 
-        CargoItemList cargoItemList = botService.getCargoItemListFromCache(String.valueOf(chatId));
-
-        if (cargoItemList == null || cargoItemList.isEmptyOrNull()) {
+        if (vanLimit < 1) {
             resultResponse.add(
                     botService.buildTextMessageWithoutKeyboard(
                             chatId,
-                            CargoDistributorBotResponseMessage.FAILED_TO_FIND_CARGO_LIST.getMessageText()
+                            CargoDistributorBotResponseMessage.NEED_TO_ENTER_INTEGER_GREATER_THAN_ZERO.getMessageText()
                     )
             );
 
             resultResponse.add(
                     botService.buildTextMessageWithoutKeyboard(
                             chatId,
-                            CargoDistributorBotResponseMessage.SEND_FILE_WITH_CARGO.getMessageText()
+                            CargoDistributorBotResponseMessage.TRY_AGAIN.getMessageText()
                     )
             );
 
-            LOGGER.info("Finished processing command, couldn't find cargo list in cache");
+            resultResponse.add(
+                    botService.buildTextMessageWithoutKeyboard(
+                            chatId,
+                            CargoDistributorBotResponseMessage.DISTRIBUTE_BY_TYPES_ENTER_VAN_LIMIT.getMessageText()
+                    )
+            );
+
+            LOGGER.info("Finished processing command, user entered invalid limit: {}", vanLimit);
             return resultResponse;
         }
+
+        cargoDistributionParameters.setVanLimit(vanLimit);
 
         CargoVanList cargoVanList = new CargoVanList();
-        cargoVanList.distributeCargo(algorithm, cargoItemList);
+        cargoVanList.distributeCargoByParameters(cargoDistributionParameters);
 
-        if (!cargoVanList.isListSizeLessOrEqualThanMaxSize(botService.getVanLimitFromCache(String.valueOf(chatId)))) {
+        if (!cargoVanList.isListSizeLessOrEqualThanMaxSize(cargoDistributionParameters.getVanLimit())) {
             resultResponse.add(
                     botService.buildTextMessageWithoutKeyboard(
                             chatId,
@@ -125,6 +138,20 @@ public class PickAlgorithmCommandHandlerService extends CommandHandlerService {
                 botService.buildTextMessageWithoutKeyboard(
                         chatId,
                         CargoDistributorBotResponseMessage.DISTRIBUTION_RESULT.getMessageText()
+                )
+        );
+
+        resultResponse.add(
+                botService.buildTextMessageWithoutKeyboard(
+                        chatId,
+                        cargoDistributionParameters.getCargoVan().toString()
+                )
+        );
+
+        resultResponse.add(
+                botService.buildTextMessageWithoutKeyboard(
+                        chatId,
+                        cargoDistributionParameters.getCargoItemsToLoadStringDescription()
                 )
         );
 

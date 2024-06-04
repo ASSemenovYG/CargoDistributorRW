@@ -25,9 +25,7 @@ import ru.liga.cargodistributor.bot.serviceImpls.deletecargotype.DeleteCargoType
 import ru.liga.cargodistributor.bot.serviceImpls.deletecargotype.DeleteCargoTypeEnterNameCommandHandlerService;
 import ru.liga.cargodistributor.bot.serviceImpls.deletecargovantype.DeleteCargoVanTypeCommandHandlerService;
 import ru.liga.cargodistributor.bot.serviceImpls.deletecargovantype.DeleteCargoVanTypeEnterNameCommandHandlerService;
-import ru.liga.cargodistributor.bot.serviceImpls.distributebytypes.DistributeByTypesProcessCargoTypeNameCommandHandlerService;
-import ru.liga.cargodistributor.bot.serviceImpls.distributebytypes.DistributeByTypesProcessCargoVanTypeNameCommandHandlerService;
-import ru.liga.cargodistributor.bot.serviceImpls.distributebytypes.DistributeByTypesStartCommandHandlerService;
+import ru.liga.cargodistributor.bot.serviceImpls.distributebytypes.*;
 import ru.liga.cargodistributor.bot.serviceImpls.distributefromfile.*;
 import ru.liga.cargodistributor.bot.serviceImpls.editcargotype.*;
 import ru.liga.cargodistributor.bot.serviceImpls.editcargovantype.*;
@@ -44,6 +42,8 @@ import java.util.List;
 @Service
 public abstract class CommandHandlerService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CommandHandlerService.class);
+
+    public static final String RESULT_JSON_FILE_NAME = "loadedVans.json";
 
     //todo: надо выпилить протекшие абстракции, бОльшая часть хендлеров эти сервисы не использует (кроме botservice)
     protected final TelegramClient telegramClient;
@@ -123,8 +123,54 @@ public abstract class CommandHandlerService {
                 updateHasMessageText(update) &&
                         isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.DISTRIBUTE_BY_TYPES_ENTER_CARGO_ITEM_TYPE_COUNT.getMessageText(), lastSendMessage)
         ) {
-            //todo: add DISTRIBUTE_BY_TYPES_ENTER_CARGO_ITEM_TYPE_COUNT handler
+            //todo: add tests for this scenario
+            handlerService = new DistributeByTypesProcessCargoItemTypeCountCommandHandlerService(
+                    telegramClient,
+                    botService,
+                    cargoConverterService,
+                    fileService
+            );
+        } else if (
+                updateHasMessageText(update) &&
+                        isUpdateMessageTextEqualTo(update, CargoDistributorBotKeyboardButton.DISTRIBUTE_BY_TYPES_ADD_ONE_MORE_CARGO_TYPE.getButtonText()) &&
+                        isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.DISTRIBUTE_BY_TYPES_ADD_MORE_CARGO_TYPE_OR_CONTINUE.getMessageText(), lastSendMessage)
+        ) {
+            //todo: add DISTRIBUTE_BY_TYPES_ADD_ONE_MORE_CARGO_TYPE handler
             handlerService = new UnknownCommandHandlerService(
+                    telegramClient,
+                    botService,
+                    cargoConverterService,
+                    fileService
+            );
+        } else if (
+                updateHasMessageText(update) &&
+                        isUpdateMessageTextEqualTo(update, CargoDistributorBotKeyboardButton.DISTRIBUTE_BY_TYPES_SELECT_ALGORITHM.getButtonText()) &&
+                        isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.DISTRIBUTE_BY_TYPES_ADD_MORE_CARGO_TYPE_OR_CONTINUE.getMessageText(), lastSendMessage)
+        ) {
+            //todo: add tests for this scenario
+            handlerService = new DistributeByTypesPickAlgorithmCommandHandlerService(
+                    telegramClient,
+                    botService,
+                    cargoConverterService,
+                    fileService
+            );
+        } else if (
+                updateHasMessageText(update) &&
+                        isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.DISTRIBUTE_BY_TYPES_PICK_ALGORITHM.getMessageText(), lastSendMessage)
+        ) {
+            //todo: add tests for this scenario
+            handlerService = new DistributeByTypesProcessAlgorithmCommandHandlerService(
+                    telegramClient,
+                    botService,
+                    cargoConverterService,
+                    fileService
+            );
+        } else if (
+                updateHasMessageText(update) &&
+                        isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.DISTRIBUTE_BY_TYPES_ENTER_VAN_LIMIT.getMessageText(), lastSendMessage)
+        ) {
+            //todo: add tests for this scenario
+            handlerService = new DistributeByTypesProcessVanLimitAndRunDistributionCommandHandlerService(
                     telegramClient,
                     botService,
                     cargoConverterService,

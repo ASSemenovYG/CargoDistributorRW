@@ -11,7 +11,7 @@ import java.util.*;
  * Класс элемента груза (посылки)
  */
 @JsonAutoDetect
-public class CargoItem {
+public class CargoItem implements Cloneable {
     private static final Logger LOGGER = LoggerFactory.getLogger(CargoItem.class);
     private static final int MAX_SIZE = 9;
     private final int length;
@@ -144,6 +144,10 @@ public class CargoItem {
         return size;
     }
 
+    public String getLegend() {
+        return String.valueOf(size);
+    }
+
     public List<Coordinates> getCoordinates() {
         return coordinates;
     }
@@ -176,6 +180,16 @@ public class CargoItem {
     @Override
     public int hashCode() {
         return Objects.hash(name, width, length, size, coordinates);
+    }
+
+    @Override
+    public CargoItem clone() {
+        try {
+            return (CargoItem) super.clone();
+        } catch (CloneNotSupportedException e) {
+            LOGGER.error("Error occurred while cloning CargoItem: {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     public void fillCoordinatesByCargoVan(CargoVan cargoVan) {

@@ -8,7 +8,8 @@ public enum CargoDistributorBotKeyboard {
     START,
     PICK_ALGORITHM,
     EDIT_CARGO_TYPE,
-    EDIT_CARGO_VAN_TYPE;
+    EDIT_CARGO_VAN_TYPE,
+    DISTRIBUTE_BY_TYPES_ADD_MORE_CARGO_OR_CONTINUE;
 
     public static List<KeyboardRow> getKeyboardRows(CargoDistributorBotKeyboard keyboard) {
         switch (keyboard) {
@@ -65,6 +66,14 @@ public enum CargoDistributorBotKeyboard {
                         ),
                         new KeyboardRow(
                                 CargoDistributorBotKeyboardButton.EDIT_CARGO_VAN_TYPE_SAVE_CHANGES.getButtonText()
+                        )
+                );
+            }
+            case DISTRIBUTE_BY_TYPES_ADD_MORE_CARGO_OR_CONTINUE -> {
+                return List.of(
+                        new KeyboardRow(
+                                CargoDistributorBotKeyboardButton.DISTRIBUTE_BY_TYPES_ADD_ONE_MORE_CARGO_TYPE.getButtonText(),
+                                CargoDistributorBotKeyboardButton.DISTRIBUTE_BY_TYPES_SELECT_ALGORITHM.getButtonText()
                         )
                 );
             }

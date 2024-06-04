@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ru.liga.cargodistributor.algorithm.CargoDistributionParameters;
 import ru.liga.cargodistributor.algorithm.services.DistributionAlgorithmService;
 import ru.liga.cargodistributor.cargo.services.CargoConverterService;
 
@@ -50,6 +51,18 @@ public class CargoVanList {
     public void distributeCargo(DistributionAlgorithmService algorithm, CargoItemList cargoList) {
         cargoVans.clear();
         cargoVans.addAll(algorithm.distributeCargo(cargoList));
+        fillCoordinatesForLoadedCargoItems();
+    }
+
+    /**
+     * Распределяет посылки из списка по фургонам
+     *
+     * @param cargoDistributionParameters {@link CargoDistributionParameters} название алгоритма, параметры распределения (список типов посылок и тип фургона)
+     */
+    public void distributeCargoByParameters(CargoDistributionParameters cargoDistributionParameters) {
+        cargoVans.clear();
+        DistributionAlgorithmService algorithmService = DistributionAlgorithmService.createServiceByName(cargoDistributionParameters.getAlgorithmName());
+        cargoVans.addAll(algorithmService.distributeCargoByParameters(cargoDistributionParameters));
         fillCoordinatesForLoadedCargoItems();
     }
 

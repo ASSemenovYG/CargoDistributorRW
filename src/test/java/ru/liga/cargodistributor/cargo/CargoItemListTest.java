@@ -11,7 +11,8 @@ class CargoItemListTest {
 
     @Test
     void isEmptyOrNull_nullList() {
-        CargoItemList cargoItemList = new CargoItemList(null);
+        List<CargoItem> nullList = null;
+        CargoItemList cargoItemList = new CargoItemList(nullList);
         assertThat(cargoItemList.isEmptyOrNull()).isTrue();
     }
 

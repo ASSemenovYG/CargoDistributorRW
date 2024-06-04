@@ -4,18 +4,17 @@ import ru.liga.cargodistributor.algorithm.enums.DistributionAlgorithmName;
 import ru.liga.cargodistributor.cargo.CargoItem;
 import ru.liga.cargodistributor.cargo.CargoVan;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 
 public class CargoDistributionParameters {
     private CargoVan cargoVan;
-    private final List<CargoItemToLoad> cargoItemsToLoad;
-    private int vanCount;
+    private final LinkedList<CargoItemToLoad> cargoItemsToLoad;
+    private int vanLimit;
     private DistributionAlgorithmName algorithmName;
 
     public CargoDistributionParameters(CargoVan cargoVan) {
         this.cargoVan = cargoVan;
-        this.cargoItemsToLoad = new ArrayList<>();
+        this.cargoItemsToLoad = new LinkedList<>();
     }
 
     public CargoVan getCargoVan() {
@@ -26,7 +25,7 @@ public class CargoDistributionParameters {
         this.cargoVan = cargoVan;
     }
 
-    public List<CargoItemToLoad> getCargoItemsToLoad() {
+    public LinkedList<CargoItemToLoad> getCargoItemsToLoad() {
         return cargoItemsToLoad;
     }
 
@@ -34,12 +33,12 @@ public class CargoDistributionParameters {
         cargoItemsToLoad.add(cargoItemToLoad);
     }
 
-    public int getVanCount() {
-        return vanCount;
+    public int getVanLimit() {
+        return vanLimit;
     }
 
-    public void setVanCount(int vanCount) {
-        this.vanCount = vanCount;
+    public void setVanLimit(int vanLimit) {
+        this.vanLimit = vanLimit;
     }
 
     public DistributionAlgorithmName getAlgorithmName() {
@@ -50,9 +49,17 @@ public class CargoDistributionParameters {
         this.algorithmName = algorithmName;
     }
 
+    public String getCargoItemsToLoadStringDescription() {
+        StringBuilder result = new StringBuilder();
+        for (CargoItemToLoad cargoItemToLoad : cargoItemsToLoad) {
+            result.append(cargoItemToLoad.toString()).append("\n");
+        }
+        return result.toString();
+    }
+
     public static class CargoItemToLoad {
         private final CargoItem cargoItem;
-        private final int count;
+        private int count;
 
         public CargoItemToLoad(CargoItem cargoItem, int count) {
             this.cargoItem = cargoItem;
@@ -65,6 +72,24 @@ public class CargoDistributionParameters {
 
         public int getCount() {
             return count;
+        }
+
+        public void setCount(int count) {
+            this.count = count;
+        }
+
+        public String toString() {
+            StringBuilder result = new StringBuilder();
+            result.append("Название типа посылки: ")
+                    .append(cargoItem.getName())
+                    .append("\n")
+                    .append("Количество: ")
+                    .append(count)
+                    .append("\n")
+                    .append("Легенда: ")
+                    .append(cargoItem.getLegend())
+                    .append("\n");
+            return result.toString();
         }
     }
 }

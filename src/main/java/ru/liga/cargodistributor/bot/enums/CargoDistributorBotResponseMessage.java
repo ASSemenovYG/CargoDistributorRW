@@ -109,7 +109,10 @@ public enum CargoDistributorBotResponseMessage {
     DISTRIBUTE_BY_TYPES_ENTER_CARGO_ITEM_TYPE_NAME("Введи название типа посылки для распределения"),
     DISTRIBUTE_BY_TYPES_ENTER_CARGO_ITEM_TYPE_COUNT("Введи количество экземпляров добавленного типа посылки для распределения"),
     DISTRIBUTE_BY_TYPES_CARGO_ITEM_TYPE_ADDED("Добавлен тип посылки:"),
-    FAILED_TO_FIND_CARGO_PARAMETERS_TO_DISTRIBUTE("Я не нашел в кеше данные для распределения, заполненные на предыдущих шагах");
+    FAILED_TO_FIND_CARGO_PARAMETERS_TO_DISTRIBUTE("Я не нашел в кеше данные для распределения, заполненные на предыдущих шагах"),
+    DISTRIBUTE_BY_TYPES_ADD_MORE_CARGO_TYPE_OR_CONTINUE("Добавить еще один тип посылки или перейти к выбору алгоритма?"),
+    DISTRIBUTE_BY_TYPES_PICK_ALGORITHM("Выбери алгоритм для распределения типов посылок"),
+    DISTRIBUTE_BY_TYPES_ENTER_VAN_LIMIT("Введи максимальное количество грузовых фургонов для распределения типов посылок");
 
     private final String messageText;
 

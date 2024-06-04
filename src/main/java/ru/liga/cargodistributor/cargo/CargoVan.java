@@ -18,6 +18,7 @@ public class CargoVan {
     private static final Logger LOGGER = LoggerFactory.getLogger(CargoVan.class);
     public static final int DEFAULT_VAN_LENGTH = 6;
     public static final int DEFAULT_VAN_WIDTH = 6;
+    public static final String DEFAULT_VAN_NAME = "Грузовой фургон 6х6 по умолчанию";
 
     @JsonIgnore
     private final int length;
@@ -37,7 +38,7 @@ public class CargoVan {
 
         public CargoVanCell(CargoItem cargoItem) {
             this.occupiedBy = cargoItem;
-            this.cellItemTitle = (cargoItem == null) ? "" : String.valueOf(cargoItem.getSize());
+            this.cellItemTitle = (cargoItem == null) ? "" : cargoItem.getLegend();
         }
 
         public CargoItem getOccupiedBy() {
@@ -63,7 +64,7 @@ public class CargoVan {
 
         private void setCargoItem(CargoItem cargoItem) {
             this.occupiedBy = cargoItem;
-            this.cellItemTitle = String.valueOf(cargoItem.getSize());
+            this.cellItemTitle = cargoItem.getLegend();
         }
     }
 
@@ -76,15 +77,14 @@ public class CargoVan {
      * Создает грузовой фургон с пустым кузовом с размерами по умолчанию
      */
     public CargoVan() {
-        this.length = DEFAULT_VAN_LENGTH;
-        this.width = DEFAULT_VAN_WIDTH;
-        this.cargo = new CargoVanCell[this.length][this.width];
-        initializeCargo();
-        this.loadedCargoItems = new ArrayList<>();
+        this(DEFAULT_VAN_LENGTH, DEFAULT_VAN_WIDTH);
     }
 
     /**
      * Создает грузовой фургон с пустым кузовом с заданными размерами
+     *
+     * @param length длина фургона
+     * @param width  ширина фургона
      */
     public CargoVan(int length, int width) {
         if (length < 1) {
@@ -101,12 +101,24 @@ public class CargoVan {
     }
 
     /**
-     * Создает грузовой фургон с одной посылкой внутри
+     * Создает грузовой фургон с размерами по умолчанию с одной посылкой внутри
      *
      * @param cargoItem Посылка
      */
     public CargoVan(CargoItem cargoItem) {
         this();
+        fillSingleCargoItem(cargoItem);
+    }
+
+    /**
+     * Создает грузовой фургон с заданными размерами с одной посылкой внутри
+     *
+     * @param length    длина фургона
+     * @param width     ширина фургона
+     * @param cargoItem Посылка
+     */
+    public CargoVan(int length, int width, CargoItem cargoItem) {
+        this(length, width);
         fillSingleCargoItem(cargoItem);
     }
 
@@ -120,6 +132,21 @@ public class CargoVan {
 
     public int getWidth() {
         return width;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        result.append("Название фургона: ")
+                .append(DEFAULT_VAN_NAME)
+                .append("\n")
+                .append("Ширина: ")
+                .append(this.width)
+                .append("\n")
+                .append("Длина: ")
+                .append(this.length)
+                .append("\n");
+        return result.toString();
     }
 
     /**

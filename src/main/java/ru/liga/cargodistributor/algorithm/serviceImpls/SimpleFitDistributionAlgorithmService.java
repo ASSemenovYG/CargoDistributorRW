@@ -9,6 +9,7 @@ import com.googlecode.caparf.framework.spp2d.Output;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import ru.liga.cargodistributor.algorithm.CargoDistributionParameters;
 import ru.liga.cargodistributor.algorithm.services.DistributionAlgorithmService;
 import ru.liga.cargodistributor.cargo.CargoItem;
 import ru.liga.cargodistributor.cargo.CargoItemList;
@@ -34,18 +35,27 @@ public class SimpleFitDistributionAlgorithmService extends DistributionAlgorithm
 
     @Override
     public List<CargoVan> distributeCargo(CargoItemList cargoList) {
+        return processCargoListAndDistribute(new CargoVan(), cargoList);
+    }
+
+    @Override
+    public List<CargoVan> distributeCargoByParameters(CargoDistributionParameters cargoDistributionParameters) {
+        //todo: add tests for this method
+        return processCargoListAndDistribute(cargoDistributionParameters.getCargoVan(), new CargoItemList(cargoDistributionParameters));
+    }
+
+    private List<CargoVan> processCargoListAndDistribute(CargoVan cargoVanType, CargoItemList cargoList) {
         List<CargoVan> result = new ArrayList<>();
         List<CargoItem> processingCargoList = new ArrayList<>(cargoList.getCargo());
-
         while (!processingCargoList.isEmpty()) {
             LOGGER.debug("Запускаю формирование следующего фургона");
-            result.add(getNextFilledVan(processingCargoList));
+            result.add(getNextFilledVan(processingCargoList, cargoVanType));
         }
         LOGGER.info("Распределение посылок завершено. Итоговое количество фургонов: {}", result.size());
         return result;
     }
 
-    private CargoVan getNextFilledVan(List<CargoItem> cargoItems) {
+    private CargoVan getNextFilledVan(List<CargoItem> cargoItems, CargoVan cargoVanType) {
         Algorithm<Input, Output> algorithm = new SimpleFit(SimpleFit.ItemOrder.FIRST_FIT, SimpleFit.PlacementStrategy.DEFAULT);
         List<Rectangle> rectangles = new ArrayList<>();
 
@@ -53,14 +63,14 @@ public class SimpleFitDistributionAlgorithmService extends DistributionAlgorithm
             rectangles.add(new Rectangle(cargoItem.getWidth(), cargoItem.getLength()));
         }
 
-        Input input = new Input(rectangles, CargoVan.DEFAULT_VAN_WIDTH, "CargoItems");
+        Input input = new Input(rectangles, cargoVanType.getWidth(), "CargoItems");
 
         LOGGER.debug("Запускаю алгоритм распределения");
         Output output = algorithm.solve(input);
         LOGGER.debug("Получаю результаты распределения");
         List<RectanglePlacement> resultPlacements = output.getPlacements();
 
-        CargoVan van = new CargoVan();
+        CargoVan van = new CargoVan(cargoVanType.getLength(), cargoVanType.getWidth());
         List<CargoItem> processedCargoItems = new ArrayList<>();
         LOGGER.debug("Обработка результатов распределения");
         for (int i = 0; i < cargoItems.size(); i++) {

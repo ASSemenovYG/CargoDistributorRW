@@ -3,6 +3,7 @@ package ru.liga.cargodistributor.algorithm.serviceImpls;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import ru.liga.cargodistributor.algorithm.CargoDistributionParameters;
 import ru.liga.cargodistributor.algorithm.services.DistributionAlgorithmService;
 import ru.liga.cargodistributor.cargo.CargoItem;
 import ru.liga.cargodistributor.cargo.CargoItemList;
@@ -25,13 +26,23 @@ public class SingleSortedCargoDistributionAlgorithmService extends DistributionA
 
     @Override
     public List<CargoVan> distributeCargo(CargoItemList cargoList) {
+        return processCargoListAndDistribute(new CargoVan(), cargoList);
+    }
+
+    @Override
+    public List<CargoVan> distributeCargoByParameters(CargoDistributionParameters cargoDistributionParameters) {
+        //todo: add tests for this method
+        return processCargoListAndDistribute(cargoDistributionParameters.getCargoVan(), new CargoItemList(cargoDistributionParameters));
+    }
+
+    private List<CargoVan> processCargoListAndDistribute(CargoVan cargoVanType, CargoItemList cargoList) {
         List<CargoVan> result = new ArrayList<>();
         LinkedList<CargoItem> cargoItems = new LinkedList<>(cargoList.getCargo());
         cargoItems.sort(Comparator.comparing(CargoItem::getWidth).reversed().thenComparing(CargoItem::getLength));
 
         while (!cargoItems.isEmpty()) {
             LOGGER.debug("Создаю новый грузовой фургон");
-            CargoVan van = new CargoVan();
+            CargoVan van = new CargoVan(cargoVanType.getLength(), cargoVanType.getWidth());
             boolean vanIsNotFull = true;
             int currentLengthCoordinate;
             int nextLengthCoordinate = 0;
