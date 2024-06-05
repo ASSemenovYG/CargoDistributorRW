@@ -71,6 +71,7 @@ public class CargoDistributorBot implements SpringLongPollingBot, LongPollingSin
                 update, botService, lastSendMessage, telegramClient, cargoConverterService, fileService, cargoItemTypeRepository, cargoVanTypeRepository
         );
 
+        //todo: пофиксить спагетти код в хендлерах (вынести повторяющиеся проверки в методы botService: инвалидация кеша, парсинг числа из сообщения, мб поиск в репозитории тоже)
         //todo: приделать сохранение истории в бд под кешем
         List<PartialBotApiMethod<Message>> responseMessages = handlerService.processCommandAndGetResponseMessages(update);
 

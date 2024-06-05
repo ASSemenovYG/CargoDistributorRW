@@ -17,6 +17,13 @@ public class CargoItemType extends CargoItem {
         this.legend = cargoItemTypeInfo.getLegend();
     }
 
+    private CargoItemType(CargoItem cargoItem) {
+        super(cargoItem);
+        this.name = cargoItem.getName();
+        this.legend = cargoItem.getLegend();
+    }
+
+    @Override
     public void setLegend(String legend) {
         this.legend = legend;
     }
@@ -49,6 +56,9 @@ public class CargoItemType extends CargoItem {
         if (this.getSize() != other.getSize()) {
             return false;
         }
+        if (!Objects.equals(this.getLegend(), other.getLegend())) {
+            return false;
+        }
         List<Coordinates> otherCoordinates = other.getCoordinates();
         if (this.getCoordinates().size() != otherCoordinates.size()) {
             return false;
@@ -58,6 +68,11 @@ public class CargoItemType extends CargoItem {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, this.getWidth(), this.getLength(), this.getSize(), this.getCoordinates());
+        return Objects.hash(name, this.getWidth(), this.getLength(), this.getSize(), this.getLegend(), this.getCoordinates());
+    }
+
+    @Override
+    public CargoItem copy() {
+        return new CargoItemType(this);
     }
 }

@@ -12,9 +12,10 @@ import java.util.*;
  * Класс элемента груза (посылки)
  */
 @JsonAutoDetect
-public class CargoItem implements Cloneable {
+public class CargoItem {
     private static final Logger LOGGER = LoggerFactory.getLogger(CargoItem.class);
     private static final int MAX_SIZE = 9;
+
     private final int length;
     private final int width;
     private final int size;
@@ -23,7 +24,7 @@ public class CargoItem implements Cloneable {
     /**
      * Список координат клеток в кузове грузовой машины, занимаемых посылкой
      */
-    private final List<Coordinates> coordinates = new ArrayList<>();
+    private final List<Coordinates> coordinates;
 
     /**
      * Координата клетки в кузове грузовой машины
@@ -82,6 +83,7 @@ public class CargoItem implements Cloneable {
         this.width = 0;
         this.size = 0;
         this.name = null;
+        this.coordinates = new ArrayList<>();
     }
 
     /**
@@ -109,6 +111,7 @@ public class CargoItem implements Cloneable {
         this.width = width;
         this.size = size;
         this.name = getCargoItemNameByParams(size, length, width);
+        this.coordinates = new ArrayList<>();
     }
 
     /**
@@ -121,6 +124,7 @@ public class CargoItem implements Cloneable {
         this.length = unparsedCargoItem.size();
         this.width = unparsedCargoItem.peekFirst().length();
         this.size = this.length * this.width;
+        this.coordinates = new ArrayList<>();
     }
 
     /**
@@ -128,6 +132,19 @@ public class CargoItem implements Cloneable {
      */
     public CargoItem(LinkedList<String> unparsedCargoItem) {
         this(unparsedCargoItem, null);
+    }
+
+    /**
+     * Конструктор для копирования
+     *
+     * @param cargoItem посылка, которую нужно скопировать
+     */
+    protected CargoItem(CargoItem cargoItem) {
+        this.length = cargoItem.length;
+        this.width = cargoItem.width;
+        this.size = cargoItem.size;
+        this.name = cargoItem.name;
+        this.coordinates = new ArrayList<>(cargoItem.getCoordinates());
     }
 
     public String getName() {
@@ -188,15 +205,8 @@ public class CargoItem implements Cloneable {
         return Objects.hash(name, width, length, size, coordinates);
     }
 
-    @Override
-    public CargoItem clone() {
-        //todo: в распределении с типами дублируются координаты в итоговом файле под CargoItem-ом, разобраться почему (возможно из-за clone)
-        try {
-            return (CargoItem) super.clone();
-        } catch (CloneNotSupportedException e) {
-            LOGGER.error("Error occurred while cloning CargoItem: {}", e.getMessage());
-            throw new RuntimeException(e);
-        }
+    public CargoItem copy() {
+        return new CargoItem(this);
     }
 
     public void fillCoordinatesByCargoVan(CargoVan cargoVan) {

@@ -54,7 +54,7 @@ public class CargoItemList {
 
         for (CargoDistributionParameters.CargoItemToLoad cargoItemToLoad : cargoItemsToLoad) {
             for (int i = 0; i < cargoItemToLoad.getCount(); i++) {
-                cargoItems.add(cargoItemToLoad.getCargoItem().clone());
+                cargoItems.add(cargoItemToLoad.getCargoItem().copy());
             }
         }
 
