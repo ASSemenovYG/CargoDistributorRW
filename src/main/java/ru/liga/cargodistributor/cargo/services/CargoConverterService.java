@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.liga.cargodistributor.cargo.CargoItem;
+import ru.liga.cargodistributor.cargo.CargoItemType;
 import ru.liga.cargodistributor.cargo.CargoVan;
 import ru.liga.cargodistributor.cargo.CargoVanList;
 import ru.liga.cargodistributor.cargo.exceptions.CargoItemParserException;
@@ -30,6 +31,7 @@ public class CargoConverterService {
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+            mapper.registerSubtypes(CargoItemType.class);
             return mapper.readValue(content, CargoVanList.class);
         } catch (IOException e) {
             LOGGER.error("deserializeLoadedVansFromJson: {}", e.getMessage());

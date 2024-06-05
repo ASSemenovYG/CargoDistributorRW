@@ -1,7 +1,7 @@
 package ru.liga.cargodistributor.cargo;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.liga.cargodistributor.cargo.exceptions.CargoItemValidationException;
@@ -12,6 +12,7 @@ import java.util.*;
  * Класс элемента груза (посылки)
  */
 @JsonAutoDetect
+@JsonSubTypes.Type(value = CargoItemType.class, name = "CargoItemType")
 public class CargoItem {
     private static final Logger LOGGER = LoggerFactory.getLogger(CargoItem.class);
     private static final int MAX_SIZE = 9;
@@ -20,6 +21,7 @@ public class CargoItem {
     private final int width;
     private final int size;
     private final String name;
+    private String legend;
 
     /**
      * Список координат клеток в кузове грузовой машины, занимаемых посылкой
@@ -167,7 +169,6 @@ public class CargoItem {
         return String.valueOf(size);
     }
 
-    @JsonIgnore
     public void setLegend(String legend) {
     }
 

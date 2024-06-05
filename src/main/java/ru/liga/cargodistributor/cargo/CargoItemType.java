@@ -1,5 +1,7 @@
 package ru.liga.cargodistributor.cargo;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import ru.liga.cargodistributor.cargo.entity.CargoItemTypeInfo;
 
 import java.util.HashSet;
@@ -7,9 +9,20 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+@JsonAutoDetect
+@JsonTypeName("CargoItemType")
 public class CargoItemType extends CargoItem {
     private final String name;
     private String legend;
+
+    /**
+     * Конструктор для десериализации
+     */
+    public CargoItemType() {
+        super();
+        this.name = null;
+        this.legend = null;
+    }
 
     public CargoItemType(CargoItemTypeInfo cargoItemTypeInfo, CargoVan cargoVan) {
         super(new LinkedList<>(cargoItemTypeInfo.getShapeAsList()));
