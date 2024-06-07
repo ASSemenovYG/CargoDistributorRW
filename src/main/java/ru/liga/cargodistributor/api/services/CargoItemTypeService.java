@@ -7,4 +7,6 @@ import java.util.Set;
 public interface CargoItemTypeService {
 
     Set<CargoItemTypeInfoDto> getAllCargoItemTypes();
+
+    CargoItemTypeInfoDto getCargoItemByParams(String id, String name);
 }
