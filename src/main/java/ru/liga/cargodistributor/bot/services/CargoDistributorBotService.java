@@ -40,6 +40,8 @@ public class CargoDistributorBotService {
         this.cache = new LruCache<>(cacheCapacity);
     }
 
+    //todo: возможно, все методы из этого класса можно выкинуть в CommandHandler и класс бота
+
     public SendMessage buildTextMessageWithoutKeyboard(long chatId, String content) {
         LOGGER.debug("Building text message without keyboard for chatId {} ; content: {}", chatId, content);
         return SendMessage
