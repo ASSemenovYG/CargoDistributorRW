@@ -107,7 +107,7 @@ public class DistributeByTypesProcessCargoTypeNameCommandHandlerService extends 
         CargoItem cargoItemType;
 
         try {
-            cargoItemType = new CargoItemType(cargoItemTypeInfo, cargoDistributionParameters.getCargoVan());
+            cargoItemType = new CargoItemType(cargoItemTypeInfo);
         } catch (RuntimeException e) {
             LOGGER.error("Error occurred while creating cargo item from type with Id {}, errorMessage: {}", cargoItemTypeInfo.getId(), e.getMessage());
 

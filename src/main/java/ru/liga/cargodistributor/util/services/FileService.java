@@ -3,10 +3,14 @@ package ru.liga.cargodistributor.util.services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import ru.liga.cargodistributor.util.exceptions.FromMultipartFileToFileException;
 import ru.liga.cargodistributor.util.exceptions.ReadFromFileException;
 import ru.liga.cargodistributor.util.exceptions.WriteToFileException;
 
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 
 /**
@@ -18,6 +22,7 @@ public class FileService {
     public static final String DIRECTORY_TO_WRITE_JSON_FILE = "src/main/resources/json_vans";
     public static final String TEST_DIRECTORY_TO_WRITE_JSON_FILE = "src/test/resources/json_vans_test";
     public static final String JSON_FILE_EXTENSION = ".json";
+    public static final String DIRECTORY_TO_WRITE_FILE_FROM_MULTIPART = "src/main/resources/fromMultipart";
     private final boolean isTest;
 
     public FileService() {
@@ -58,6 +63,17 @@ public class FileService {
             LOGGER.error("readFromFile: {}", e.getMessage());
             throw new ReadFromFileException(e.getMessage(), e);
         }
+    }
+
+    public File multipartFileToFile (MultipartFile multipart) {
+        Path filePath = Paths.get(DIRECTORY_TO_WRITE_FILE_FROM_MULTIPART, multipart.getOriginalFilename());
+        try {
+            multipart.transferTo(filePath);
+        } catch (IOException e) {
+            LOGGER.error("multipartFileToFile: {}", e.getMessage());
+            throw new FromMultipartFileToFileException(e.getMessage(), e);
+        }
+        return filePath.toFile();
     }
 
     private String getFileContent(FileReader fileReader) {

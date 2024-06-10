@@ -3,13 +3,16 @@ package ru.liga.cargodistributor.api.serviceImpls;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.liga.cargodistributor.api.dto.CargoItemTypeInfoCreateDto;
 import ru.liga.cargodistributor.api.dto.CargoItemTypeInfoDto;
 import ru.liga.cargodistributor.api.enums.StatusCode;
 import ru.liga.cargodistributor.api.exceptions.ApiException;
 import ru.liga.cargodistributor.api.mapper.CargoItemTypeMapper;
 import ru.liga.cargodistributor.api.services.CargoItemTypeService;
+import ru.liga.cargodistributor.cargo.CargoItemType;
 import ru.liga.cargodistributor.cargo.entity.CargoItemTypeInfo;
 import ru.liga.cargodistributor.cargo.repository.CargoItemTypeRepository;
+import ru.liga.cargodistributor.util.services.FileService;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,9 +21,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Service
 public class CargoItemTypeServiceImpl implements CargoItemTypeService {
+    //todo: add logging
 
     private final CargoItemTypeRepository cargoItemTypeRepository;
     private final CargoItemTypeMapper cargoItemTypeMapper;
+    private final FileService fileService;
 
     @Override
     public Set<CargoItemTypeInfoDto> getAllCargoItemTypes() {
@@ -46,6 +51,22 @@ public class CargoItemTypeServiceImpl implements CargoItemTypeService {
         CargoItemTypeInfo cargoItemTypeInfo = findCargoItemTypeById(id, StatusCode.CARGODISTR_404);
         cargoItemTypeRepository.delete(cargoItemTypeInfo);
         return cargoItemTypeMapper.fromEntityToDto(cargoItemTypeInfo);
+    }
+
+    @Override
+    @Transactional
+    public CargoItemTypeInfoDto createCargoItemTypeInfo(CargoItemTypeInfoCreateDto source) {
+        try {
+            //todo: разделить эксепшены валидации от возможных системных ошибок, добавить явные проверки, кроме создания CargoItemType
+            String fileContent = fileService.readFromFile(fileService.multipartFileToFile(source.getMultipartFile()));
+            CargoItemTypeInfo cargoItemTypeInfo = cargoItemTypeMapper.createEntityFromDto(source);
+            cargoItemTypeInfo.setShape(fileContent);
+            CargoItemType cargoItemType = new CargoItemType(cargoItemTypeInfo);
+            cargoItemTypeRepository.save(cargoItemTypeInfo);
+            return cargoItemTypeMapper.fromEntityToDto(cargoItemTypeInfo);
+        } catch (RuntimeException e) {
+            throw new ApiException("Error occurred while creating cargo item type: " + e.getMessage(), StatusCode.CARGODISTR_500);
+        }
     }
 
     private CargoItemTypeInfo findCargoItemTypeById(String id, StatusCode exceptionStatusCode) {
