@@ -21,16 +21,21 @@ public class CargoItemTypeController {
     }
 
     @GetMapping("/byParams")
-    public ResponseEntity<ResponseDto> getCargoItemByParams(@RequestParam(required = false) String id, @RequestParam(required = false) String name) {
-        return ResponseEntity.ok(ResponseDto.createResponseDto(cargoItemTypeService.getCargoItemByParams(id, name)));
+    public ResponseEntity<ResponseDto> getCargoItemTypeByParams(@RequestParam(required = false) String id, @RequestParam(required = false) String name) {
+        return ResponseEntity.ok(ResponseDto.createResponseDto(cargoItemTypeService.getCargoItemTypeByParams(id, name)));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResponseDto> deleteCargoItemTypeById(@PathVariable("id") String id) {
+        return ResponseEntity.ok(ResponseDto.createResponseDtoOnDelete(cargoItemTypeService.deleteCargoItemTypeById(id)));
     }
 
     //todo: интерфейс сервиса, реализация, маппер, dto
-    //todo: метод создания, метод обновления, метод удаления
+    //todo: метод создания, метод обновления
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ResponseDto> handleApiException(RuntimeException runtimeException) {
-        //todo: выкинуть потом эту логику в сервис
+        //todo: выкинуть потом эту логику из контроллера
         StatusCode statusCode;
         if (runtimeException.getClass() == ApiException.class) {
             ApiException apiException = (ApiException) runtimeException;
@@ -43,6 +48,8 @@ public class CargoItemTypeController {
             responseEntity = ResponseEntity.badRequest().body(ResponseDto.createErrorResponseDto(statusCode));
         } else if (statusCode == StatusCode.CARGODISTR_002) {
             responseEntity = ResponseEntity.noContent().build();
+        } else if (statusCode == StatusCode.CARGODISTR_404) {
+            responseEntity = ResponseEntity.notFound().build();
         } else {
             if (statusCode != null) {
                 responseEntity = ResponseEntity.internalServerError().body(ResponseDto.createErrorResponseDto(statusCode));

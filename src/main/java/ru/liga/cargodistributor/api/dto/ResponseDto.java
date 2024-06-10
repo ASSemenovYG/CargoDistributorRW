@@ -29,6 +29,10 @@ public class ResponseDto<T> {
         return new ResponseDto(data, StatusCode.CARGODISTR_001);
     }
 
+    public static ResponseDto createResponseDtoOnDelete(Object data) {
+        return new ResponseDto(data, StatusCode.CARGODISTR_004);
+    }
+
     public static ResponseDto createErrorResponseDto(StatusCode statusCode) {
         return new ResponseDto(null, statusCode);
     }

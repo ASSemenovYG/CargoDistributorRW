@@ -8,5 +8,7 @@ public interface CargoItemTypeService {
 
     Set<CargoItemTypeInfoDto> getAllCargoItemTypes();
 
-    CargoItemTypeInfoDto getCargoItemByParams(String id, String name);
+    CargoItemTypeInfoDto getCargoItemTypeByParams(String id, String name);
+
+    CargoItemTypeInfoDto deleteCargoItemTypeById(String id);
 }
