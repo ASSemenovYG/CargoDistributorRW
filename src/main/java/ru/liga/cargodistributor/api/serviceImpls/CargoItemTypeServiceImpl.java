@@ -69,6 +69,34 @@ public class CargoItemTypeServiceImpl implements CargoItemTypeService {
         }
     }
 
+    @Override
+    @Transactional
+    public CargoItemTypeInfoDto updateCargoItemTypeInfo(String id, CargoItemTypeInfoCreateDto source) {
+        CargoItemTypeInfo cargoItemTypeInfo = findCargoItemTypeById(id, StatusCode.CARGODISTR_404);
+        //todo: разделить эксепшены валидации от возможных системных ошибок, добавить явные проверки, кроме создания CargoItemType
+        try {
+            if (source.getName() != null && !source.getName().isEmpty() && !source.getName().isBlank()) {
+                cargoItemTypeInfo.setName(source.getName());
+            }
+
+            if (source.getLegend() != null && !source.getLegend().isEmpty() && !source.getLegend().isBlank()) {
+                cargoItemTypeInfo.setLegend(source.getLegend());
+            }
+
+            if (source.getMultipartFile() != null) {
+                String fileContent = fileService.readFromFile(fileService.multipartFileToFile(source.getMultipartFile()));
+                cargoItemTypeInfo.setShape(fileContent);
+            }
+
+            new CargoItemType(cargoItemTypeInfo);
+        } catch (RuntimeException e) {
+            throw new ApiException("Error occurred while updating cargo item type: " + e.getMessage(), StatusCode.CARGODISTR_500);
+        }
+
+        cargoItemTypeRepository.save(cargoItemTypeInfo);
+        return cargoItemTypeMapper.fromEntityToDto(cargoItemTypeInfo);
+    }
+
     private CargoItemTypeInfo findCargoItemTypeById(String id, StatusCode exceptionStatusCode) {
         return cargoItemTypeRepository
                 .findById(UUID.fromString(id))

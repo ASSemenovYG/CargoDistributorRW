@@ -35,14 +35,17 @@ public class CargoItemTypeController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseDto> createCargoItemType(
-            @ModelAttribute CargoItemTypeInfoCreateDto source
-    ) {
+    public ResponseEntity<ResponseDto> createCargoItemType(@ModelAttribute CargoItemTypeInfoCreateDto source) {
         return ResponseEntity.ok(ResponseDto.createResponseDto(cargoItemTypeService.createCargoItemTypeInfo(source)));
     }
 
-    //todo: интерфейс сервиса, реализация, маппер, dto
-    //todo: метод обновления
+    @PatchMapping("/{id}")
+    public ResponseEntity<ResponseDto> updateCargoItemType(
+            @PathVariable("id") String id,
+            @ModelAttribute CargoItemTypeInfoCreateDto source
+    ) {
+        return ResponseEntity.ok(ResponseDto.createResponseDto(cargoItemTypeService.updateCargoItemTypeInfo(id, source)));
+    }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ResponseDto> handleApiException(RuntimeException runtimeException) {

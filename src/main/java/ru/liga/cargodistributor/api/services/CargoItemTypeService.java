@@ -14,4 +14,6 @@ public interface CargoItemTypeService {
     CargoItemTypeInfoDto deleteCargoItemTypeById(String id);
 
     CargoItemTypeInfoDto createCargoItemTypeInfo(CargoItemTypeInfoCreateDto source);
+
+    CargoItemTypeInfoDto updateCargoItemTypeInfo(String id, CargoItemTypeInfoCreateDto source);
 }
