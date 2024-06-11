@@ -3,6 +3,7 @@ package ru.liga.cargodistributor.cargo;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,6 +14,7 @@ import java.util.Objects;
 /**
  * Класс кузова грузовой машины
  */
+@Getter
 @JsonAutoDetect
 public class CargoVan {
     private static final Logger LOGGER = LoggerFactory.getLogger(CargoVan.class);
@@ -24,10 +26,15 @@ public class CargoVan {
     private final int length;
     @JsonIgnore
     private final int width;
+    @JsonIgnore
+    private final CargoVanCell[][] cargo;
+    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.WRAPPER_OBJECT)
+    private final List<CargoItem> loadedCargoItems;
 
     /**
      * Класс погрузочной единицы (клетки) в кузове грузовой машины
      */
+    @Getter
     public static class CargoVanCell {
         private String cellItemTitle;
         private CargoItem occupiedBy;
@@ -41,16 +48,8 @@ public class CargoVan {
             this.cellItemTitle = (cargoItem == null) ? "" : cargoItem.getLegend();
         }
 
-        public CargoItem getOccupiedBy() {
-            return occupiedBy;
-        }
-
         public boolean isEmpty() {
             return occupiedBy == null;
-        }
-
-        public String getCellItemTitle() {
-            return cellItemTitle;
         }
 
         @Override
@@ -67,11 +66,6 @@ public class CargoVan {
             this.cellItemTitle = cargoItem.getLegend();
         }
     }
-
-    @JsonIgnore
-    private final CargoVanCell[][] cargo;
-    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.WRAPPER_OBJECT)
-    private final List<CargoItem> loadedCargoItems;
 
     /**
      * Создает грузовой фургон с пустым кузовом с размерами по умолчанию
@@ -120,18 +114,6 @@ public class CargoVan {
     public CargoVan(int length, int width, CargoItem cargoItem) {
         this(length, width);
         fillSingleCargoItem(cargoItem);
-    }
-
-    public CargoVanCell[][] getCargo() {
-        return this.cargo;
-    }
-
-    public int getLength() {
-        return length;
-    }
-
-    public int getWidth() {
-        return width;
     }
 
     @Override
@@ -185,10 +167,6 @@ public class CargoVan {
         loadedCargoItems.add(cargoItem);
         LOGGER.info("Посылка {} успешно добавлена в фургон", cargoItem.getName());
         return true;
-    }
-
-    public List<CargoItem> getLoadedCargoItems() {
-        return loadedCargoItems;
     }
 
     /**
