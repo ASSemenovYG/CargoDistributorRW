@@ -3,6 +3,7 @@ package ru.liga.cargodistributor.cargo;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.liga.cargodistributor.algorithm.CargoDistributionParameters;
@@ -16,6 +17,7 @@ import java.util.List;
 /**
  * Класс списка грузовых фургонов
  */
+@Getter
 @JsonAutoDetect
 @Component
 public class CargoVanList {
@@ -32,10 +34,6 @@ public class CargoVanList {
 
     public CargoVanList(List<CargoVan> cargoVans) {
         this.cargoVans = cargoVans;
-    }
-
-    public List<CargoVan> getCargoVans() {
-        return cargoVans;
     }
 
     public boolean isListSizeLessOrEqualThanMaxSize(int maxSize) {
