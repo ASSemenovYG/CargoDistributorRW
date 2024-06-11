@@ -1,7 +1,9 @@
 package ru.liga.cargodistributor.bot.enums;
 
+import lombok.Getter;
 import ru.liga.cargodistributor.cargo.services.CargoConverterService;
 
+@Getter
 public enum CargoDistributorBotResponseMessage {
     DISTRIBUTE_CARGO(CargoDistributorBotKeyboardButton.READ_CARGO_AND_DISTRIBUTE.getButtonText()),
     READ_JSON_WITH_LOADED_VANS(CargoDistributorBotKeyboardButton.READ_JSON_WITH_LOADED_VANS.getButtonText()),
@@ -129,7 +131,4 @@ public enum CargoDistributorBotResponseMessage {
         this.messageText = messageText;
     }
 
-    public String getMessageText() {
-        return messageText;
-    }
 }
