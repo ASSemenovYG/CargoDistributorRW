@@ -13,6 +13,7 @@ public enum StatusCode {
     CARGODISTR_005("CARGODISTR_005", "Cargo Van Type Not found"),
     CARGODISTR_006("CARGODISTR_006", "Van Limit Should Be Greater Than Zero"),
     CARGODISTR_007("CARGODISTR_007", "Entered Van Limit Wasn't Enough For Distribution"),
+    CARGODISTR_008("CARGODISTR_008", "Cargo Item List Has Duplicate Legends"),
     CARGODISTR_404("CARGODISTR_404", "Entity Does Not Exist"),
     CARGODISTR_500("CARGODISTR_500", "Internal Server Error");
 

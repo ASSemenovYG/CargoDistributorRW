@@ -30,6 +30,12 @@ public class CargoItemType extends CargoItem {
         this.legend = cargoItemTypeInfo.getLegend();
     }
 
+    public CargoItemType(CargoItemTypeInfo cargoItemTypeInfo, CargoVan cargoVan) {
+        super(new LinkedList<>(cargoItemTypeInfo.getShapeAsList()), cargoVan);
+        this.name = cargoItemTypeInfo.getName();
+        this.legend = cargoItemTypeInfo.getLegend();
+    }
+
     private CargoItemType(CargoItem cargoItem) {
         super(cargoItem);
         this.name = cargoItem.getName();

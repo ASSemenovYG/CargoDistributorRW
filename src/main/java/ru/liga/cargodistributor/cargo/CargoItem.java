@@ -245,7 +245,7 @@ public class CargoItem {
             validationMessage.append("Длина посылки ").append(length).append(" превышает длину грузового фургона ").append(vanLength).append("\n");
         }
         if (width > vanWidth) {
-            validationMessage.append("Ширина посылки ").append(length).append(" превышает ширину грузового фургона ").append(vanWidth).append("\n");
+            validationMessage.append("Ширина посылки ").append(width).append(" превышает ширину грузового фургона ").append(vanWidth).append("\n");
         }
         return validationMessage.toString();
     }

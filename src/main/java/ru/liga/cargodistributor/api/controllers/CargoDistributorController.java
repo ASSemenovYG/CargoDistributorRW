@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.liga.cargodistributor.api.dto.DistributeByFileDto;
+import ru.liga.cargodistributor.api.dto.DistributeByParamsDto;
 import ru.liga.cargodistributor.api.dto.ResponseDto;
 import ru.liga.cargodistributor.api.enums.StatusCode;
 import ru.liga.cargodistributor.api.exceptions.ApiException;
@@ -23,6 +24,11 @@ public class CargoDistributorController {
     @PostMapping("/byFile")
     public ResponseEntity<ResponseDto> distributeByFile(@Validated @ModelAttribute DistributeByFileDto source) {
         return ResponseEntity.ok(ResponseDto.createResponseDto(cargoDistributorService.distributeByFile(source)));
+    }
+
+    @PostMapping("/byParams")
+    public ResponseEntity<ResponseDto> distributeByParams(@Validated @RequestBody DistributeByParamsDto source) {
+        return ResponseEntity.ok(ResponseDto.createResponseDto(cargoDistributorService.distributeByParams(source)));
     }
 
     @ExceptionHandler(RuntimeException.class)
@@ -42,6 +48,8 @@ public class CargoDistributorController {
                         statusCode == StatusCode.CARGODISTR_007
         ) {
             responseEntity = ResponseEntity.badRequest().body(ResponseDto.createErrorResponseDto(statusCode));
+        } else if (statusCode == StatusCode.CARGODISTR_008) {
+            responseEntity = ResponseEntity.badRequest().body(ResponseDto.createErrorResponseWithMessageDto(statusCode, runtimeException.getMessage()));
         } else {
             if (statusCode != null) {
                 responseEntity = ResponseEntity.internalServerError().body(ResponseDto.createErrorResponseWithMessageDto(statusCode, runtimeException.getMessage()));
