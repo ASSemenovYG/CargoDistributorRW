@@ -20,6 +20,11 @@ public class ResponseDto<T> {
         this.responseResultDto = new ResponseResultDto(statusCode, statusCode.getMessage());
     }
 
+    public ResponseDto(StatusCode statusCode, String errorMessage) {
+        this.data = null;
+        this.responseResultDto = new ResponseResultDto(statusCode, errorMessage);
+    }
+
     public ResponseDto(RuntimeException exception) {
         this.data = null;
         this.responseResultDto = new ResponseResultDto(StatusCode.CARGODISTR_500, exception.getMessage());
@@ -35,6 +40,10 @@ public class ResponseDto<T> {
 
     public static ResponseDto createErrorResponseDto(StatusCode statusCode) {
         return new ResponseDto(null, statusCode);
+    }
+
+    public static ResponseDto createErrorResponseWithMessageDto(StatusCode statusCode, String errorMessage) {
+        return new ResponseDto(statusCode, errorMessage);
     }
 
     public static ResponseDto createUnexpectedErrorResponseDto(RuntimeException exception) {

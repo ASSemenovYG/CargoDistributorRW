@@ -1,5 +1,8 @@
 package ru.liga.cargodistributor.algorithm.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum DistributionAlgorithmName {
     ONE_VAN_ONE_ITEM("OneVanOneItemDistribution"),
     SINGLE_SORTED("SingleSortedCargoDistribution"),
@@ -9,10 +12,6 @@ public enum DistributionAlgorithmName {
 
     DistributionAlgorithmName(String title) {
         this.title = title;
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     public static DistributionAlgorithmName fromString(String text) {
