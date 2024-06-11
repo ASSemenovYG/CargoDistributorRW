@@ -1,5 +1,8 @@
 package ru.liga.cargodistributor.bot.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum CargoDistributorBotUserCommand {
     START("/start"),
     DISTRIBUTE("/distribute"),
@@ -13,7 +16,4 @@ public enum CargoDistributorBotUserCommand {
         this.commandText = commandText;
     }
 
-    public String getCommandText() {
-        return commandText;
-    }
 }
