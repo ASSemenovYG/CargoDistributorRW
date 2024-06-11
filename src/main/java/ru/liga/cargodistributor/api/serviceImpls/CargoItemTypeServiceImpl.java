@@ -89,11 +89,11 @@ public class CargoItemTypeServiceImpl implements CargoItemTypeService {
             }
 
             new CargoItemType(cargoItemTypeInfo);
+            cargoItemTypeRepository.save(cargoItemTypeInfo);
         } catch (RuntimeException e) {
             throw new ApiException("Error occurred while updating cargo item type: " + e.getMessage(), StatusCode.CARGODISTR_500);
         }
 
-        cargoItemTypeRepository.save(cargoItemTypeInfo);
         return cargoItemTypeMapper.fromEntityToDto(cargoItemTypeInfo);
     }
 
