@@ -2,6 +2,8 @@ package ru.liga.cargodistributor.cargo;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import lombok.Getter;
+import lombok.Setter;
 import ru.liga.cargodistributor.cargo.entity.CargoItemTypeInfo;
 
 import java.util.HashSet;
@@ -9,10 +11,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+@Getter
 @JsonAutoDetect
 @JsonTypeName("CargoItemType")
 public class CargoItemType extends CargoItem {
     private final String name;
+    @Setter
     private String legend;
 
     /**
@@ -40,21 +44,6 @@ public class CargoItemType extends CargoItem {
         super(cargoItem);
         this.name = cargoItem.getName();
         this.legend = cargoItem.getLegend();
-    }
-
-    @Override
-    public void setLegend(String legend) {
-        this.legend = legend;
-    }
-
-    @Override
-    public String getLegend() {
-        return legend;
-    }
-
-    @Override
-    public String getName() {
-        return name;
     }
 
     @Override
