@@ -3,8 +3,8 @@ package ru.liga.cargodistributor.cargo;
 import lombok.Getter;
 import ru.liga.cargodistributor.cargo.entity.CargoVanTypeInfo;
 
+@Getter
 public class CargoVanType extends CargoVan {
-    @Getter
     private final String name;
     private final int length;
     private final int width;
@@ -21,16 +21,6 @@ public class CargoVanType extends CargoVan {
         this.name = cargoVanTypeInfo.getName();
         this.length = cargoVanTypeInfo.getLength();
         this.width = cargoVanTypeInfo.getWidth();
-    }
-
-    @Override
-    public int getLength() {
-        return length;
-    }
-
-    @Override
-    public int getWidth() {
-        return width;
     }
 
     @Override
