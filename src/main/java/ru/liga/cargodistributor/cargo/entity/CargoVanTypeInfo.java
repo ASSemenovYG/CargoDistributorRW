@@ -1,9 +1,17 @@
 package ru.liga.cargodistributor.cargo.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.UUID;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "cargo_van_type", schema = "cargo_distributor")
 public class CargoVanTypeInfo {
@@ -22,37 +30,6 @@ public class CargoVanTypeInfo {
 
     public CargoVanTypeInfo(String name) {
         this(name, 0, 0);
-    }
-
-    public CargoVanTypeInfo() {
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getLength() {
-        return length;
-    }
-
-    public void setLength(int length) {
-        this.length = length;
     }
 
     @Override
