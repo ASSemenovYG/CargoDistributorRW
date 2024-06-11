@@ -88,10 +88,8 @@ public class CargoDistributorBotService {
         if (cache.get(chatId) == null) {
             LOGGER.debug("putCargoItemListToCache: creating new cache for chatId {}", chatId);
             cache.put(chatId, CargoDistributorBotChatData.builder()
-                            .cargoItemList(cargoItemList)
-                            .build()
-                    //.setCargoItemList(cargoItemList)
-                    //.build()
+                    .cargoItemList(cargoItemList)
+                    .build()
             );
             return;
         }
