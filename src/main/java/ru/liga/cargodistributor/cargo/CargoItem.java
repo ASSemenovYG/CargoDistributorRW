@@ -2,6 +2,8 @@ package ru.liga.cargodistributor.cargo;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.liga.cargodistributor.cargo.exceptions.CargoItemValidationException;
@@ -17,20 +19,27 @@ public class CargoItem {
     private static final Logger LOGGER = LoggerFactory.getLogger(CargoItem.class);
     private static final int MAX_SIZE = 9;
 
+    @Getter
     private final int length;
+    @Getter
     private final int width;
+    @Getter
     private final int size;
+    @Getter
     private final String name;
     private String legend;
 
     /**
      * Список координат клеток в кузове грузовой машины, занимаемых посылкой
      */
+    @Getter
     private final List<Coordinates> coordinates;
 
     /**
      * Координата клетки в кузове грузовой машины
      */
+    @AllArgsConstructor
+    @Getter
     public static class Coordinates {
         private final int x;
         private final int y;
@@ -41,19 +50,6 @@ public class CargoItem {
         public Coordinates() {
             this.x = 0;
             this.y = 0;
-        }
-
-        public Coordinates(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        public int getX() {
-            return x;
-        }
-
-        public int getY() {
-            return y;
         }
 
         @Override
@@ -149,31 +145,11 @@ public class CargoItem {
         this.coordinates = new ArrayList<>(cargoItem.getCoordinates());
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getLength() {
-        return length;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
     public String getLegend() {
         return String.valueOf(size);
     }
 
     public void setLegend(String legend) {
-    }
-
-    public List<Coordinates> getCoordinates() {
-        return coordinates;
     }
 
     @Override
