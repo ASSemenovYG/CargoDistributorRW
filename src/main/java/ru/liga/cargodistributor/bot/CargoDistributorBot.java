@@ -32,12 +32,13 @@ public class CargoDistributorBot implements SpringLongPollingBot, LongPollingSin
     private static final Logger LOGGER = LoggerFactory.getLogger(CargoDistributorBot.class);
 
     private final String token;
-
     private final TelegramClient telegramClient;
     private final CargoDistributorBotService botService;
-    private final CargoConverterService cargoConverterService;
-    private final FileService fileService;
 
+    @Autowired
+    private CargoConverterService cargoConverterService;
+    @Autowired
+    private FileService fileService;
     @Autowired
     private CargoItemTypeRepository cargoItemTypeRepository;
     @Autowired
@@ -46,8 +47,6 @@ public class CargoDistributorBot implements SpringLongPollingBot, LongPollingSin
     @Autowired
     public CargoDistributorBot(@Value("${bot.token}") String token, @Value("${cache.capacity}") int cacheCapacity) {
         this.token = token;
-        this.cargoConverterService = new CargoConverterService();
-        this.fileService = new FileService();
         this.telegramClient = new OkHttpTelegramClient(getBotToken());
         this.botService = new CargoDistributorBotService(cacheCapacity);
     }
