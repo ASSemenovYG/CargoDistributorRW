@@ -1,7 +1,9 @@
 package ru.liga.cargodistributor.bot.enums;
 
+import lombok.Getter;
 import ru.liga.cargodistributor.algorithm.enums.DistributionAlgorithmName;
 
+@Getter
 public enum CargoDistributorBotKeyboardButton {
     READ_CARGO_AND_DISTRIBUTE("Прочитать посылки из файла и разложить по фургонам"),
     READ_JSON_WITH_LOADED_VANS("Прочитать json с загруженными фургонами"),
@@ -34,7 +36,4 @@ public enum CargoDistributorBotKeyboardButton {
         this.buttonText = buttonText;
     }
 
-    public String getButtonText() {
-        return buttonText;
-    }
 }
