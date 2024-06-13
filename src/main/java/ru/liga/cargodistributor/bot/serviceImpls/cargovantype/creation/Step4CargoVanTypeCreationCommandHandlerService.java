@@ -31,7 +31,7 @@ public class Step4CargoVanTypeCreationCommandHandlerService extends CommandHandl
 
     @Override
     @Transactional
-    public List<PartialBotApiMethod<Message>> processCommandAndGetResponseMessages(Update update) {
+    public List<PartialBotApiMethod<Message>> processCommand(Update update) {
         LOGGER.info("Started processing command");
         List<PartialBotApiMethod<Message>> resultResponse = new LinkedList<>();
         long chatId = getChatIdFromUpdate(update);

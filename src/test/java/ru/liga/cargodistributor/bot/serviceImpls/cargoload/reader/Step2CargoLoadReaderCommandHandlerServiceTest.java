@@ -21,7 +21,7 @@ class Step2CargoLoadReaderCommandHandlerServiceTest {
     private final FileService fileService = new FileService(true);
 
     @Test
-    void processCommandAndGetResponseMessages_validFile() {
+    void processCommand_validFile() {
         String jsonContent = fileService.readFromFileByPath("src/test/resources/test_loaded_vans.json");
 
         CommandHandlerService handlerService = new Step2CargoLoadReaderCommandHandlerService(
@@ -39,7 +39,7 @@ class Step2CargoLoadReaderCommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
+        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommand(update);
 
         assertThat(resultResponse.size()).isEqualTo(7);
 
@@ -112,7 +112,7 @@ class Step2CargoLoadReaderCommandHandlerServiceTest {
     }
 
     @Test
-    void processCommandAndGetResponseMessages_validJsonFromMessage() {
+    void processCommand_validJsonFromMessage() {
         String jsonContent = fileService.readFromFileByPath("src/test/resources/test_loaded_vans.json");
 
         CommandHandlerService handlerService = new Step2CargoLoadReaderCommandHandlerService(
@@ -130,7 +130,7 @@ class Step2CargoLoadReaderCommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
+        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommand(update);
 
         assertThat(resultResponse.size()).isEqualTo(7);
 
@@ -203,7 +203,7 @@ class Step2CargoLoadReaderCommandHandlerServiceTest {
     }
 
     @Test
-    void processCommandAndGetResponseMessages_invalidContent() {
+    void processCommand_invalidContent() {
         CommandHandlerService handlerService = new Step2CargoLoadReaderCommandHandlerService(
                 botService,
                 new CargoConverterService(),
@@ -219,7 +219,7 @@ class Step2CargoLoadReaderCommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
+        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommand(update);
 
         assertThat(resultResponse.size()).isEqualTo(3);
 

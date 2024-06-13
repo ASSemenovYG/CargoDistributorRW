@@ -13,11 +13,11 @@ import ru.liga.cargodistributor.bot.services.CommandHandlerService;
 import java.util.LinkedList;
 import java.util.List;
 
-public class FileReadErrorUnknownCommandHandlerService extends CommandHandlerService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(FileReadErrorUnknownCommandHandlerService.class);
+public class FileReaderErrorUnknownCommandHandlerService extends CommandHandlerService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileReaderErrorUnknownCommandHandlerService.class);
     private final String errorMessage;
 
-    public FileReadErrorUnknownCommandHandlerService(
+    public FileReaderErrorUnknownCommandHandlerService(
             CargoDistributorBotService botService,
             String errorMessage
     ) {
@@ -26,7 +26,7 @@ public class FileReadErrorUnknownCommandHandlerService extends CommandHandlerSer
     }
 
     @Override
-    public List<PartialBotApiMethod<Message>> processCommandAndGetResponseMessages(Update update) {
+    public List<PartialBotApiMethod<Message>> processCommand(Update update) {
         LOGGER.info("Started processing command");
 
         List<PartialBotApiMethod<Message>> resultResponse = new LinkedList<>();

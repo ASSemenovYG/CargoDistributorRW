@@ -25,7 +25,7 @@ class Step2DistributionFromFileCommandHandlerServiceTest {
     private final FileService fileService = new FileService(true);
 
     @Test
-    void processCommandAndGetResponseMessages_validFile() {
+    void processCommand_validFile() {
         List<CargoItem> cargoItems = new ArrayList<>();
         cargoItems.add(new CargoItem(9, 3, 3));
         cargoItems.add(new CargoItem(6, 2, 3));
@@ -52,7 +52,7 @@ class Step2DistributionFromFileCommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
+        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommand(update);
 
         assertThat(resultResponse.size()).isEqualTo(3);
 
@@ -75,7 +75,7 @@ class Step2DistributionFromFileCommandHandlerServiceTest {
     }
 
     @Test
-    void processCommandAndGetResponseMessages_emptyContent() {
+    void processCommand_emptyContent() {
         CommandHandlerService handlerService = new Step2DistributionFromFileCommandHandlerService(
                 botService,
                 new CargoConverterService(),
@@ -91,7 +91,7 @@ class Step2DistributionFromFileCommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
+        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommand(update);
 
         assertThat(resultResponse.size()).isEqualTo(2);
 
@@ -113,7 +113,7 @@ class Step2DistributionFromFileCommandHandlerServiceTest {
     }
 
     @Test
-    void processCommandAndGetResponseMessages_invalidFile_ParsingError() {
+    void processCommand_invalidFile_ParsingError() {
         String cargoContent = fileService.readFromFileByPath("src/test/resources/test_cargo_file_with_invalid_item.pkg");
 
         CommandHandlerService handlerService = new Step2DistributionFromFileCommandHandlerService(
@@ -131,7 +131,7 @@ class Step2DistributionFromFileCommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
+        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommand(update);
 
         assertThat(resultResponse.size()).isEqualTo(4);
 

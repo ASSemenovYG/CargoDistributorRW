@@ -66,13 +66,13 @@ public class CargoDistributorBot implements SpringLongPollingBot, LongPollingSin
         LOGGER.info("Receiving message: {}", update.toString());
 
         SendMessage lastSendMessage = botService.getLastSendMessageFromCache(String.valueOf(update.getMessage().getChatId()));
-        CommandHandlerService handlerService = CommandHandlerService.determineAndGetCommandHandler(
+        CommandHandlerService handlerService = CommandHandlerService.determineCommandHandler(
                 update, botService, lastSendMessage, telegramClient, cargoConverterService, fileService, cargoItemTypeRepository, cargoVanTypeRepository
         );
 
         //todo: пофиксить спагетти код в хендлерах (вынести повторяющиеся проверки в методы botService: инвалидация кеша, парсинг числа из сообщения, мб поиск в репозитории тоже)
         //todo: приделать сохранение истории в бд под кешем
-        List<PartialBotApiMethod<Message>> responseMessages = handlerService.processCommandAndGetResponseMessages(update);
+        List<PartialBotApiMethod<Message>> responseMessages = handlerService.processCommand(update);
 
         for (PartialBotApiMethod<Message> responseMessage : responseMessages) {
             sendResponse(responseMessage);

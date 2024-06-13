@@ -21,7 +21,7 @@ public class Step1CargoItemTypeDeletionCommandHandlerService extends CommandHand
     }
 
     @Override
-    public List<PartialBotApiMethod<Message>> processCommandAndGetResponseMessages(Update update) {
+    public List<PartialBotApiMethod<Message>> processCommand(Update update) {
         LOGGER.info("Started processing command");
         List<PartialBotApiMethod<Message>> resultResponse = new LinkedList<>();
 

@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class UnknownCommandHandlerServiceTest {
 
     @Test
-    void processCommandAndGetResponseMessages_withoutLastMessageInCache() {
+    void processCommand_withoutLastMessageInCache() {
         CommandHandlerService handlerService = new UnknownCommandHandlerService(
                 new CargoDistributorBotService(10)
         );
@@ -31,7 +31,7 @@ class UnknownCommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
+        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommand(update);
 
         int textMessagesCount = (int) resultResponse.stream()
                 .filter(msg -> msg.getClass().equals(SendMessage.class))
@@ -51,7 +51,7 @@ class UnknownCommandHandlerServiceTest {
     }
 
     @Test
-    void processCommandAndGetResponseMessages_withLastMessageInCache() {
+    void processCommand_withLastMessageInCache() {
         CargoDistributorBotService botService = new CargoDistributorBotService(10);
 
         long chatId = 123L;
@@ -75,7 +75,7 @@ class UnknownCommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
+        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommand(update);
 
         int textMessagesCount = (int) resultResponse.stream()
                 .filter(msg -> msg.getClass().equals(SendMessage.class))

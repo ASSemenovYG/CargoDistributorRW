@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class Step3DistributionFromFileCommandHandlerServiceTest {
 
     @Test
-    void processCommandAndGetResponseMessages_validInteger() {
+    void processCommand_validInteger() {
         CargoDistributorBotService botService = new CargoDistributorBotService(10);
 
         long chatId = 123L;
@@ -37,7 +37,7 @@ class Step3DistributionFromFileCommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
+        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommand(update);
 
         assertThat(vanLimit).isEqualTo(botService.getVanLimitFromCache(String.valueOf(chatId)));
 
@@ -60,7 +60,7 @@ class Step3DistributionFromFileCommandHandlerServiceTest {
     }
 
     @Test
-    void processCommandAndGetResponseMessages_invalidInteger() {
+    void processCommand_invalidInteger() {
         long chatId = 123L;
 
         CommandHandlerService handlerService = new Step3DistributionFromFileCommandHandlerService(
@@ -76,7 +76,7 @@ class Step3DistributionFromFileCommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
+        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommand(update);
 
         assertThat(resultResponse.size()).isEqualTo(2);
 

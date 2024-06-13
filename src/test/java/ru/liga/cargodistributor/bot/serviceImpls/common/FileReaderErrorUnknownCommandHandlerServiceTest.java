@@ -14,10 +14,10 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class FileReadErrorUnknownCommandHandlerServiceTest {
+class FileReaderErrorUnknownCommandHandlerServiceTest {
 
     @Test
-    void processCommandAndGetResponseMessages_WithLastMessage() {
+    void processCommand_WithLastMessage() {
         CargoDistributorBotService botService = new CargoDistributorBotService(10);
 
         long chatId = 123L;
@@ -29,7 +29,7 @@ class FileReadErrorUnknownCommandHandlerServiceTest {
 
         botService.putLastMessageToCache(String.valueOf(chatId), lastMessage);
 
-        CommandHandlerService handlerService = new FileReadErrorUnknownCommandHandlerService(
+        CommandHandlerService handlerService = new FileReaderErrorUnknownCommandHandlerService(
                 botService,
                 errorMessage
         );
@@ -43,7 +43,7 @@ class FileReadErrorUnknownCommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
+        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommand(update);
 
         assertThat(resultResponse.size()).isEqualTo(4);
 
@@ -67,11 +67,11 @@ class FileReadErrorUnknownCommandHandlerServiceTest {
     }
 
     @Test
-    void processCommandAndGetResponseMessages_WithoutLastMessage() {
+    void processCommand_WithoutLastMessage() {
         long chatId = 123L;
         String errorMessage = "a guy with dyslexia walks into a bra";
 
-        CommandHandlerService handlerService = new FileReadErrorUnknownCommandHandlerService(
+        CommandHandlerService handlerService = new FileReaderErrorUnknownCommandHandlerService(
                 new CargoDistributorBotService(10),
                 errorMessage
         );
@@ -85,7 +85,7 @@ class FileReadErrorUnknownCommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
+        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommand(update);
 
         assertThat(resultResponse.size()).isEqualTo(2);
 

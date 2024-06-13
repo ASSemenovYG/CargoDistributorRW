@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class HelpCommandHandlerServiceTest {
 
     @Test
-    void processCommandAndGetResponseMessages() {
+    void processCommand() {
         CommandHandlerService handlerService = new HelpCommandHandlerService(
                 new CargoDistributorBotService(10)
         );
@@ -34,7 +34,7 @@ class HelpCommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
+        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommand(update);
         assertThat(resultResponse.size()).isEqualTo(8);
 
         int textMessagesCount = (int) resultResponse.stream()

@@ -47,9 +47,9 @@ public abstract class CommandHandlerService {
         this.botService = botService;
     }
 
-    public abstract List<PartialBotApiMethod<Message>> processCommandAndGetResponseMessages(Update update);
+    public abstract List<PartialBotApiMethod<Message>> processCommand(Update update);
 
-    public static CommandHandlerService determineAndGetCommandHandler(
+    public static CommandHandlerService determineCommandHandler(
             Update update,
             CargoDistributorBotService botService,
             SendMessage lastSendMessage,
@@ -320,7 +320,7 @@ public abstract class CommandHandlerService {
                         isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.SEND_FILE_WITH_SINGLE_CARGO.getMessageText(), lastSendMessage)
         ) {
             //todo: add tests for this scenario
-            handlerService = parseUpdateDocumentAndDetermineCommandHandler(
+            handlerService = determineCommandHandlerAfterParsingUpdateDocument(
                     "Step4CargoItemTypeCreation",
                     update,
                     telegramClient,
@@ -395,7 +395,7 @@ public abstract class CommandHandlerService {
 
         ) {
             //todo: add tests for this scenario
-            handlerService = parseUpdateDocumentAndDetermineCommandHandler(
+            handlerService = determineCommandHandlerAfterParsingUpdateDocument(
                     "Step3_Shape_2_CargoItemTypeChange",
                     update,
                     telegramClient,
@@ -449,7 +449,7 @@ public abstract class CommandHandlerService {
                         update.getMessage().hasDocument() &&
                         isLastSendMessageEqualTo(CargoDistributorBotResponseMessage.SEND_FILE_WITH_CARGO.getMessageText(), lastSendMessage)
         ) {
-            handlerService = parseUpdateDocumentAndDetermineCommandHandler(
+            handlerService = determineCommandHandlerAfterParsingUpdateDocument(
                     "Step2DistributionFromFile",
                     update,
                     telegramClient,
@@ -476,7 +476,7 @@ public abstract class CommandHandlerService {
                         )
         ) {
             if (update.getMessage().hasDocument()) {
-                return parseUpdateDocumentAndDetermineCommandHandler(
+                handlerService = determineCommandHandlerAfterParsingUpdateDocument(
                         "Step2CargoReading",
                         update,
                         telegramClient,
@@ -485,13 +485,13 @@ public abstract class CommandHandlerService {
                         fileService,
                         cargoItemTypeRepository
                 );
+            } else {
+                handlerService = new Step2CargoLoadReaderCommandHandlerService(
+                        botService,
+                        cargoConverterService,
+                        null
+                );
             }
-
-            handlerService = new Step2CargoLoadReaderCommandHandlerService(
-                    botService,
-                    cargoConverterService,
-                    null
-            );
 
         } else if (
                 updateHasMessageText(update) &&
@@ -551,7 +551,7 @@ public abstract class CommandHandlerService {
                 .equals(messageText);
     }
 
-    private static CommandHandlerService parseUpdateDocumentAndDetermineCommandHandler(
+    private static CommandHandlerService determineCommandHandlerAfterParsingUpdateDocument(
             String handlerName,
             Update update,
             TelegramClient telegramClient,
@@ -634,10 +634,10 @@ public abstract class CommandHandlerService {
             }
             break;
             default: {
-                LOGGER.info("parseUpdateDocumentAndDetermineCommandHandler: Unknown handler name: {}", handlerName);
+                LOGGER.info("determineCommandHandlerAfterParsingUpdateDocument: Unknown handler name: {}", handlerName);
                 errorMessage += "\nUnknown handler name: " + handlerName;
 
-                handlerService = new FileReadErrorUnknownCommandHandlerService(
+                handlerService = new FileReaderErrorUnknownCommandHandlerService(
                         botService,
                         errorMessage
                 );

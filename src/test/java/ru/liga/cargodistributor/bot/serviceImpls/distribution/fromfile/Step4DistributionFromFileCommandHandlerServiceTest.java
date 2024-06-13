@@ -32,7 +32,7 @@ class Step4DistributionFromFileCommandHandlerServiceTest {
     }
 
     @Test
-    void processCommandAndGetResponseMessages_cargoListNotFound() {
+    void processCommand_cargoListNotFound() {
         CommandHandlerService handlerService = new Step4DistributionFromFileCommandHandlerService(
                 new CargoDistributorBotService(10),
                 new CargoConverterService(),
@@ -48,7 +48,7 @@ class Step4DistributionFromFileCommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
+        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommand(update);
         assertThat(resultResponse.size()).isEqualTo(2);
 
         int textMessagesCount = (int) resultResponse.stream()
@@ -69,7 +69,7 @@ class Step4DistributionFromFileCommandHandlerServiceTest {
     }
 
     @Test
-    void processCommandAndGetResponseMessages_cargoListFound() {
+    void processCommand_cargoListFound() {
         CargoDistributorBotService botService = new CargoDistributorBotService(10);
 
         long chatId = 123L;
@@ -98,7 +98,7 @@ class Step4DistributionFromFileCommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
+        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommand(update);
 
         assertThat(resultResponse.size()).isEqualTo(5);
 
@@ -127,7 +127,7 @@ class Step4DistributionFromFileCommandHandlerServiceTest {
     }
 
     @Test
-    void processCommandAndGetResponseMessages_vanLimitDoesNotFit() {
+    void processCommand_vanLimitDoesNotFit() {
         CargoDistributorBotService botService = new CargoDistributorBotService(10);
 
         long chatId = 123L;
@@ -156,7 +156,7 @@ class Step4DistributionFromFileCommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
+        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommand(update);
 
         assertThat(resultResponse.size()).isEqualTo(2);
 
@@ -178,7 +178,7 @@ class Step4DistributionFromFileCommandHandlerServiceTest {
     }
 
     @Test
-    void processCommandAndGetResponseMessages_invalidAlgorithm() {
+    void processCommand_invalidAlgorithm() {
         long chatId = 123L;
 
         CommandHandlerService handlerService = new Step4DistributionFromFileCommandHandlerService(
@@ -196,7 +196,7 @@ class Step4DistributionFromFileCommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
+        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommand(update);
 
         assertThat(resultResponse.size()).isEqualTo(2);
 

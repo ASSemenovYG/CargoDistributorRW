@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class Step2DistributionFromFileReaderErrorCommandHandlerServiceTest {
 
     @Test
-    void processCommandAndGetResponseMessages() {
+    void processCommand() {
         long chatId = 123L;
         String errorMessage = "a guy with dyslexia walks into a bra";
 
@@ -36,7 +36,7 @@ class Step2DistributionFromFileReaderErrorCommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommandAndGetResponseMessages(update);
+        List<PartialBotApiMethod<Message>> resultResponse = handlerService.processCommand(update);
 
         assertThat(resultResponse.size()).isEqualTo(4);
 

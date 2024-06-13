@@ -53,7 +53,7 @@ class CommandHandlerServiceTest {
     private final FileService fileService = new FileService(true);
 
     @Test
-    void determineAndGetCommandHandler_Start() {
+    void determineCommandHandler_Start() {
         Chat chat = new Chat(123L, "private");
 
         Message message = new Message();
@@ -63,7 +63,7 @@ class CommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        CommandHandlerService handlerService = CommandHandlerService.determineAndGetCommandHandler(
+        CommandHandlerService handlerService = CommandHandlerService.determineCommandHandler(
                 update,
                 botService,
                 null,
@@ -78,7 +78,7 @@ class CommandHandlerServiceTest {
     }
 
     @Test
-    void determineAndGetCommandHandler_Distribute_FromMessage() {
+    void determineCommandHandler_Distribute_FromMessage() {
         Chat chat = new Chat(123L, "private");
 
         Message message = new Message();
@@ -88,7 +88,7 @@ class CommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        CommandHandlerService handlerService = CommandHandlerService.determineAndGetCommandHandler(
+        CommandHandlerService handlerService = CommandHandlerService.determineCommandHandler(
                 update,
                 botService,
                 null,
@@ -103,7 +103,7 @@ class CommandHandlerServiceTest {
     }
 
     @Test
-    void determineAndGetCommandHandler_Distribute_FromCommand() {
+    void determineCommandHandler_Distribute_FromCommand() {
         Chat chat = new Chat(123L, "private");
 
         Message message = new Message();
@@ -113,7 +113,7 @@ class CommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        CommandHandlerService handlerService = CommandHandlerService.determineAndGetCommandHandler(
+        CommandHandlerService handlerService = CommandHandlerService.determineCommandHandler(
                 update,
                 botService,
                 null,
@@ -128,7 +128,7 @@ class CommandHandlerServiceTest {
     }
 
     @Test
-    void determineAndGetCommandHandler_ReadCargo_FromText() {
+    void determineCommandHandler_ReadCargo_FromText() {
         Chat chat = new Chat(123L, "private");
 
         Message message = new Message();
@@ -138,7 +138,7 @@ class CommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        CommandHandlerService handlerService = CommandHandlerService.determineAndGetCommandHandler(
+        CommandHandlerService handlerService = CommandHandlerService.determineCommandHandler(
                 update,
                 botService,
                 null,
@@ -153,7 +153,7 @@ class CommandHandlerServiceTest {
     }
 
     @Test
-    void determineAndGetCommandHandler_ReadCargo_FromCommand() {
+    void determineCommandHandler_ReadCargo_FromCommand() {
         Chat chat = new Chat(123L, "private");
 
         Message message = new Message();
@@ -163,7 +163,7 @@ class CommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        CommandHandlerService handlerService = CommandHandlerService.determineAndGetCommandHandler(
+        CommandHandlerService handlerService = CommandHandlerService.determineCommandHandler(
                 update,
                 botService,
                 null,
@@ -178,7 +178,7 @@ class CommandHandlerServiceTest {
     }
 
     @Test
-    void determineAndGetCommandHandler_ProcessCargoList() {
+    void determineCommandHandler_ProcessCargoList() {
         Chat chat = new Chat(123L, "private");
 
         SendMessage lastMessage = botService.buildTextMessageWithoutKeyboard(123L, CargoDistributorBotResponseMessage.SEND_FILE_WITH_CARGO.getMessageText());
@@ -199,7 +199,7 @@ class CommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        CommandHandlerService handlerService = CommandHandlerService.determineAndGetCommandHandler(
+        CommandHandlerService handlerService = CommandHandlerService.determineCommandHandler(
                 update,
                 botService,
                 lastMessage,
@@ -214,7 +214,7 @@ class CommandHandlerServiceTest {
     }
 
     @Test
-    void determineAndGetCommandHandler_ProcessCargoListReadingFileError() {
+    void determineCommandHandler_ProcessCargoListReadingFileError() {
         Chat chat = new Chat(123L, "private");
 
         SendMessage lastMessage = botService.buildTextMessageWithoutKeyboard(123L, CargoDistributorBotResponseMessage.SEND_FILE_WITH_CARGO.getMessageText());
@@ -228,7 +228,7 @@ class CommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        CommandHandlerService handlerService = CommandHandlerService.determineAndGetCommandHandler(
+        CommandHandlerService handlerService = CommandHandlerService.determineCommandHandler(
                 update,
                 botService,
                 lastMessage,
@@ -243,7 +243,7 @@ class CommandHandlerServiceTest {
     }
 
     @Test
-    void determineAndGetCommandHandler_ReadVanLimit() {
+    void determineCommandHandler_ReadVanLimit() {
         Chat chat = new Chat(123L, "private");
 
         SendMessage lastMessage = botService.buildTextMessageWithoutKeyboard(
@@ -258,7 +258,7 @@ class CommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        CommandHandlerService handlerService = CommandHandlerService.determineAndGetCommandHandler(
+        CommandHandlerService handlerService = CommandHandlerService.determineCommandHandler(
                 update,
                 botService,
                 lastMessage,
@@ -273,7 +273,7 @@ class CommandHandlerServiceTest {
     }
 
     @Test
-    void determineAndGetCommandHandler_PickAlgorithm() {
+    void determineCommandHandler_PickAlgorithm() {
         Chat chat = new Chat(123L, "private");
 
         SendMessage lastMessage = botService.buildTextMessageWithoutKeyboard(
@@ -288,7 +288,7 @@ class CommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        CommandHandlerService handlerService = CommandHandlerService.determineAndGetCommandHandler(
+        CommandHandlerService handlerService = CommandHandlerService.determineCommandHandler(
                 update,
                 botService,
                 lastMessage,
@@ -303,7 +303,7 @@ class CommandHandlerServiceTest {
     }
 
     @Test
-    void determineAndGetCommandHandler_ReadCargoVans_FromMessage() {
+    void determineCommandHandler_ReadCargoVans_FromMessage() {
         Chat chat = new Chat(123L, "private");
 
         SendMessage lastMessage = botService.buildTextMessageWithoutKeyboard(
@@ -318,7 +318,7 @@ class CommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        CommandHandlerService handlerService = CommandHandlerService.determineAndGetCommandHandler(
+        CommandHandlerService handlerService = CommandHandlerService.determineCommandHandler(
                 update,
                 botService,
                 lastMessage,
@@ -333,7 +333,7 @@ class CommandHandlerServiceTest {
     }
 
     @Test
-    void determineAndGetCommandHandler_ReadCargoVansReadingFileError() {
+    void determineCommandHandler_ReadCargoVansReadingFileError() {
         Chat chat = new Chat(123L, "private");
 
         SendMessage lastMessage = botService.buildTextMessageWithoutKeyboard(
@@ -348,7 +348,7 @@ class CommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        CommandHandlerService handlerService = CommandHandlerService.determineAndGetCommandHandler(
+        CommandHandlerService handlerService = CommandHandlerService.determineCommandHandler(
                 update,
                 botService,
                 lastMessage,
@@ -363,7 +363,7 @@ class CommandHandlerServiceTest {
     }
 
     @Test
-    void determineAndGetCommandHandler_ReadCargoVans_FromFile() {
+    void determineCommandHandler_ReadCargoVans_FromFile() {
         Chat chat = new Chat(123L, "private");
 
         SendMessage lastMessage = botService.buildTextMessageWithoutKeyboard(
@@ -387,7 +387,7 @@ class CommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        CommandHandlerService handlerService = CommandHandlerService.determineAndGetCommandHandler(
+        CommandHandlerService handlerService = CommandHandlerService.determineCommandHandler(
                 update,
                 botService,
                 lastMessage,
@@ -402,7 +402,7 @@ class CommandHandlerServiceTest {
     }
 
     @Test
-    void determineAndGetCommandHandler_Help() {
+    void determineCommandHandler_Help() {
         Chat chat = new Chat(123L, "private");
 
         Message message = new Message();
@@ -412,7 +412,7 @@ class CommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        CommandHandlerService handlerService = CommandHandlerService.determineAndGetCommandHandler(
+        CommandHandlerService handlerService = CommandHandlerService.determineCommandHandler(
                 update,
                 botService,
                 null,
@@ -427,7 +427,7 @@ class CommandHandlerServiceTest {
     }
 
     @Test
-    void determineAndGetCommandHandler_About() {
+    void determineCommandHandler_About() {
         Chat chat = new Chat(123L, "private");
 
         Message message = new Message();
@@ -437,7 +437,7 @@ class CommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        CommandHandlerService handlerService = CommandHandlerService.determineAndGetCommandHandler(
+        CommandHandlerService handlerService = CommandHandlerService.determineCommandHandler(
                 update,
                 botService,
                 null,
@@ -452,7 +452,7 @@ class CommandHandlerServiceTest {
     }
 
     @Test
-    void determineAndGetCommandHandler_Unknown() {
+    void determineCommandHandler_Unknown() {
         Chat chat = new Chat(123L, "private");
 
         Message message = new Message();
@@ -462,7 +462,7 @@ class CommandHandlerServiceTest {
         Update update = new Update();
         update.setMessage(message);
 
-        CommandHandlerService handlerService = CommandHandlerService.determineAndGetCommandHandler(
+        CommandHandlerService handlerService = CommandHandlerService.determineCommandHandler(
                 update,
                 botService,
                 null,
