@@ -1,5 +1,8 @@
 package ru.liga.cargodistributor.bot.services;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +28,6 @@ import ru.liga.cargodistributor.bot.exceptions.GetFileFromUpdateException;
 import ru.liga.cargodistributor.cargo.CargoItemList;
 import ru.liga.cargodistributor.cargo.entity.CargoItemTypeInfo;
 import ru.liga.cargodistributor.cargo.entity.CargoVanTypeInfo;
-import ru.liga.cargodistributor.util.LruCache;
 
 import java.io.File;
 
@@ -33,11 +35,18 @@ import java.io.File;
 public class CargoDistributorBotService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CargoDistributorBotService.class);
 
-    private final LruCache<String, CargoDistributorBotChatData> cache;
+    private final Cache<String, CargoDistributorBotChatData> cache;
 
     @Autowired
     public CargoDistributorBotService(@Value("${cache.capacity}") int cacheCapacity) {
-        this.cache = new LruCache<>(cacheCapacity);
+        this.cache = CacheBuilder.newBuilder()
+                .maximumSize(cacheCapacity)
+                .build(new CacheLoader<String, CargoDistributorBotChatData>() {
+                    @Override
+                    public CargoDistributorBotChatData load(String key) {
+                        return new CargoDistributorBotChatData();
+                    }
+                });
     }
 
     //todo: возможно, все методы из этого класса можно выкинуть в CommandHandler и класс бота
@@ -85,7 +94,7 @@ public class CargoDistributorBotService {
     }
 
     public void putCargoItemListToCache(String chatId, CargoItemList cargoItemList) {
-        if (cache.get(chatId) == null) {
+        if (cache.getIfPresent(chatId) == null) {
             LOGGER.debug("putCargoItemListToCache: creating new cache for chatId {}", chatId);
             cache.put(chatId, CargoDistributorBotChatData.builder()
                     .cargoItemList(cargoItemList)
@@ -97,7 +106,7 @@ public class CargoDistributorBotService {
     }
 
     public void putLastMessageToCache(String chatId, SendMessage message) {
-        if (cache.get(chatId) == null) {
+        if (cache.getIfPresent(chatId) == null) {
             LOGGER.debug("putLastMessageToCache: creating new cache for chatId {}", chatId);
             cache.put(chatId, CargoDistributorBotChatData.builder()
                     .lastMessage(message)
@@ -109,7 +118,7 @@ public class CargoDistributorBotService {
     }
 
     public void putVanLimitToCache(String chatId, int vanLimit) {
-        if (cache.get(chatId) == null) {
+        if (cache.getIfPresent(chatId) == null) {
             LOGGER.debug("putVanLimitToCache: creating new cache for chatId {}", chatId);
             cache.put(chatId, CargoDistributorBotChatData.builder()
                     .vanLimit(vanLimit)
@@ -121,7 +130,7 @@ public class CargoDistributorBotService {
     }
 
     public void putCargoItemTypeNameToCache(String chatId, String cargoItemTypeName) {
-        if (cache.get(chatId) == null) {
+        if (cache.getIfPresent(chatId) == null) {
             LOGGER.debug("putCargoItemTypeNameToCache: creating new cache for chatId {}", chatId);
             cache.put(chatId, CargoDistributorBotChatData.builder()
                     .cargoItemTypeName(cargoItemTypeName)
@@ -133,7 +142,7 @@ public class CargoDistributorBotService {
     }
 
     public void putCargoItemTypeLegendToCache(String chatId, String cargoItemTypeLegend) {
-        if (cache.get(chatId) == null) {
+        if (cache.getIfPresent(chatId) == null) {
             LOGGER.debug("putCargoItemTypeLegendToCache: creating new cache for chatId {}", chatId);
             cache.put(chatId, CargoDistributorBotChatData.builder()
                     .cargoItemTypeLegend(cargoItemTypeLegend)
@@ -145,7 +154,7 @@ public class CargoDistributorBotService {
     }
 
     public void putCargoItemTypeIntoToUpdateToCache(String chatId, CargoItemTypeInfo cargoItemTypeInfoToUpdate) {
-        if (cache.get(chatId) == null) {
+        if (cache.getIfPresent(chatId) == null) {
             LOGGER.debug("putCargoItemTypeIntoToUpdateToCache: creating new cache for chatId {}", chatId);
             cache.put(chatId, CargoDistributorBotChatData.builder()
                     .cargoItemTypeInfoToUpdate(cargoItemTypeInfoToUpdate)
@@ -157,7 +166,7 @@ public class CargoDistributorBotService {
     }
 
     public void putCargoVanTypeInfoToCache(String chatId, CargoVanTypeInfo cargoVanTypeInfo) {
-        if (cache.get(chatId) == null) {
+        if (cache.getIfPresent(chatId) == null) {
             LOGGER.debug("putCargoVanTypeInfoToCache: creating new cache for chatId {}", chatId);
             cache.put(chatId, CargoDistributorBotChatData.builder()
                     .cargoVanTypeInfo(cargoVanTypeInfo)
@@ -169,7 +178,7 @@ public class CargoDistributorBotService {
     }
 
     public void putCargoDistributionParametersToCache(String chatId, CargoDistributionParameters cargoDistributionParameters) {
-        if (cache.get(chatId) == null) {
+        if (cache.getIfPresent(chatId) == null) {
             LOGGER.debug("putCargoDistributionParametersToCache: creating new cache for chatId {}", chatId);
             cache.put(chatId, CargoDistributorBotChatData.builder()
                     .cargoDistributionParameters(cargoDistributionParameters)
@@ -272,6 +281,6 @@ public class CargoDistributorBotService {
 
     private CargoDistributorBotChatData getBotChatDataFromCache(String chatId) {
         LOGGER.debug("getBotChatDataFromCache: getting cache for chatId {}", chatId);
-        return cache.get(chatId);
+        return cache.getIfPresent(chatId);
     }
 }
