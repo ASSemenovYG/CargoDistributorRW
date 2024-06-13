@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
-import org.telegram.telegrambots.meta.generics.TelegramClient;
 import ru.liga.cargodistributor.algorithm.CargoDistributionParameters;
 import ru.liga.cargodistributor.bot.enums.CargoDistributorBotResponseMessage;
 import ru.liga.cargodistributor.bot.services.CargoDistributorBotService;
@@ -20,13 +19,17 @@ import java.util.List;
 public class Step6DistributionByTypesCommandHandlerService extends CommandHandlerService {
     private static final Logger LOGGER = LoggerFactory.getLogger(Step6DistributionByTypesCommandHandlerService.class);
 
+    private final CargoConverterService cargoConverterService;
+    private final FileService fileService;
+
     public Step6DistributionByTypesCommandHandlerService(
-            TelegramClient telegramClient,
             CargoDistributorBotService botService,
             CargoConverterService cargoConverterService,
             FileService fileService
     ) {
-        super(telegramClient, botService, cargoConverterService, fileService);
+        super(botService);
+        this.cargoConverterService = cargoConverterService;
+        this.fileService = fileService;
     }
 
     @Override

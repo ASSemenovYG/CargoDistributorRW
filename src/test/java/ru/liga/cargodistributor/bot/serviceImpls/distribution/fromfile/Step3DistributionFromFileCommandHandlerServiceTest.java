@@ -1,7 +1,6 @@
 package ru.liga.cargodistributor.bot.serviceImpls.distribution.fromfile;
 
 import org.junit.jupiter.api.Test;
-import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
@@ -11,8 +10,6 @@ import ru.liga.cargodistributor.bot.enums.CargoDistributorBotResponseMessage;
 import ru.liga.cargodistributor.bot.serviceImpls.distibution.fromfile.Step3DistributionFromFileCommandHandlerService;
 import ru.liga.cargodistributor.bot.services.CargoDistributorBotService;
 import ru.liga.cargodistributor.bot.services.CommandHandlerService;
-import ru.liga.cargodistributor.cargo.services.CargoConverterService;
-import ru.liga.cargodistributor.util.services.FileService;
 
 import java.util.List;
 
@@ -28,10 +25,7 @@ class Step3DistributionFromFileCommandHandlerServiceTest {
         int vanLimit = 42;
 
         CommandHandlerService handlerService = new Step3DistributionFromFileCommandHandlerService(
-                new OkHttpTelegramClient("token"),
-                botService,
-                new CargoConverterService(),
-                new FileService(true)
+                botService
         );
 
         Chat chat = new Chat(chatId, "private");
@@ -70,10 +64,7 @@ class Step3DistributionFromFileCommandHandlerServiceTest {
         long chatId = 123L;
 
         CommandHandlerService handlerService = new Step3DistributionFromFileCommandHandlerService(
-                new OkHttpTelegramClient("token"),
-                new CargoDistributorBotService(10),
-                new CargoConverterService(),
-                new FileService(true)
+                new CargoDistributorBotService(10)
         );
 
         Chat chat = new Chat(chatId, "private");

@@ -1,7 +1,6 @@
 package ru.liga.cargodistributor.bot.serviceImpls.distribution.fromfile;
 
 import org.junit.jupiter.api.Test;
-import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
@@ -39,10 +38,8 @@ class Step2DistributionFromFileCommandHandlerServiceTest {
         String cargoContent = fileService.readFromFileByPath("src/test/resources/test_valid_cargo_file.pkg");
 
         CommandHandlerService handlerService = new Step2DistributionFromFileCommandHandlerService(
-                new OkHttpTelegramClient("token"),
                 botService,
                 new CargoConverterService(),
-                fileService,
                 cargoContent
         );
 
@@ -80,10 +77,8 @@ class Step2DistributionFromFileCommandHandlerServiceTest {
     @Test
     void processCommandAndGetResponseMessages_emptyContent() {
         CommandHandlerService handlerService = new Step2DistributionFromFileCommandHandlerService(
-                new OkHttpTelegramClient("token"),
                 botService,
                 new CargoConverterService(),
-                fileService,
                 ""
         );
 
@@ -122,10 +117,8 @@ class Step2DistributionFromFileCommandHandlerServiceTest {
         String cargoContent = fileService.readFromFileByPath("src/test/resources/test_cargo_file_with_invalid_item.pkg");
 
         CommandHandlerService handlerService = new Step2DistributionFromFileCommandHandlerService(
-                new OkHttpTelegramClient("token"),
                 botService,
                 new CargoConverterService(),
-                fileService,
                 cargoContent
         );
 

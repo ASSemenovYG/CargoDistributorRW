@@ -2,7 +2,6 @@ package ru.liga.cargodistributor.bot.serviceImpls.distribution.fromfile;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
-import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -35,7 +34,6 @@ class Step4DistributionFromFileCommandHandlerServiceTest {
     @Test
     void processCommandAndGetResponseMessages_cargoListNotFound() {
         CommandHandlerService handlerService = new Step4DistributionFromFileCommandHandlerService(
-                new OkHttpTelegramClient("token"),
                 new CargoDistributorBotService(10),
                 new CargoConverterService(),
                 new FileService(true)
@@ -86,7 +84,6 @@ class Step4DistributionFromFileCommandHandlerServiceTest {
         botService.putVanLimitToCache(String.valueOf(chatId), 10);
 
         CommandHandlerService handlerService = new Step4DistributionFromFileCommandHandlerService(
-                new OkHttpTelegramClient("token"),
                 botService,
                 new CargoConverterService(),
                 new FileService(true)
@@ -145,7 +142,6 @@ class Step4DistributionFromFileCommandHandlerServiceTest {
         botService.putVanLimitToCache(String.valueOf(chatId), 1);
 
         CommandHandlerService handlerService = new Step4DistributionFromFileCommandHandlerService(
-                new OkHttpTelegramClient("token"),
                 botService,
                 new CargoConverterService(),
                 new FileService(true)
@@ -186,7 +182,6 @@ class Step4DistributionFromFileCommandHandlerServiceTest {
         long chatId = 123L;
 
         CommandHandlerService handlerService = new Step4DistributionFromFileCommandHandlerService(
-                new OkHttpTelegramClient("token"),
                 new CargoDistributorBotService(10),
                 new CargoConverterService(),
                 new FileService(true)

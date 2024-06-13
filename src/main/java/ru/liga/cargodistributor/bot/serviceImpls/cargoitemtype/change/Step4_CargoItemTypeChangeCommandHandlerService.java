@@ -6,14 +6,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
-import org.telegram.telegrambots.meta.generics.TelegramClient;
 import ru.liga.cargodistributor.bot.enums.CargoDistributorBotResponseMessage;
 import ru.liga.cargodistributor.bot.services.CargoDistributorBotService;
 import ru.liga.cargodistributor.bot.services.CommandHandlerService;
 import ru.liga.cargodistributor.cargo.entity.CargoItemTypeInfo;
 import ru.liga.cargodistributor.cargo.repository.CargoItemTypeRepository;
-import ru.liga.cargodistributor.cargo.services.CargoConverterService;
-import ru.liga.cargodistributor.util.services.FileService;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -26,13 +23,10 @@ public class Step4_CargoItemTypeChangeCommandHandlerService extends CommandHandl
     private final CargoItemTypeRepository cargoItemTypeRepository;
 
     public Step4_CargoItemTypeChangeCommandHandlerService(
-            TelegramClient telegramClient,
             CargoDistributorBotService botService,
-            CargoConverterService cargoConverterService,
-            FileService fileService,
             CargoItemTypeRepository cargoItemTypeRepository
     ) {
-        super(telegramClient, botService, cargoConverterService, fileService);
+        super(botService);
         this.cargoItemTypeRepository = cargoItemTypeRepository;
     }
 

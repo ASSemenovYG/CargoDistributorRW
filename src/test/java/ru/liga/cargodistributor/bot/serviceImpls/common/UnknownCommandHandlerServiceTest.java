@@ -1,7 +1,6 @@
 package ru.liga.cargodistributor.bot.serviceImpls.common;
 
 import org.junit.jupiter.api.Test;
-import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
@@ -10,8 +9,6 @@ import org.telegram.telegrambots.meta.api.objects.message.Message;
 import ru.liga.cargodistributor.bot.enums.CargoDistributorBotResponseMessage;
 import ru.liga.cargodistributor.bot.services.CargoDistributorBotService;
 import ru.liga.cargodistributor.bot.services.CommandHandlerService;
-import ru.liga.cargodistributor.cargo.services.CargoConverterService;
-import ru.liga.cargodistributor.util.services.FileService;
 
 import java.util.List;
 
@@ -22,10 +19,7 @@ class UnknownCommandHandlerServiceTest {
     @Test
     void processCommandAndGetResponseMessages_withoutLastMessageInCache() {
         CommandHandlerService handlerService = new UnknownCommandHandlerService(
-                new OkHttpTelegramClient("token"),
-                new CargoDistributorBotService(10),
-                new CargoConverterService(),
-                new FileService(true)
+                new CargoDistributorBotService(10)
         );
 
         Chat chat = new Chat(123L, "private");
@@ -69,10 +63,7 @@ class UnknownCommandHandlerServiceTest {
         botService.putLastMessageToCache(String.valueOf(chatId), lastMessage);
 
         CommandHandlerService handlerService = new UnknownCommandHandlerService(
-                new OkHttpTelegramClient("token"),
-                botService,
-                new CargoConverterService(),
-                new FileService(true)
+                botService
         );
 
         Chat chat = new Chat(chatId, "private");

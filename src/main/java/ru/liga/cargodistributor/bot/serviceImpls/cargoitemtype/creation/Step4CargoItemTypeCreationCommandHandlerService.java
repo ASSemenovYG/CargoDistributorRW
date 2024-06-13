@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
-import org.telegram.telegrambots.meta.generics.TelegramClient;
 import ru.liga.cargodistributor.bot.enums.CargoDistributorBotResponseMessage;
 import ru.liga.cargodistributor.bot.services.CargoDistributorBotService;
 import ru.liga.cargodistributor.bot.services.CommandHandlerService;
@@ -14,7 +13,6 @@ import ru.liga.cargodistributor.cargo.CargoItemList;
 import ru.liga.cargodistributor.cargo.entity.CargoItemTypeInfo;
 import ru.liga.cargodistributor.cargo.repository.CargoItemTypeRepository;
 import ru.liga.cargodistributor.cargo.services.CargoConverterService;
-import ru.liga.cargodistributor.util.services.FileService;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -24,18 +22,18 @@ public class Step4CargoItemTypeCreationCommandHandlerService extends CommandHand
     private static final Logger LOGGER = LoggerFactory.getLogger(Step4CargoItemTypeCreationCommandHandlerService.class);
 
     private final CargoItemTypeRepository cargoItemTypeRepository;
+    private final CargoConverterService cargoConverterService;
     private final String cargoContent;
 
     public Step4CargoItemTypeCreationCommandHandlerService(
-            TelegramClient telegramClient,
             CargoDistributorBotService botService,
             CargoConverterService cargoConverterService,
-            FileService fileService,
             CargoItemTypeRepository cargoItemTypeRepository,
             String cargoContent
     ) {
-        super(telegramClient, botService, cargoConverterService, fileService);
+        super(botService);
         this.cargoItemTypeRepository = cargoItemTypeRepository;
+        this.cargoConverterService = cargoConverterService;
         this.cargoContent = cargoContent;
     }
 

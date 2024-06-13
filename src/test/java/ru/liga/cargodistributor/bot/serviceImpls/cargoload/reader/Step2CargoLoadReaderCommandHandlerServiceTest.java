@@ -1,7 +1,6 @@
 package ru.liga.cargodistributor.bot.serviceImpls.cargoload.reader;
 
 import org.junit.jupiter.api.Test;
-import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
@@ -26,10 +25,8 @@ class Step2CargoLoadReaderCommandHandlerServiceTest {
         String jsonContent = fileService.readFromFileByPath("src/test/resources/test_loaded_vans.json");
 
         CommandHandlerService handlerService = new Step2CargoLoadReaderCommandHandlerService(
-                new OkHttpTelegramClient("token"),
                 botService,
                 new CargoConverterService(),
-                fileService,
                 jsonContent
         );
 
@@ -119,10 +116,8 @@ class Step2CargoLoadReaderCommandHandlerServiceTest {
         String jsonContent = fileService.readFromFileByPath("src/test/resources/test_loaded_vans.json");
 
         CommandHandlerService handlerService = new Step2CargoLoadReaderCommandHandlerService(
-                new OkHttpTelegramClient("token"),
                 botService,
                 new CargoConverterService(),
-                fileService,
                 null
         );
 
@@ -210,10 +205,8 @@ class Step2CargoLoadReaderCommandHandlerServiceTest {
     @Test
     void processCommandAndGetResponseMessages_invalidContent() {
         CommandHandlerService handlerService = new Step2CargoLoadReaderCommandHandlerService(
-                new OkHttpTelegramClient("token"),
                 botService,
                 new CargoConverterService(),
-                fileService,
                 "expectedToGetJsonHere"
         );
 

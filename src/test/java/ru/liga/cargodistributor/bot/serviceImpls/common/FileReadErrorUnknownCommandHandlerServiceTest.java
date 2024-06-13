@@ -1,7 +1,6 @@
 package ru.liga.cargodistributor.bot.serviceImpls.common;
 
 import org.junit.jupiter.api.Test;
-import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
@@ -10,8 +9,6 @@ import org.telegram.telegrambots.meta.api.objects.message.Message;
 import ru.liga.cargodistributor.bot.enums.CargoDistributorBotResponseMessage;
 import ru.liga.cargodistributor.bot.services.CargoDistributorBotService;
 import ru.liga.cargodistributor.bot.services.CommandHandlerService;
-import ru.liga.cargodistributor.cargo.services.CargoConverterService;
-import ru.liga.cargodistributor.util.services.FileService;
 
 import java.util.List;
 
@@ -33,10 +30,7 @@ class FileReadErrorUnknownCommandHandlerServiceTest {
         botService.putLastMessageToCache(String.valueOf(chatId), lastMessage);
 
         CommandHandlerService handlerService = new FileReadErrorUnknownCommandHandlerService(
-                new OkHttpTelegramClient("token"),
                 botService,
-                new CargoConverterService(),
-                new FileService(true),
                 errorMessage
         );
 
@@ -78,10 +72,7 @@ class FileReadErrorUnknownCommandHandlerServiceTest {
         String errorMessage = "a guy with dyslexia walks into a bra";
 
         CommandHandlerService handlerService = new FileReadErrorUnknownCommandHandlerService(
-                new OkHttpTelegramClient("token"),
                 new CargoDistributorBotService(10),
-                new CargoConverterService(),
-                new FileService(true),
                 errorMessage
         );
 

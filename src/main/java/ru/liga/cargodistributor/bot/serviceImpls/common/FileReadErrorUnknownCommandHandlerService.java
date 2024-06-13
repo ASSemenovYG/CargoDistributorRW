@@ -6,12 +6,9 @@ import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMet
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
-import org.telegram.telegrambots.meta.generics.TelegramClient;
 import ru.liga.cargodistributor.bot.enums.CargoDistributorBotResponseMessage;
 import ru.liga.cargodistributor.bot.services.CargoDistributorBotService;
 import ru.liga.cargodistributor.bot.services.CommandHandlerService;
-import ru.liga.cargodistributor.cargo.services.CargoConverterService;
-import ru.liga.cargodistributor.util.services.FileService;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -21,13 +18,10 @@ public class FileReadErrorUnknownCommandHandlerService extends CommandHandlerSer
     private final String errorMessage;
 
     public FileReadErrorUnknownCommandHandlerService(
-            TelegramClient telegramClient,
             CargoDistributorBotService botService,
-            CargoConverterService cargoConverterService,
-            FileService fileService,
             String errorMessage
     ) {
-        super(telegramClient, botService, cargoConverterService, fileService);
+        super(botService);
         this.errorMessage = errorMessage;
     }
 
