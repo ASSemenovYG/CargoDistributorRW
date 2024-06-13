@@ -17,14 +17,14 @@ import ru.liga.cargodistributor.algorithm.enums.DistributionAlgorithmName;
 import ru.liga.cargodistributor.bot.CargoDistributorBot;
 import ru.liga.cargodistributor.bot.enums.CargoDistributorBotResponseMessage;
 import ru.liga.cargodistributor.bot.enums.CargoDistributorBotUserCommand;
+import ru.liga.cargodistributor.bot.serviceImpls.cargoload.reader.Step2CargoLoadReaderCommandHandlerService;
 import ru.liga.cargodistributor.bot.serviceImpls.common.AboutCommandHandlerService;
 import ru.liga.cargodistributor.bot.serviceImpls.common.HelpCommandHandlerService;
 import ru.liga.cargodistributor.bot.serviceImpls.common.StartCommandHandlerService;
 import ru.liga.cargodistributor.bot.serviceImpls.common.UnknownCommandHandlerService;
-import ru.liga.cargodistributor.bot.serviceImpls.distributefromfile.*;
-import ru.liga.cargodistributor.bot.serviceImpls.readcargo.ReadCargoCommandHandlerService;
-import ru.liga.cargodistributor.bot.serviceImpls.readcargo.ReadCargoVansCommandHandlerService;
-import ru.liga.cargodistributor.bot.serviceImpls.readcargo.ReadCargoVansReadingFileErrorCommandHandlerService;
+import ru.liga.cargodistributor.bot.serviceImpls.distibution.fromfile.*;
+import ru.liga.cargodistributor.bot.serviceImpls.cargoload.reader.Step1CargoLoadReaderCommandHandlerService;
+import ru.liga.cargodistributor.bot.serviceImpls.cargoload.reader.Step2CargoLoadReaderFileErrorCommandHandlerService;
 import ru.liga.cargodistributor.cargo.repository.CargoItemTypeRepository;
 import ru.liga.cargodistributor.cargo.repository.CargoVanTypeRepository;
 import ru.liga.cargodistributor.cargo.services.CargoConverterService;
@@ -99,7 +99,7 @@ class CommandHandlerServiceTest {
                 cargoVanTypeRepository
         );
 
-        assertThat(handlerService.getClass()).isEqualTo(DistributeCommandHandlerService.class);
+        assertThat(handlerService.getClass()).isEqualTo(Step1DistributionFromFileCommandHandlerService.class);
     }
 
     @Test
@@ -124,7 +124,7 @@ class CommandHandlerServiceTest {
                 cargoVanTypeRepository
         );
 
-        assertThat(handlerService.getClass()).isEqualTo(DistributeCommandHandlerService.class);
+        assertThat(handlerService.getClass()).isEqualTo(Step1DistributionFromFileCommandHandlerService.class);
     }
 
     @Test
@@ -149,7 +149,7 @@ class CommandHandlerServiceTest {
                 cargoVanTypeRepository
         );
 
-        assertThat(handlerService.getClass()).isEqualTo(ReadCargoCommandHandlerService.class);
+        assertThat(handlerService.getClass()).isEqualTo(Step1CargoLoadReaderCommandHandlerService.class);
     }
 
     @Test
@@ -174,7 +174,7 @@ class CommandHandlerServiceTest {
                 cargoVanTypeRepository
         );
 
-        assertThat(handlerService.getClass()).isEqualTo(ReadCargoCommandHandlerService.class);
+        assertThat(handlerService.getClass()).isEqualTo(Step1CargoLoadReaderCommandHandlerService.class);
     }
 
     @Test
@@ -210,7 +210,7 @@ class CommandHandlerServiceTest {
                 cargoVanTypeRepository
         );
 
-        assertThat(handlerService.getClass()).isEqualTo(ProcessCargoListCommandHandlerService.class);
+        assertThat(handlerService.getClass()).isEqualTo(Step2DistributionFromFileCommandHandlerService.class);
     }
 
     @Test
@@ -239,7 +239,7 @@ class CommandHandlerServiceTest {
                 cargoVanTypeRepository
         );
 
-        assertThat(handlerService.getClass()).isEqualTo(ProcessCargoListReadingFileErrorCommandHandlerService.class);
+        assertThat(handlerService.getClass()).isEqualTo(Step2DistributionFromFileReaderErrorCommandHandlerService.class);
     }
 
     @Test
@@ -269,7 +269,7 @@ class CommandHandlerServiceTest {
                 cargoVanTypeRepository
         );
 
-        assertThat(handlerService.getClass()).isEqualTo(ReadVanLimitCommandHandlerService.class);
+        assertThat(handlerService.getClass()).isEqualTo(Step3DistributionFromFileCommandHandlerService.class);
     }
 
     @Test
@@ -299,7 +299,7 @@ class CommandHandlerServiceTest {
                 cargoVanTypeRepository
         );
 
-        assertThat(handlerService.getClass()).isEqualTo(PickAlgorithmCommandHandlerService.class);
+        assertThat(handlerService.getClass()).isEqualTo(Step4DistributionFromFileCommandHandlerService.class);
     }
 
     @Test
@@ -329,7 +329,7 @@ class CommandHandlerServiceTest {
                 cargoVanTypeRepository
         );
 
-        assertThat(handlerService.getClass()).isEqualTo(ReadCargoVansCommandHandlerService.class);
+        assertThat(handlerService.getClass()).isEqualTo(Step2CargoLoadReaderCommandHandlerService.class);
     }
 
     @Test
@@ -359,7 +359,7 @@ class CommandHandlerServiceTest {
                 cargoVanTypeRepository
         );
 
-        assertThat(handlerService.getClass()).isEqualTo(ReadCargoVansReadingFileErrorCommandHandlerService.class);
+        assertThat(handlerService.getClass()).isEqualTo(Step2CargoLoadReaderFileErrorCommandHandlerService.class);
     }
 
     @Test
@@ -398,7 +398,7 @@ class CommandHandlerServiceTest {
                 cargoVanTypeRepository
         );
 
-        assertThat(handlerService.getClass()).isEqualTo(ReadCargoVansCommandHandlerService.class);
+        assertThat(handlerService.getClass()).isEqualTo(Step2CargoLoadReaderCommandHandlerService.class);
     }
 
     @Test
