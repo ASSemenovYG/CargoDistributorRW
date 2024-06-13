@@ -2,9 +2,6 @@ package ru.liga.cargodistributor.bot.serviceImpls.readcargo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
@@ -12,23 +9,17 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 import ru.liga.cargodistributor.bot.enums.CargoDistributorBotResponseMessage;
 import ru.liga.cargodistributor.bot.services.CargoDistributorBotService;
 import ru.liga.cargodistributor.bot.services.CommandHandlerService;
-import ru.liga.cargodistributor.cargo.services.CargoConverterService;
 import ru.liga.cargodistributor.cargo.CargoVanList;
+import ru.liga.cargodistributor.cargo.services.CargoConverterService;
 import ru.liga.cargodistributor.util.services.FileService;
 
 import java.util.LinkedList;
 import java.util.List;
 
-@Service
 public class ReadCargoVansCommandHandlerService extends CommandHandlerService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ReadCargoVansCommandHandlerService.class);
-    private final String jsonContent;
 
-    @Autowired
-    protected ReadCargoVansCommandHandlerService(@Value("${bot.token}") String token, @Value("${cache.capacity}") int cacheCapacity) {
-        super(token, cacheCapacity);
-        this.jsonContent = null;
-    }
+    private final String jsonContent;
 
     public ReadCargoVansCommandHandlerService(
             TelegramClient telegramClient,

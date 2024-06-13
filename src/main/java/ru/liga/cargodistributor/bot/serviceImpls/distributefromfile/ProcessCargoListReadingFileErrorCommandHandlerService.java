@@ -2,8 +2,6 @@ package ru.liga.cargodistributor.bot.serviceImpls.distributefromfile;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
@@ -20,12 +18,6 @@ import java.util.List;
 public class ProcessCargoListReadingFileErrorCommandHandlerService extends CommandHandlerService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProcessCargoListReadingFileErrorCommandHandlerService.class);
     private final String errorMessage;
-
-    @Autowired
-    protected ProcessCargoListReadingFileErrorCommandHandlerService(@Value("${bot.token}") String token, @Value("${cache.capacity}") int cacheCapacity) {
-        super(token, cacheCapacity);
-        this.errorMessage = null;
-    }
 
     public ProcessCargoListReadingFileErrorCommandHandlerService(
             TelegramClient telegramClient,

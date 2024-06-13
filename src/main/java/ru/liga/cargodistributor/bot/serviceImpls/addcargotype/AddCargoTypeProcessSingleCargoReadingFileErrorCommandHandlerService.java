@@ -2,9 +2,6 @@ package ru.liga.cargodistributor.bot.serviceImpls.addcargotype;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
@@ -18,17 +15,11 @@ import ru.liga.cargodistributor.util.services.FileService;
 import java.util.LinkedList;
 import java.util.List;
 
-@Service
 public class AddCargoTypeProcessSingleCargoReadingFileErrorCommandHandlerService extends CommandHandlerService {
     //todo:add tests
     private static final Logger LOGGER = LoggerFactory.getLogger(AddCargoTypeProcessSingleCargoReadingFileErrorCommandHandlerService.class);
-    private final String errorMessage;
 
-    @Autowired
-    protected AddCargoTypeProcessSingleCargoReadingFileErrorCommandHandlerService(@Value("${bot.token}") String token, @Value("${cache.capacity}") int cacheCapacity) {
-        super(token, cacheCapacity);
-        this.errorMessage = null;
-    }
+    private final String errorMessage;
 
     public AddCargoTypeProcessSingleCargoReadingFileErrorCommandHandlerService(
             TelegramClient telegramClient,

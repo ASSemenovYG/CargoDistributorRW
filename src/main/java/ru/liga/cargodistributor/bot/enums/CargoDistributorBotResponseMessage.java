@@ -123,7 +123,8 @@ public enum CargoDistributorBotResponseMessage {
                     "Whitespace, Empty, Blank characters,\n" +
                     "Символ границы кузова фургона: " + CargoConverterService.VAN_BORDER_SYMBOL + ",\n" +
                     "И тех символов, которые уже используются в качестве легенды в добавленных типах посылок"),
-    DISTRIBUTE_BY_TYPES_CURRENT_CARGO_ITEM_TYPE_LIST("Текущий список типов посылок, добавленных для распределения:");
+    DISTRIBUTE_BY_TYPES_CURRENT_CARGO_ITEM_TYPE_LIST("Текущий список типов посылок, добавленных для распределения:"),
+    ERROR_OCCURRED_DURING_DISTRIBUTION("При распределении посылок произошла ошибка: ");
 
     private final String messageText;
 

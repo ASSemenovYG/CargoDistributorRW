@@ -1,9 +1,5 @@
 package ru.liga.cargodistributor.util;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -13,7 +9,6 @@ import java.util.Map;
  * когда достигнута его максимальная ёмкость.
  * The Least Recently Used (LRU)
  */
-@Component
 public class LruCache<K, T> {
     private final Map<K, T> cache;
     private final int capacity;
@@ -24,8 +19,7 @@ public class LruCache<K, T> {
      *
      * @param capacity Максимальная ёмкость кэша.
      */
-    @Autowired
-    public LruCache(@Value("${cache.capacity}") int capacity) {
+    public LruCache(/*@Value("${cache.capacity}")*/ int capacity) {
         this.cache = new HashMap<>(capacity);
         this.capacity = capacity;
         this.usageHistory = new LinkedList<>();

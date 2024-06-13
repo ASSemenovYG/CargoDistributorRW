@@ -75,15 +75,19 @@ public class CargoDistributorBot implements SpringLongPollingBot, LongPollingSin
         List<PartialBotApiMethod<Message>> responseMessages = handlerService.processCommandAndGetResponseMessages(update);
 
         for (PartialBotApiMethod<Message> responseMessage : responseMessages) {
-            if (responseMessage.getClass().equals(SendMessage.class)) {
-                sendMessage((SendMessage) responseMessage);
-            } else if (responseMessage.getClass().equals(SendDocument.class)) {
-                sendDocument((SendDocument) responseMessage);
-            } else if (responseMessage.getClass().equals(SendSticker.class)) {
-                sendSticker((SendSticker) responseMessage);
-            } else if (responseMessage.getClass().equals(SendVideoNote.class)) {
-                sendVideoNote((SendVideoNote) responseMessage);
-            }
+            sendResponse(responseMessage);
+        }
+    }
+
+    private void sendResponse(PartialBotApiMethod<Message> responseMessage) {
+        if (responseMessage.getClass().equals(SendMessage.class)) {
+            sendMessage((SendMessage) responseMessage);
+        } else if (responseMessage.getClass().equals(SendDocument.class)) {
+            sendDocument((SendDocument) responseMessage);
+        } else if (responseMessage.getClass().equals(SendSticker.class)) {
+            sendSticker((SendSticker) responseMessage);
+        } else if (responseMessage.getClass().equals(SendVideoNote.class)) {
+            sendVideoNote((SendVideoNote) responseMessage);
         }
     }
 

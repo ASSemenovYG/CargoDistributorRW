@@ -1,8 +1,6 @@
 package ru.liga.cargodistributor.cargo;
 
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import ru.liga.cargodistributor.algorithm.CargoDistributionParameters;
 
 import java.util.ArrayList;
@@ -12,11 +10,9 @@ import java.util.List;
  * Класс, представляющий собой список посылок для распределения
  */
 @Getter
-@Component
 public class CargoItemList {
     private final List<CargoItem> cargo;
 
-    @Autowired
     public CargoItemList(List<CargoItem> cargo) {
         this.cargo = cargo;
     }

@@ -13,9 +13,9 @@ import ru.liga.cargodistributor.algorithm.enums.DistributionAlgorithmName;
 import ru.liga.cargodistributor.bot.enums.CargoDistributorBotResponseMessage;
 import ru.liga.cargodistributor.bot.services.CargoDistributorBotService;
 import ru.liga.cargodistributor.bot.services.CommandHandlerService;
-import ru.liga.cargodistributor.cargo.services.CargoConverterService;
 import ru.liga.cargodistributor.cargo.CargoItem;
 import ru.liga.cargodistributor.cargo.CargoItemList;
+import ru.liga.cargodistributor.cargo.services.CargoConverterService;
 import ru.liga.cargodistributor.util.services.FileService;
 import ru.liga.cargodistributor.util.services.FileServiceTest;
 
@@ -33,7 +33,12 @@ class PickAlgorithmCommandHandlerServiceTest {
 
     @Test
     void processCommandAndGetResponseMessages_cargoListNotFound() {
-        CommandHandlerService handlerService = new PickAlgorithmCommandHandlerService("token", 10);
+        CommandHandlerService handlerService = new PickAlgorithmCommandHandlerService(
+                new OkHttpTelegramClient("token"),
+                new CargoDistributorBotService(10),
+                new CargoConverterService(),
+                new FileService(true)
+        );
 
         Chat chat = new Chat(123L, "private");
 
@@ -179,7 +184,12 @@ class PickAlgorithmCommandHandlerServiceTest {
     void processCommandAndGetResponseMessages_invalidAlgorithm() {
         long chatId = 123L;
 
-        CommandHandlerService handlerService = new PickAlgorithmCommandHandlerService("token", 10);
+        CommandHandlerService handlerService = new PickAlgorithmCommandHandlerService(
+                new OkHttpTelegramClient("token"),
+                new CargoDistributorBotService(10),
+                new CargoConverterService(),
+                new FileService(true)
+        );
 
         Chat chat = new Chat(chatId, "private");
 

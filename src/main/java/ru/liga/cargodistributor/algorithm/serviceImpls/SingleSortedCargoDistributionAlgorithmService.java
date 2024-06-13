@@ -41,6 +41,7 @@ public class SingleSortedCargoDistributionAlgorithmService extends DistributionA
         cargoItems.sort(Comparator.comparing(CargoItem::getWidth).reversed().thenComparing(CargoItem::getLength));
 
         while (!cargoItems.isEmpty()) {
+            //todo: тут потенциально бесконечный цикл, если посылка как-то обойдёт проверки на параметры фургона
             LOGGER.debug("Создаю новый грузовой фургон");
             CargoVan van = new CargoVan(cargoVanType.getLength(), cargoVanType.getWidth());
             boolean vanIsNotFull = true;

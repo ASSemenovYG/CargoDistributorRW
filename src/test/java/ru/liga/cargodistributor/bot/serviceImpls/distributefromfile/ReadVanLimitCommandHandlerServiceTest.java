@@ -68,7 +68,12 @@ class ReadVanLimitCommandHandlerServiceTest {
     void processCommandAndGetResponseMessages_invalidInteger() {
         long chatId = 123L;
 
-        CommandHandlerService handlerService = new ReadVanLimitCommandHandlerService("token", 10);
+        CommandHandlerService handlerService = new ReadVanLimitCommandHandlerService(
+                new OkHttpTelegramClient("token"),
+                new CargoDistributorBotService(10),
+                new CargoConverterService(),
+                new FileService(true)
+        );
 
         Chat chat = new Chat(chatId, "private");
 

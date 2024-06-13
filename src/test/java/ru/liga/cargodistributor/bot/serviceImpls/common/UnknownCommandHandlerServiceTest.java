@@ -21,7 +21,12 @@ class UnknownCommandHandlerServiceTest {
 
     @Test
     void processCommandAndGetResponseMessages_withoutLastMessageInCache() {
-        CommandHandlerService handlerService = new UnknownCommandHandlerService("token", 10);
+        CommandHandlerService handlerService = new UnknownCommandHandlerService(
+                new OkHttpTelegramClient("token"),
+                new CargoDistributorBotService(10),
+                new CargoConverterService(),
+                new FileService(true)
+        );
 
         Chat chat = new Chat(123L, "private");
 

@@ -2,10 +2,6 @@ package ru.liga.cargodistributor.bot.services;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -39,7 +35,6 @@ import ru.liga.cargodistributor.util.services.FileService;
 
 import java.util.List;
 
-@Service
 public abstract class CommandHandlerService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CommandHandlerService.class);
 
@@ -50,14 +45,6 @@ public abstract class CommandHandlerService {
     protected final CargoDistributorBotService botService;
     protected final CargoConverterService cargoConverterService;
     protected final FileService fileService;
-
-    @Autowired
-    protected CommandHandlerService(@Value("${bot.token}") String token, @Value("${cache.capacity}") int cacheCapacity) {
-        this.telegramClient = new OkHttpTelegramClient(token);
-        this.botService = new CargoDistributorBotService(cacheCapacity);
-        this.cargoConverterService = new CargoConverterService();
-        this.fileService = new FileService();
-    }
 
     public CommandHandlerService(TelegramClient telegramClient, CargoDistributorBotService botService, CargoConverterService cargoConverterService, FileService fileService) {
         this.telegramClient = telegramClient;

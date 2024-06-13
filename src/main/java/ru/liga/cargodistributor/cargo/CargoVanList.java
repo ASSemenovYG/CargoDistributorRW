@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import ru.liga.cargodistributor.algorithm.CargoDistributionParameters;
 import ru.liga.cargodistributor.algorithm.services.DistributionAlgorithmService;
 import ru.liga.cargodistributor.cargo.services.CargoConverterService;
@@ -19,7 +17,6 @@ import java.util.List;
  */
 @Getter
 @JsonAutoDetect
-@Component
 public class CargoVanList {
     @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.WRAPPER_OBJECT)
     private final List<CargoVan> cargoVans;
@@ -27,7 +24,6 @@ public class CargoVanList {
     /**
      * Конструктор для десериализации
      */
-    @Autowired
     public CargoVanList() {
         this.cargoVans = new ArrayList<>();
     }

@@ -2,9 +2,6 @@ package ru.liga.cargodistributor.bot.serviceImpls.addcargovantype;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -21,18 +18,11 @@ import ru.liga.cargodistributor.util.services.FileService;
 import java.util.LinkedList;
 import java.util.List;
 
-@Service
 public class AddCargoVanTypeEnterLengthCommandHandlerService extends CommandHandlerService {
     //todo: add tests
     private static final Logger LOGGER = LoggerFactory.getLogger(AddCargoVanTypeEnterLengthCommandHandlerService.class);
 
     private final CargoVanTypeRepository cargoVanTypeRepository;
-
-    @Autowired
-    protected AddCargoVanTypeEnterLengthCommandHandlerService(@Value("${bot.token}") String token, @Value("${cache.capacity}") int cacheCapacity, CargoVanTypeRepository cargoVanTypeRepository) {
-        super(token, cacheCapacity);
-        this.cargoVanTypeRepository = cargoVanTypeRepository;
-    }
 
     public AddCargoVanTypeEnterLengthCommandHandlerService(
             TelegramClient telegramClient,

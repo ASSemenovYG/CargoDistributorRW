@@ -2,9 +2,6 @@ package ru.liga.cargodistributor.bot.serviceImpls.distributefromfile;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
@@ -26,14 +23,8 @@ import ru.liga.cargodistributor.util.services.FileService;
 import java.util.LinkedList;
 import java.util.List;
 
-@Service
 public class PickAlgorithmCommandHandlerService extends CommandHandlerService {
     private static final Logger LOGGER = LoggerFactory.getLogger(PickAlgorithmCommandHandlerService.class);
-
-    @Autowired
-    protected PickAlgorithmCommandHandlerService(@Value("${bot.token}") String token, @Value("${cache.capacity}") int cacheCapacity) {
-        super(token, cacheCapacity);
-    }
 
     public PickAlgorithmCommandHandlerService(
             TelegramClient telegramClient,
@@ -106,7 +97,29 @@ public class PickAlgorithmCommandHandlerService extends CommandHandlerService {
         }
 
         CargoVanList cargoVanList = new CargoVanList();
-        cargoVanList.distributeCargo(algorithm, cargoItemList);
+
+        try {
+            cargoVanList.distributeCargo(algorithm, cargoItemList);
+        } catch (RuntimeException e) {
+            LOGGER.error("Error occurred during distribution: {}", e.getMessage());
+
+            resultResponse.add(
+                    botService.buildTextMessageWithoutKeyboard(
+                            chatId,
+                            CargoDistributorBotResponseMessage.ERROR_OCCURRED_DURING_DISTRIBUTION.getMessageText()
+                    )
+            );
+
+            resultResponse.add(
+                    botService.buildTextMessageWithoutKeyboard(
+                            chatId,
+                            "```" + e.getMessage() + "```"
+                    )
+            );
+
+            returnToStart(chatId, resultResponse);
+            return resultResponse;
+        }
 
         if (!cargoVanList.isListSizeLessOrEqualThanMaxSize(botService.getVanLimitFromCache(String.valueOf(chatId)))) {
             resultResponse.add(
