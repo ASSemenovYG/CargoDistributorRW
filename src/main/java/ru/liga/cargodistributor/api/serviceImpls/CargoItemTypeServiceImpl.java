@@ -1,6 +1,8 @@
 package ru.liga.cargodistributor.api.serviceImpls;
 
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.liga.cargodistributor.api.dto.CargoItemTypeInfoCreateDto;
@@ -21,7 +23,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Service
 public class CargoItemTypeServiceImpl implements CargoItemTypeService {
-    //todo: add logging
+    private static final Logger LOGGER = LoggerFactory.getLogger(CargoItemTypeServiceImpl.class);
 
     private final CargoItemTypeRepository cargoItemTypeRepository;
     private final CargoItemTypeMapper cargoItemTypeMapper;
@@ -34,15 +36,7 @@ public class CargoItemTypeServiceImpl implements CargoItemTypeService {
 
     @Override
     public CargoItemTypeInfoDto getCargoItemTypeByParams(String id, String name) {
-        CargoItemTypeInfo cargoItemTypeInfo;
-        if (id != null && !id.isEmpty() && !id.isBlank()) {
-            cargoItemTypeInfo = findCargoItemTypeById(id, StatusCode.CARGODISTR_002);
-        } else if (name != null && !name.isEmpty() && !name.isBlank()) {
-            cargoItemTypeInfo = findCargoItemTypeByName(name);
-        } else {
-            throw new ApiException("At least one of query parameters is required: id or name", StatusCode.CARGODISTR_003);
-        }
-        return cargoItemTypeMapper.fromEntityToDto(cargoItemTypeInfo);
+        return cargoItemTypeMapper.fromEntityToDto(findCargoItemTypeInfoByParams(id, name));
     }
 
     @Override
@@ -61,10 +55,11 @@ public class CargoItemTypeServiceImpl implements CargoItemTypeService {
             String fileContent = fileService.readFromFile(fileService.multipartFileToFile(source.getMultipartFile()));
             CargoItemTypeInfo cargoItemTypeInfo = cargoItemTypeMapper.createEntityFromDto(source);
             cargoItemTypeInfo.setShape(fileContent);
-            CargoItemType cargoItemType = new CargoItemType(cargoItemTypeInfo);
+            new CargoItemType(cargoItemTypeInfo);
             cargoItemTypeRepository.save(cargoItemTypeInfo);
             return cargoItemTypeMapper.fromEntityToDto(cargoItemTypeInfo);
         } catch (RuntimeException e) {
+            LOGGER.error("Error occurred while creating cargo item type: {}", e.getMessage());
             throw new ApiException("Error occurred while creating cargo item type: " + e.getMessage(), StatusCode.CARGODISTR_500);
         }
     }
@@ -91,10 +86,25 @@ public class CargoItemTypeServiceImpl implements CargoItemTypeService {
             new CargoItemType(cargoItemTypeInfo);
             cargoItemTypeRepository.save(cargoItemTypeInfo);
         } catch (RuntimeException e) {
+            LOGGER.error("Error occurred while updating cargo item type: {}", e.getMessage());
             throw new ApiException("Error occurred while updating cargo item type: " + e.getMessage(), StatusCode.CARGODISTR_500);
         }
 
         return cargoItemTypeMapper.fromEntityToDto(cargoItemTypeInfo);
+    }
+
+    @Override
+    public CargoItemTypeInfo findCargoItemTypeInfoByParams(String id, String name) {
+        CargoItemTypeInfo cargoItemTypeInfo;
+        if (id != null && !id.isEmpty() && !id.isBlank()) {
+            cargoItemTypeInfo = findCargoItemTypeById(id, StatusCode.CARGODISTR_002);
+        } else if (name != null && !name.isEmpty() && !name.isBlank()) {
+            cargoItemTypeInfo = findCargoItemTypeByName(name);
+        } else {
+            LOGGER.info("At least one of query parameters is required: id or name");
+            throw new ApiException("At least one of query parameters is required: id or name", StatusCode.CARGODISTR_003);
+        }
+        return cargoItemTypeInfo;
     }
 
     private CargoItemTypeInfo findCargoItemTypeById(String id, StatusCode exceptionStatusCode) {

@@ -30,15 +30,7 @@ public class CargoVanTypeServiceImpl implements CargoVanTypeService {
 
     @Override
     public CargoVanTypeInfoDto getCargoVanTypeByParams(String id, String name) {
-        CargoVanTypeInfo cargoVanTypeInfo;
-        if (id != null && !id.isEmpty() && !id.isBlank()) {
-            cargoVanTypeInfo = findCargoVanTypeById(id, StatusCode.CARGODISTR_005);
-        } else if (name != null && !name.isEmpty() && !name.isBlank()) {
-            cargoVanTypeInfo = findCargoVanTypeByName(name);
-        } else {
-            throw new ApiException("At least one of query parameters is required: id or name", StatusCode.CARGODISTR_003);
-        }
-        return cargoVanTypeMapper.fromEntityToDto(cargoVanTypeInfo);
+        return cargoVanTypeMapper.fromEntityToDto(findCargoVanTypeInfoByParams(id, name));
     }
 
     @Override
@@ -77,6 +69,19 @@ public class CargoVanTypeServiceImpl implements CargoVanTypeService {
             throw new ApiException("Error occurred while updating cargo van type: " + e.getMessage(), StatusCode.CARGODISTR_500);
         }
         return cargoVanTypeMapper.fromEntityToDto(cargoVanTypeInfo);
+    }
+
+    @Override
+    public CargoVanTypeInfo findCargoVanTypeInfoByParams(String id, String name) {
+        CargoVanTypeInfo cargoVanTypeInfo;
+        if (id != null && !id.isEmpty() && !id.isBlank()) {
+            cargoVanTypeInfo = findCargoVanTypeById(id, StatusCode.CARGODISTR_005);
+        } else if (name != null && !name.isEmpty() && !name.isBlank()) {
+            cargoVanTypeInfo = findCargoVanTypeByName(name);
+        } else {
+            throw new ApiException("At least one of query parameters is required: id or name", StatusCode.CARGODISTR_003);
+        }
+        return cargoVanTypeInfo;
     }
 
     private CargoVanTypeInfo findCargoVanTypeById(String id, StatusCode exceptionStatusCode) {

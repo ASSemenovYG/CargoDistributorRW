@@ -1,6 +1,7 @@
 package ru.liga.cargodistributor.api.services;
 
 import ru.liga.cargodistributor.api.dto.CargoVanTypeInfoDto;
+import ru.liga.cargodistributor.cargo.entity.CargoVanTypeInfo;
 
 import java.util.Set;
 
@@ -15,4 +16,6 @@ public interface CargoVanTypeService {
     CargoVanTypeInfoDto createCargoVanTypeInfo(CargoVanTypeInfoDto source);
 
     CargoVanTypeInfoDto updateCargoVanTypeInfo(String id, CargoVanTypeInfoDto source);
+
+    CargoVanTypeInfo findCargoVanTypeInfoByParams(String id, String name);
 }

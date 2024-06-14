@@ -13,17 +13,16 @@ import ru.liga.cargodistributor.api.dto.DistributeByParamsDto;
 import ru.liga.cargodistributor.api.enums.StatusCode;
 import ru.liga.cargodistributor.api.exceptions.ApiException;
 import ru.liga.cargodistributor.api.services.CargoDistributorService;
+import ru.liga.cargodistributor.api.services.CargoItemTypeService;
+import ru.liga.cargodistributor.api.services.CargoVanTypeService;
 import ru.liga.cargodistributor.cargo.*;
 import ru.liga.cargodistributor.cargo.entity.CargoItemTypeInfo;
 import ru.liga.cargodistributor.cargo.entity.CargoVanTypeInfo;
-import ru.liga.cargodistributor.cargo.repository.CargoItemTypeRepository;
-import ru.liga.cargodistributor.cargo.repository.CargoVanTypeRepository;
 import ru.liga.cargodistributor.cargo.services.CargoConverterService;
 import ru.liga.cargodistributor.util.services.FileService;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -32,8 +31,8 @@ public class CargoDistributorServiceImpl implements CargoDistributorService {
 
     private final FileService fileService;
     private final CargoConverterService cargoConverterService;
-    private final CargoItemTypeRepository cargoItemTypeRepository;
-    private final CargoVanTypeRepository cargoVanTypeRepository;
+    private final CargoItemTypeService cargoItemTypeService;
+    private final CargoVanTypeService cargoVanTypeService;
 
     @Override
     public CargoVanList distributeByFile(DistributeByFileDto source) {
@@ -104,56 +103,15 @@ public class CargoDistributorServiceImpl implements CargoDistributorService {
         return cargoItemsToLoad;
     }
 
-    //todo: методы ниже повторяются в соседних сервисах, надо вынести код в отдельный класс
     private CargoItemTypeInfo findCargoItemTypeByParams(CargoItemTypeParamsDto source) {
         String id = (source.getId() != null) ? String.valueOf(source.getId()) : null;
         String name = source.getName();
-        CargoItemTypeInfo cargoItemTypeInfo;
-        if (id != null && !id.isEmpty() && !id.isBlank()) {
-            cargoItemTypeInfo = findCargoItemTypeById(id, StatusCode.CARGODISTR_002);
-        } else if (name != null && !name.isEmpty() && !name.isBlank()) {
-            cargoItemTypeInfo = findCargoItemTypeByName(name);
-        } else {
-            throw new ApiException("At least one of query parameters is required: id or name", StatusCode.CARGODISTR_003);
-        }
-        return cargoItemTypeInfo;
-    }
-
-    private CargoItemTypeInfo findCargoItemTypeById(String id, StatusCode exceptionStatusCode) {
-        return cargoItemTypeRepository
-                .findById(UUID.fromString(id))
-                .orElseThrow(() -> new ApiException("Cargo Item Type wasn't found by id", exceptionStatusCode));
-    }
-
-    private CargoItemTypeInfo findCargoItemTypeByName(String name) {
-        return cargoItemTypeRepository
-                .findByName(name)
-                .orElseThrow(() -> new ApiException("Cargo Item Type wasn't found by name", StatusCode.CARGODISTR_002));
+        return cargoItemTypeService.findCargoItemTypeInfoByParams(id, name);
     }
 
     private CargoVanTypeInfo findCargoVanTypeByParams(CargoVanTypeParamsDto source) {
         String id = (source.getId() != null) ? String.valueOf(source.getId()) : null;
         String name = source.getName();
-        CargoVanTypeInfo cargoVanTypeInfo;
-        if (id != null && !id.isEmpty() && !id.isBlank()) {
-            cargoVanTypeInfo = findCargoVanTypeById(id, StatusCode.CARGODISTR_005);
-        } else if (name != null && !name.isEmpty() && !name.isBlank()) {
-            cargoVanTypeInfo = findCargoVanTypeByName(name);
-        } else {
-            throw new ApiException("At least one of query parameters is required: id or name", StatusCode.CARGODISTR_003);
-        }
-        return cargoVanTypeInfo;
-    }
-
-    private CargoVanTypeInfo findCargoVanTypeById(String id, StatusCode exceptionStatusCode) {
-        return cargoVanTypeRepository
-                .findById(UUID.fromString(id))
-                .orElseThrow(() -> new ApiException("Cargo Van Type wasn't found by id", exceptionStatusCode));
-    }
-
-    private CargoVanTypeInfo findCargoVanTypeByName(String name) {
-        return cargoVanTypeRepository
-                .findByName(name)
-                .orElseThrow(() -> new ApiException("Cargo Van Type wasn't found by name", StatusCode.CARGODISTR_005));
+        return cargoVanTypeService.findCargoVanTypeInfoByParams(id, name);
     }
 }
